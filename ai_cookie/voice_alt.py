@@ -7,9 +7,7 @@ from pathlib import Path
 #from mock_api import whisper, chatgpt
 from api import whisper, chatgpt
 from apple import iphone_bluetooth_record, bluetooth
-
-
-debug = True
+from globals import *
 
 
 class VoiceRecorder:
@@ -20,11 +18,10 @@ class VoiceRecorder:
         self.transcript_folder = Path(self.folder_base, 'transcript')
         self.file_ext = ".wav"
         self.short_time = 3
+        self.simple_wait = 3
         self.tick = 0.2
         self.stop_word = " stop"
-        
         self.clear_data()
-        print(">>>Recording starting")
        
     def whole_recording(self):
         """This produces the primary audio file for whole transcription later."""
@@ -58,6 +55,7 @@ class VoiceRecorder:
     def transcribe_and_detect_stop(self):
         """This process looks for short recordings, transcribes, and looks for stopwords then signals to stop threads."""
         global stop_threads
+        global debug
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
             time.sleep(self.short_time - self.tick)      
@@ -79,7 +77,8 @@ class VoiceRecorder:
                     # If the transcription contains the stop word, set the flag
                     if self.stop_word in transcription.lower():
                         stop_threads = True
-                        print(">>>Stopped")
+                        if debug:
+                            print(">>>Stopped")
                         break
 
     def transcribe_whole(self):
@@ -87,6 +86,7 @@ class VoiceRecorder:
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = whisper(str(whole_path))
         transcription = transcription.split(self.stop_word, 1)[0]
+        transcription = transcription.split(self.stop_word.proper(), 1)[0]
         return transcription
 
 
@@ -102,7 +102,7 @@ class VoiceRecorder:
         self.short_folder.mkdir()
         self.transcript_folder.mkdir()
 
-    def start_threads(self):
+    def start_detection(self):
         # start threads
         threads = []
         threads.append(threading.Thread(target=self.whole_recording))
@@ -114,17 +114,14 @@ class VoiceRecorder:
         for thread in threads:
             thread.join()
 
-
-global stop_threads
-stop_threads = False
-recorder = VoiceRecorder()
-recorder.start_threads()
-transcription = recorder.transcribe_whole()
-
-
-#transcription = VoiceRecorder().start_threads().transcribe_whole()
-
-print(transcription)
-#recorder.whole_recording()
-#recorder.transcribe_and_detect_stop()
-
+    def simple_record(self):
+        """Used for confirmations."""
+        file_name = Path(self.whole_folder, "confirm" + self.file_ext)
+        recorder = bluetooth(str(file_name))
+        recorder.record()
+        time.sleep(self.simple_wait)
+        recorder.stop()
+        recorder.release()
+        
+        transcription = whisper(str(file_path)).lower()
+        return transcription
