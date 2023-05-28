@@ -22,6 +22,7 @@ def bluetooth(file_name):
     out_url = NSURL.fileURLWithPath_(ns(output_path))
     recorder = AVAudioRecorder.alloc().initWithURL_settings_error_(out_url, settings, None)
     if recorder is None:
+        print(">>>RECORDER IS NONE")
         console.alert('Failed to initialize recorder')
         raise ValueError
         return None
