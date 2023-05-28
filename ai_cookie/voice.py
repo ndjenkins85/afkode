@@ -48,7 +48,7 @@ def record_audio(thread_number, delay):
     while not stop_threads:
         # File path for this recording
         padded_number = str(file_number).zfill(4)
-        file_path = os.path.join(directory, f'recording{padded_number}.m4a')
+        file_path = os.path.join(directory, f'recording{padded_number}.wav')
         iphone_bluetooth_record(file_path, RECORD_TIME)
         file_number += 1
 

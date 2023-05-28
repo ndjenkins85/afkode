@@ -4,7 +4,8 @@ import shutil
 import time
 from pathlib import Path
 
-from mock_api import whisper, chatgpt
+#from mock_api import whisper, chatgpt
+from api import whisper, chatgpt
 from apple import iphone_bluetooth_record, bluetooth
 
 
@@ -20,6 +21,8 @@ class VoiceRecorder:
         self.file_ext = ".wav"
         self.short_time = 3
         self.tick = 0.2
+        self.stop_word = " stop"
+        
         self.clear_data()
         print(">>>Recording starting")
        
@@ -74,10 +77,18 @@ class VoiceRecorder:
                     if debug:
                         print(f"{file_name}-{transcription}")    
                     # If the transcription contains the stop word, set the flag
-                    if 'stop' in transcription.lower():
+                    if self.stop_word in transcription.lower():
                         stop_threads = True
                         print(">>>Stopped")
                         break
+
+    def transcribe_whole(self):
+        """Perform final transcribe, removing text after stopword."""
+        whole_path = Path(self.whole_folder, "whole" + self.file_ext)
+        transcription = whisper(str(whole_path))
+        transcription = transcription.split(self.stop_word, 1)[0]
+        return transcription
+
 
     def clear_data(self):
         # clear input and output folders
@@ -93,16 +104,27 @@ class VoiceRecorder:
 
     def start_threads(self):
         # start threads
-        threading.Thread(target=self.whole_recording).start()
-        threading.Thread(target=self.short_recording).start()
-        threading.Thread(target=self.transcribe_and_detect_stop).start()
+        threads = []
+        threads.append(threading.Thread(target=self.whole_recording))
+        threads.append(threading.Thread(target=self.short_recording))
+        threads.append(threading.Thread(target=self.transcribe_and_detect_stop))
+        
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
 
 global stop_threads
 stop_threads = False
 recorder = VoiceRecorder()
 recorder.start_threads()
+transcription = recorder.transcribe_whole()
+
+
+#transcription = VoiceRecorder().start_threads().transcribe_whole()
+
+print(transcription)
 #recorder.whole_recording()
 #recorder.transcribe_and_detect_stop()
-
-
 
