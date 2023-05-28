@@ -12,10 +12,10 @@ def bluetooth(file_name):
     NSURL = ObjCClass('NSURL')
     AVAudioRecorder = ObjCClass('AVAudioRecorder')
     shared_session = AVAudioSession.sharedInstance()
-    category_set = shared_session.setCategory_withOptions_error_(ns('AVAudioSessionCategoryPlayAndRecord'), 4, None)
+    category_set = shared_session.setCategory_withOptions_error_(ns('AVAudioSessionCategoryPlayandRecord'), 4, None)
     settings = {
-        ns('AVFormatIDKey'): ns(1633772320),
-        ns('AVSampleRateKey'):ns(16000.0),
+        ns('AVFormatIDKey'): ns(1819304813),
+        ns('AVSampleRateKey'):ns(44100.0),
         ns('AVNumberOfChannelsKey'):ns(1)
     }
     output_path = os.path.abspath(file_name)

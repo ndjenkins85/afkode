@@ -17,7 +17,7 @@ class VoiceRecorder:
         self.whole_folder = Path(self.folder_base, 'whole')
         self.short_folder = Path(self.folder_base, 'short')
         self.transcript_folder = Path(self.folder_base, 'transcript')
-        self.file_ext = ".m4a"
+        self.file_ext = ".wav"
         self.short_time = 3
         self.tick = 0.2
         self.clear_data()
@@ -31,6 +31,7 @@ class VoiceRecorder:
         recorder.record()
         while not stop_threads:
             time.sleep(self.tick)
+        #time.sleep(7)
         recorder.stop()
         recorder.release()
 
@@ -55,7 +56,8 @@ class VoiceRecorder:
         """This process looks for short recordings, transcribes, and looks for stopwords then signals to stop threads."""
         global stop_threads
         while not stop_threads:
-            # Get the list of input files and output files, ignoring latest partial recording      
+            # Get the list of input files and output files, ignoring latest partial recording
+            time.sleep(self.short_time - self.tick)      
             input_files = sorted(os.listdir(self.short_folder))[:-1]
             output_files = os.listdir(self.transcript_folder)            
 
@@ -99,5 +101,8 @@ global stop_threads
 stop_threads = False
 recorder = VoiceRecorder()
 recorder.start_threads()
+#recorder.whole_recording()
 #recorder.transcribe_and_detect_stop()
+
+
 
