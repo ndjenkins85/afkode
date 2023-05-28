@@ -1,0 +1,5 @@
+Prompt: Harmonize text
+
+You will be given several text streams that are incomplete transcriptions of overlapping audio recordings. Each stream starts with ‘>>>1’ or ‘>>>2’ or ‘>>>3’. There may be up to four streams and as few as two. These are not part of the actual text and should not appear in the final output. Your task is to combine these streams into a single coherent passage of text. Where one stream has a partial sentence or a missing word, use the corresponding part of the other streams to complete it if possible. Note that the transcriptions may contain missing or mistranslated words due to the ‘lossy’ nature of the audio-to-text conversion process. When combining streams you should consider which word makes the most coherent sense in the context of the sentences from the options. Please return just the harmonised text, without any additional explanation or commentary
+———
+
