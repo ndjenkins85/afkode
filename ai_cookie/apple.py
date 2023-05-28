@@ -6,8 +6,8 @@ from objc_util import *
 
 from globals import stop_threads
 
-def iphone_bluetooth_record(file_name, record_time):
-    """Use iphone bluetooth audio for recording."""
+def bluetooth(file_name):
+    """Instanciate bluetooth audio for recording."""
     AVAudioSession = ObjCClass('AVAudioSession')
     NSURL = ObjCClass('NSURL')
     AVAudioRecorder = ObjCClass('AVAudioRecorder')
@@ -23,7 +23,12 @@ def iphone_bluetooth_record(file_name, record_time):
     recorder = AVAudioRecorder.alloc().initWithURL_settings_error_(out_url, settings, None)
     if recorder is None:
         console.alert('Failed to initialize recorder')
+        raise ValueError
         return None
+    return recorder
+
+def iphone_bluetooth_record(file_name, record_time):
+    recorder = bluetooth(file_name)
     recorder.record()
     for i in range(record_time*4):
         time.sleep(0.25)
