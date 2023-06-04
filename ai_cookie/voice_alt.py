@@ -1,38 +1,59 @@
-import threading
+# -*- coding: utf-8 -*-
+# Copyright © 2023 by Nick Jenkins. All rights reserved
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+
 import os
 import shutil
+import threading
 import time
-from pathlib import Path
 import wave
+from pathlib import Path
 
-#from mock_api import whisper, chatgpt
-from api import whisper, chatgpt
-from apple import iphone_bluetooth_record, bluetooth
+# from mock_api import whisper, chatgpt
+from api import chatgpt, whisper
+from apple import bluetooth, iphone_bluetooth_record
 from globals import *
 
 
 class VoiceRecorder:
     def __init__(self):
-        self.folder_base = Path('..', 'data', 'detect_stop')
-        self.whole_folder = Path(self.folder_base, 'whole')
-        self.short_folder = Path(self.folder_base, 'short')
-        self.transcript_folder = Path(self.folder_base, 'transcript')
+        self.folder_base = Path("..", "data", "detect_stop")
+        self.whole_folder = Path(self.folder_base, "whole")
+        self.short_folder = Path(self.folder_base, "short")
+        self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
         self.short_time = 3
         self.simple_wait = 3
         self.tick = 0.2
         self.stop_word = " stop"
-       
+
     def whole_recording(self):
         """This produces the primary audio file for whole transcription later."""
-        global stop_threads        
+        global stop_threads
         file_name = Path(self.whole_folder, "whole" + self.file_ext)
         recorder = bluetooth(str(file_name))
         recorder.record()
         i = 0
         while True:
             time.sleep(self.tick)
-            print('x')
+            print("x")
             if stop_threads:
                 break
         recorder.stop()
@@ -41,7 +62,7 @@ class VoiceRecorder:
     def short_recording(self):
         """We use shorter recordings for stop word detection every few seconds."""
         global stop_threads
-        time.sleep(1) # Add a slight delay for the recording
+        time.sleep(1)  # Add a slight delay for the recording
         file_counter = 1
         while not stop_threads:
             file_name = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
@@ -61,24 +82,24 @@ class VoiceRecorder:
         global debug
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
-            time.sleep(self.short_time - self.tick)      
+            time.sleep(self.short_time - self.tick)
             input_files = sorted(os.listdir(self.short_folder))[:-1]
-            output_files = os.listdir(self.transcript_folder)            
+            output_files = os.listdir(self.transcript_folder)
 
             # Check each input file
             for file_name in input_files:
                 # If this file hasn't been transcribed yet
-                if f'{file_name}.txt' not in output_files:
+                if f"{file_name}.txt" not in output_files:
                     short_path = Path(self.short_folder, file_name)
-                    transcribe_path = Path(self.transcript_folder, f'{file_name}.txt')
+                    transcribe_path = Path(self.transcript_folder, f"{file_name}.txt")
                     # Transcribe the file
                     transcription = whisper(str(short_path))
-                    transcribe_path.write_text(transcription, encoding='utf-8')
-                                        
+                    transcribe_path.write_text(transcription, encoding="utf-8")
+
                     if debug:
-                        print(f"{file_name}-{transcription}")    
+                        print(f"{file_name}-{transcription}")
                     # If the transcription contains the stop word, set the flag
-                    if self.stop_word in ' ' + transcription.lower():
+                    if self.stop_word in " " + transcription.lower():
                         stop_threads = True
                         if debug:
                             print(">>>Stopped")
@@ -92,7 +113,6 @@ class VoiceRecorder:
         transcription = transcription.split(self.stop_word, 1)[0]
         transcription = transcription.split(self.stop_word.title(), 1)[0]
         return transcription
-
 
     def clear_data(self):
         # clear input and output folders
@@ -109,10 +129,10 @@ class VoiceRecorder:
     def start_detection(self):
         # start threads
         threads = []
-        #threads.append(threading.Thread(target=self.whole_recording))
+        # threads.append(threading.Thread(target=self.whole_recording))
         threads.append(threading.Thread(target=self.short_recording))
         threads.append(threading.Thread(target=self.transcribe_and_detect_stop))
-        
+
         for thread in threads:
             thread.start()
         for thread in threads:
@@ -127,22 +147,20 @@ class VoiceRecorder:
         time.sleep(self.simple_wait)
         recorder.stop()
         recorder.release()
-        
+
         transcription = whisper(str(file_path)).lower()
         return transcription
-        
+
     def combine_wav_files(self):
         # Open output file
         output_filename = Path(self.whole_folder, "whole" + self.file_ext)
-        with wave.open(output_filename, 'wb') as output_wav:
-    
+        with wave.open(output_filename, "wb") as output_wav:
             # Process each input file
             for wav_file in self.short_folder.iterdir():
-                with wave.open(wav_file, 'rb') as input_wav:
+                with wave.open(wav_file, "rb") as input_wav:
                     # If this is the first file, set output parameters
                     if output_wav.getnframes() == 0:
                         output_wav.setparams(input_wav.getparams())
-    
+
                     # Write frames to output file
                     output_wav.writeframes(input_wav.readframes(input_wav.getnframes()))
-

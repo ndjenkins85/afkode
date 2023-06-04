@@ -1,0 +1,21 @@
+categories:
+  - title: ':rocket: Features'
+    label: 'feature'
+  - title: ':beetle: Bug Fixes'
+    labels:
+      - 'invalid'
+      - 'bug'
+  - title: ':construction_worker: Maintenance'
+    label: 'infra'
+  - title: ':books: Documentation'
+    labels:
+      - 'docs'
+      - 'question'
+  - title: ':books: Analysis'
+    labels:
+      - 'analysis'
+      - 'best practice'
+
+template: |
+  ## What’s Changed
+  $CHANGES

@@ -2,6 +2,18 @@
 __pycache__/
 *.py[cod]
 
+# Specific folders
+data/*
+logs/*
+notebooks/*
+.idea/
+docs/source/_build
+.vscode/*
+
+.DS_Store
+my_scripts.md
+*.env
+
 secrets.py
 data/*
 

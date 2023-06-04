@@ -1,0 +1,77 @@
+# All pre-commit tools will automatically make changes to code
+# However, these should non-block the commit process
+# This is why code checks like flake8 are not included
+# Use nox before pushing code
+# standard checks
+# black
+# jupyter notebook cleanups
+# import sorting
+# license
+# poetry check
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0  # Use the ref you want to point at
+  hooks:
+  - id: check-added-large-files
+  - id: check-ast
+  - id: check-builtin-literals
+  - id: check-case-conflict
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-json
+  - id: check-merge-conflict
+  - id: check-symlinks
+  - id: check-toml
+  - id: check-vcs-permalinks
+  - id: check-xml
+  - id: check-yaml
+
+  - id: detect-aws-credentials
+  - id: debug-statements
+  - id: detect-private-key
+  # - id: double-quote-string-fixer
+  - id: end-of-file-fixer
+  - id: fix-byte-order-marker
+  - id: fix-encoding-pragma
+  - id: mixed-line-ending
+  # - id: name-tests-test
+
+  - id: pretty-format-json
+    args: [--autofix]
+
+  - id: trailing-whitespace
+
+# IMPORTANT: Run isort before black, to ensure isort cannot break formatting rules.
+- repo: https://github.com/PyCQA/isort
+  rev: "5.12.0"
+  hooks: # Sorts imports
+  - id: isort
+    additional_dependencies: [toml]
+
+- repo: https://github.com/ambv/black
+  rev: 23.3.0
+  hooks:
+  - id: black
+
+- repo: https://github.com/roy-ht/pre-commit-jupyter
+  rev: v1.2.1
+  hooks: # Cleans up jupyter notebooks before committing
+  - id: jupyter-notebook-cleanup
+    args:
+      - --pin-patterns
+      - "[pin];[donotremove]"
+
+- repo: https://github.com/Lucas-C/pre-commit-hooks
+  rev: v1.1.15
+  hooks: # Adds LICENSE notice to top of all python files, must have a LICENSE file
+  - id: insert-license
+    name: Add license for all python files
+    exclude: ^\.github/.*$
+    types: [python]
+    args:
+      - --comment-style
+      - "|#|"
+      - --license-filepath
+      - LICENSE
+      - --fuzzy-match-generates-todo

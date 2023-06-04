@@ -1,0 +1,110 @@
+[tool.poetry]
+name = "ndj_ai_cookie"
+version = "0"
+description = "Personal voice command interface for iPhone on pythonista powered by Whisper and ChatGPT."
+license = "MIT"
+authors = ["Nick Jenkins"]
+readme = "README.md"
+homepage = "https://www.ndjenkins.com/"
+repository = "https://github.com/ndjenkins85/ndj_ai_cookie/"
+documentation = "https://ndjenkins85.github.io/ndj_ai_cookie/"
+keywords = [
+    "quick_start",
+    "python_packaging",
+    "whisper",
+    "chatgpt",
+    "openai"
+    ]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Education :: Testing",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+]
+include = ["LICENSE", "README.md"]
+
+[tool.poetry.dependencies]
+python = ">=3.8.8,<3.11"
+
+openai = "^0.27.5"
+SpeechRecognition = "^3.10.0"
+PyAudio = "^0.2.13"
+PyYAML = "^6.0"
+
+black = { version = "^23.3", optional = true }
+darglint = { version = "^0.1", optional = true }
+flake8 = { version = "^4.0", optional = true }
+flake8-annotations = { version = "^2.7", optional = true }
+flake8-bandit = { version = "^2.1", optional = true }
+flake8-bugbear = { version = "^21.9", optional = true }
+flake8-builtins = { version = "^1.5", optional = true }
+flake8-docstrings = { version = "^1.6", optional = true }
+mypy = { version = "^0.910", optional = true }
+safety = { version = "^1.10", optional = true }
+sqlfluff = { version = "^0.6", optional = true }
+xdoctest = { version = "^0.15", optional = true }
+types-PyYAML = { version = "^6.0", optional = true }
+
+pytest = { version = "^6.2", optional = true }
+pytest-cases = { version = "^3.6", optional = true }
+pytest-cov = { version = "^3.0", optional = true }
+
+m2r2 = { version = "^0.3", optional = true }
+sphinx = { version = "^4.2", optional = true }
+sphinx-autodoc-typehints = { version = "^1.12", optional = true }
+sphinx_rtd_theme = { version = "^1", optional = true }
+ipykernel = "^6.23.1"
+ipython = ">=8.12,<8.14"
+jupyter = "^1.0.0"
+traitlets = "^5.9.0"
+
+[tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
+nox = "^2023.04.22"
+pre-commit = "^2.15"
+MarkupSafe = "^2.0.1"
+
+[tool.poetry.extras]
+lint = ["black", "darglint", "flake8", "mypy", "safety", "sqlfluff", "xdoctest", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-docstrings", "types-PyYAML"]
+tests = ["pytest", "pytest-cases", "pytest-cov"]
+docs = ["m2r2", "sphinx", "sphinx_rtd_theme", "sphinx-autodoc-typehints"]
+
+[tool.poetry.scripts]
+ai_cookie = 'ai_cookie.run:start'
+
+[tool.poetry-version-plugin]
+source = "init"
+
+[build-system]
+# Keep poetry version same as in github actions and Dockerfile
+requires = ["setuptools", "poetry>=1.1.9"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+known_local_folder = ["ai_cookie"]
+skip_glob = [
+    "ai_cookie/__init__.py",
+    ]
+
+[tool.mypy]
+python_version = 3.8
+
+[[tool.mypy.overrides]]
+module = [
+    'sphinx_rtd_theme',
+    'nox.*',
+    'pytest'
+    ]
+ignore_missing_imports = true
