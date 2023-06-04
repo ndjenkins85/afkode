@@ -1,5 +1,7 @@
 """This module is responsible for detecting file commands."""
 
+from pathlib import Path
+
 class FileIO:
     def __init__(self):
         self.confirm_words = ['yes', 'yeah', 'ok', 'affirmative', 'acknowledged']        
@@ -10,7 +12,7 @@ class FileIO:
         self.latest_response = None
                 
     def command(self, transcription: str) -> str:
-        transcription = transcription.lower().split()
+        transcript = transcription.lower().split()
         if transcript[0] == "exit":
             return "exit"
         elif transcript[0] != "command":

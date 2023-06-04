@@ -1,6 +1,7 @@
 import speech
+import time
 
-from global import *
+from globals import *
 
 def speak(text):
     global debug

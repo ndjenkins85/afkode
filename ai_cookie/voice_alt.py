@@ -3,6 +3,7 @@ import os
 import shutil
 import time
 from pathlib import Path
+import wave
 
 #from mock_api import whisper, chatgpt
 from api import whisper, chatgpt
@@ -21,7 +22,6 @@ class VoiceRecorder:
         self.simple_wait = 3
         self.tick = 0.2
         self.stop_word = " stop"
-        self.clear_data()
        
     def whole_recording(self):
         """This produces the primary audio file for whole transcription later."""
@@ -29,9 +29,12 @@ class VoiceRecorder:
         file_name = Path(self.whole_folder, "whole" + self.file_ext)
         recorder = bluetooth(str(file_name))
         recorder.record()
-        while not stop_threads:
+        i = 0
+        while True:
             time.sleep(self.tick)
-        #time.sleep(7)
+            print('x')
+            if stop_threads:
+                break
         recorder.stop()
         recorder.release()
 
@@ -75,7 +78,7 @@ class VoiceRecorder:
                     if debug:
                         print(f"{file_name}-{transcription}")    
                     # If the transcription contains the stop word, set the flag
-                    if self.stop_word in transcription.lower():
+                    if self.stop_word in ' ' + transcription.lower():
                         stop_threads = True
                         if debug:
                             print(">>>Stopped")
@@ -83,10 +86,11 @@ class VoiceRecorder:
 
     def transcribe_whole(self):
         """Perform final transcribe, removing text after stopword."""
+        time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = whisper(str(whole_path))
         transcription = transcription.split(self.stop_word, 1)[0]
-        transcription = transcription.split(self.stop_word.proper(), 1)[0]
+        transcription = transcription.split(self.stop_word.title(), 1)[0]
         return transcription
 
 
@@ -105,7 +109,7 @@ class VoiceRecorder:
     def start_detection(self):
         # start threads
         threads = []
-        threads.append(threading.Thread(target=self.whole_recording))
+        #threads.append(threading.Thread(target=self.whole_recording))
         threads.append(threading.Thread(target=self.short_recording))
         threads.append(threading.Thread(target=self.transcribe_and_detect_stop))
         
@@ -113,6 +117,7 @@ class VoiceRecorder:
             thread.start()
         for thread in threads:
             thread.join()
+        self.combine_wav_files()
 
     def simple_record(self):
         """Used for confirmations."""
@@ -125,3 +130,19 @@ class VoiceRecorder:
         
         transcription = whisper(str(file_path)).lower()
         return transcription
+        
+    def combine_wav_files(self):
+        # Open output file
+        output_filename = Path(self.whole_folder, "whole" + self.file_ext)
+        with wave.open(output_filename, 'wb') as output_wav:
+    
+            # Process each input file
+            for wav_file in self.short_folder.iterdir():
+                with wave.open(wav_file, 'rb') as input_wav:
+                    # If this is the first file, set output parameters
+                    if output_wav.getnframes() == 0:
+                        output_wav.setparams(input_wav.getparams())
+    
+                    # Write frames to output file
+                    output_wav.writeframes(input_wav.readframes(input_wav.getnframes()))
+
