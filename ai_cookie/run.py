@@ -26,41 +26,44 @@ from pathlib import Path
 from api import chatgpt
 from file import FileIO
 from globals import *
-from utils import setup_logging, speak
 from voice_alt import VoiceRecorder
+
+from ai_cookie import utils
 
 
 def start():
+    utils.running_on_pythonista()
+
     io = FileIO()
     while True:
-        speak("Recording")
+        utils.speak("Recording")
 
         global stop_threads
         stop_threads = False
         recorder = VoiceRecorder()
         recorder.clear_data()
         recorder.start_detection()
-        
-        print('test for early end')
+
+        print("test for early end")
         transcription = recorder.transcribe_whole()
 
         command = io.command(transcription)
         if command == "exit":
-            speak("Exiting")
+            utils.speak("Exiting")
             break
         # Confirm destructive commands
         elif command == "confirm":
-            speak("Confirm command")
+            utils.speak("Confirm command")
             transcription = VoiceRecorder().simple_record()
             confirm = io.confirm(transcription)
             if confirm:
-                speak("Confirmed")
+                utils.speak("Confirmed")
                 break
             else:
-                speak("Continuing")
+                utils.speak("Continuing")
                 continue
         elif command:
-            speak(command)
+            utils.speak(command)
             continue
 
         # Otherwise it's not a command
@@ -72,9 +75,9 @@ def start():
 
         io.latest_response = response
 
-        speak(response)
+        utils.speak(response)
 
 
 if __name__ == "__main__":
-    setup_logging()
+    utils.setup_logging()
     start()

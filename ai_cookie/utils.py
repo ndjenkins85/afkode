@@ -58,3 +58,14 @@ def setup_logging() -> None:
             handlers=[logging.StreamHandler()],
         )
         logging.warning(msg)
+
+
+def running_on_pythonista() -> bool:
+    try:
+        import console
+
+        logging.debug(">>Running on pythonista")
+        return True
+    except ModuleNotFoundError:
+        logging.debug(">>Running on standard compute")
+        return False
