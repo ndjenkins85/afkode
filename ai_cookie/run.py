@@ -40,6 +40,8 @@ def start():
         recorder = VoiceRecorder()
         recorder.clear_data()
         recorder.start_detection()
+        
+        print('test for early end')
         transcription = recorder.transcribe_whole()
 
         command = io.command(transcription)
@@ -74,5 +76,5 @@ def start():
 
 
 if __name__ == "__main__":
-    utils.setup_logging()
+    setup_logging()
     start()

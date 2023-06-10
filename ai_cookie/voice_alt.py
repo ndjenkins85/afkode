@@ -41,7 +41,7 @@ class VoiceRecorder:
         self.file_ext = ".wav"
         self.short_time = 3
         self.simple_wait = 3
-        self.tick = 0.2
+        self.tick = 1
         self.stop_word = " stop"
 
     def whole_recording(self):
@@ -69,6 +69,7 @@ class VoiceRecorder:
             recorder = bluetooth(str(file_name))
             recorder.record()
             for i in range(int(self.short_time / self.tick)):
+                print(f'{file_name}, ')
                 time.sleep(self.tick)
                 if stop_threads:
                     break

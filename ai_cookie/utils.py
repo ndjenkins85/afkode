@@ -21,6 +21,7 @@
 
 import logging
 import time
+from pathlib import Path
 
 import speech
 from globals import *
@@ -39,6 +40,7 @@ def speak(text):
 def setup_logging() -> None:
     """Setup basic logging to path."""
     log_path = Path("logs", "_log.txt")
+    log_level = logging.DEBUG
 
     try:
         logging.basicConfig(
