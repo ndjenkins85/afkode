@@ -53,21 +53,6 @@ class VoiceRecorder:
         self.tick = 1
         self.stop_word = " stop"
 
-    def whole_recording(self):
-        """This produces the primary audio file for whole transcription later."""
-        global stop_threads
-        file_name = Path(self.whole_folder, "whole" + self.file_ext)
-        recorder = bluetooth(str(file_name))
-        recorder.record()
-        i = 0
-        while True:
-            time.sleep(self.tick)
-            print("x")
-            if stop_threads:
-                break
-        recorder.stop()
-        recorder.release()
-
     def short_recording(self):
         """We use shorter recordings for stop word detection every few seconds."""
         global stop_threads
@@ -78,7 +63,6 @@ class VoiceRecorder:
             recorder = bluetooth(str(file_name))
             recorder.record()
             for i in range(int(self.short_time / self.tick)):
-                print(f"{file_name}, ")
                 time.sleep(self.tick)
                 if stop_threads:
                     break
@@ -89,7 +73,6 @@ class VoiceRecorder:
     def transcribe_and_detect_stop(self):
         """This process looks for short recordings, transcribes, and looks for stopwords then signals to stop threads."""
         global stop_threads
-        global debug
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
             time.sleep(self.short_time - self.tick)
@@ -106,13 +89,11 @@ class VoiceRecorder:
                     transcription = whisper(str(short_path))
                     transcribe_path.write_text(transcription, encoding="utf-8")
 
-                    if debug:
-                        print(f"{file_name}-{transcription}")
+                    logging.debug(f"{file_name}-{transcription}")
                     # If the transcription contains the stop word, set the flag
                     if self.stop_word in " " + transcription.lower():
                         stop_threads = True
-                        if debug:
-                            print(">>>Stopped")
+                        logging.debug(">>>Stopped")
                         break
 
     def transcribe_whole(self):
@@ -137,9 +118,10 @@ class VoiceRecorder:
         self.transcript_folder.mkdir()
 
     def start_detection(self):
+        global stop_threads
+        stop_threads = False
         # start threads
         threads = []
-        # threads.append(threading.Thread(target=self.whole_recording))
         threads.append(threading.Thread(target=self.short_recording))
         threads.append(threading.Thread(target=self.transcribe_and_detect_stop))
 
