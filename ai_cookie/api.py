@@ -19,11 +19,11 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-from secrets import OPENAI_KEY
-
 import openai
 
-openai.api_key = OPENAI_KEY
+from ai_cookie import secrets
+
+openai.api_key = secrets.OPENAI_KEY
 
 
 def whisper(path: str) -> str:

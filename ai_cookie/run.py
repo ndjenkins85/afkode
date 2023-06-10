@@ -23,24 +23,20 @@
 import logging
 from pathlib import Path
 
-from api import chatgpt
-from file import FileIO
-from globals import *
-from voice_alt import VoiceRecorder
-
-from ai_cookie import utils
+from ai_cookie import api, file, utils, voice_alt
+from ai_cookie.globals import *
 
 
 def start():
     utils.running_on_pythonista()
 
-    io = FileIO()
+    io = file.FileIO()
     while True:
         utils.speak("Recording")
 
         global stop_threads
         stop_threads = False
-        recorder = VoiceRecorder()
+        recorder = voice_alt.VoiceRecorder()
         recorder.clear_data()
         recorder.start_detection()
 
@@ -54,7 +50,7 @@ def start():
         # Confirm destructive commands
         elif command == "confirm":
             utils.speak("Confirm command")
-            transcription = VoiceRecorder().simple_record()
+            transcription = voice_alt.VoiceRecorder().simple_record()
             confirm = io.confirm(transcription)
             if confirm:
                 utils.speak("Confirmed")
@@ -71,7 +67,7 @@ def start():
         prompt_user_input_assist += "\n" + transcription
 
         # TODO need to create the actual chat loop with ongoing conversation elements
-        response = chatgpt(prompt_user_input_assist)
+        response = api.chatgpt(prompt_user_input_assist)
 
         io.latest_response = response
 

@@ -65,6 +65,10 @@ ipykernel = "^6.23.1"
 ipython = "7.23.1"
 jupyter = "^1.0.0"
 traitlets = "^5.9.0"
+pydub = "^0.25.1"
+simpleaudio = "^1.0.4"
+gTTS = "^2.3.2"
+pyttsx3 = "^2.90"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

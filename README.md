@@ -28,6 +28,12 @@ Follow the [Instructions for developers](#instructions-for-developers) to set up
 
 ### Installation
 
+MacOS requirements:
+
+- Python 3.8
+- ffmpeg for mp3 text-to-speech, `brew install ffmpeg`
+
+
 Note: Instructions marked with %% are not functioning and are for demo purposes only.
 
 Install the project using pip %%:
