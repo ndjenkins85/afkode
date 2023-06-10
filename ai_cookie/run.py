@@ -23,16 +23,22 @@
 import logging
 from pathlib import Path
 
-from ai_cookie import api, file, utils, voice_alt
+from ai_cookie import utils
+
+utils.setup_logging()
+if utils.running_on_pythonista():
+    from ai_cookie.ios.speech import speak
+else:
+    from ai_cookie.macos.speech import speak
+
+from ai_cookie import api, file, voice_alt
 from ai_cookie.globals import *
 
 
 def start():
-    utils.running_on_pythonista()
-
     io = file.FileIO()
     while True:
-        utils.speak("Recording")
+        speak("Recording")
 
         global stop_threads
         stop_threads = False
@@ -40,30 +46,31 @@ def start():
         recorder.clear_data()
         recorder.start_detection()
 
-        print("test for early end")
         transcription = recorder.transcribe_whole()
 
-        command = io.command(transcription)
-        if command == "exit":
-            utils.speak("Exiting")
-            break
-        # Confirm destructive commands
-        elif command == "confirm":
-            utils.speak("Confirm command")
-            transcription = voice_alt.VoiceRecorder().simple_record()
-            confirm = io.confirm(transcription)
-            if confirm:
-                utils.speak("Confirmed")
-                break
-            else:
-                utils.speak("Continuing")
-                continue
-        elif command:
-            utils.speak(command)
-            continue
+        # 1/0
+
+        # command = io.command(transcription)
+        # if command == "exit":
+        #     speak("Exiting")
+        #     break
+        # # Confirm destructive commands
+        # elif command == "confirm":
+        #     speak("Confirm command")
+        #     transcription = voice_alt.VoiceRecorder().simple_record()
+        #     confirm = io.confirm(transcription)
+        #     if confirm:
+        #         speak("Confirmed")
+        #         break
+        #     else:
+        #         speak("Continuing")
+        #         continue
+        # elif command:
+        #     speak(command)
+        #     continue
 
         # Otherwise it's not a command
-        prompt_user_input_assist = Path("..", "prompts", "programflow", "user_input_assist.txt").read_text()
+        prompt_user_input_assist = Path("prompts", "programflow", "user_input_assist.txt").read_text()
         prompt_user_input_assist += "\n" + transcription
 
         # TODO need to create the actual chat loop with ongoing conversation elements
@@ -71,7 +78,7 @@ def start():
 
         io.latest_response = response
 
-        utils.speak(response)
+        speak(response)
 
 
 if __name__ == "__main__":

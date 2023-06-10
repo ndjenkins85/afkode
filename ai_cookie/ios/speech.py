@@ -20,41 +20,13 @@
 # DEALINGS IN THE SOFTWARE.
 
 import logging
-import time
-from pathlib import Path
 
-from ai_cookie.globals import *
+import speech
 
 
-def setup_logging() -> None:
-    """Setup basic logging to path."""
-    log_path = Path("logs", "_log.txt")
-    log_level = logging.DEBUG
-
-    try:
-        logging.basicConfig(
-            level=log_level,
-            format="%(asctime)s [%(levelname)s] %(message)s",
-            handlers=[logging.FileHandler(log_path), logging.StreamHandler()],
-        )
-    except FileNotFoundError:
-        msg = f"""Directory '{log_path}' missing, cannot create log file.
-                  Make sure you are running from base of repo, with correct data folder structure.
-                  Continuing without log file writing."""
-        logging.basicConfig(
-            level=log_level,
-            format="%(asctime)s [%(levelname)s] %(message)s",
-            handlers=[logging.StreamHandler()],
-        )
-        logging.warning(msg)
-
-
-def running_on_pythonista() -> bool:
-    try:
-        import console
-
-        logging.debug(">>Running on pythonista")
-        return True
-    except ModuleNotFoundError:
-        logging.debug(">>Running on standard compute")
-        return False
+def speak(text):
+    logging.debug(f">>>{text}")
+    speech.say(text, "en-US")
+    # Block until speech synthesis has finished
+    while speech.is_speaking():
+        time.sleep(0.1)

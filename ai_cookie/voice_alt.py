@@ -19,6 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+import logging
 import os
 import shutil
 import threading
@@ -26,15 +27,23 @@ import time
 import wave
 from pathlib import Path
 
-# from mock_api import whisper, chatgpt
-from api import chatgpt, whisper
-from apple import bluetooth, iphone_bluetooth_record
-from globals import *
+from ai_cookie import utils
+
+if utils.running_on_pythonista():
+    from ai_cookie.ios.listen import bluetooth
+else:
+    from ai_cookie.macos.listen import bluetooth
+
+from ai_cookie.api import chatgpt, whisper
+from ai_cookie.globals import *
 
 
 class VoiceRecorder:
     def __init__(self):
-        self.folder_base = Path("..", "data", "detect_stop")
+        self.folder_base = Path("data", "detect_stop")
+        if not self.folder_base.exists():
+            self.folder_base.mkdir()
+
         self.whole_folder = Path(self.folder_base, "whole")
         self.short_folder = Path(self.folder_base, "short")
         self.transcript_folder = Path(self.folder_base, "transcript")
@@ -69,7 +78,7 @@ class VoiceRecorder:
             recorder = bluetooth(str(file_name))
             recorder.record()
             for i in range(int(self.short_time / self.tick)):
-                print(f'{file_name}, ')
+                print(f"{file_name}, ")
                 time.sleep(self.tick)
                 if stop_threads:
                     break
@@ -153,12 +162,15 @@ class VoiceRecorder:
         return transcription
 
     def combine_wav_files(self):
-        # Open output file
         output_filename = Path(self.whole_folder, "whole" + self.file_ext)
-        with wave.open(output_filename, "wb") as output_wav:
+        combine_audio_list = sorted(list(Path("data", "detect_stop", "transcript").iterdir()))
+        combine_audio_list = [str(x).replace("/transcript/", "/short/").replace(".txt", "") for x in combine_audio_list]
+
+        with wave.open(str(output_filename), "wb") as output_wav:
             # Process each input file
-            for wav_file in self.short_folder.iterdir():
-                with wave.open(wav_file, "rb") as input_wav:
+            for wav_file in combine_audio_list:
+                logging.debug(f"Stitching {wav_file}")
+                with wave.open(str(wav_file), "rb") as input_wav:
                     # If this is the first file, set output parameters
                     if output_wav.getnframes() == 0:
                         output_wav.setparams(input_wav.getparams())
