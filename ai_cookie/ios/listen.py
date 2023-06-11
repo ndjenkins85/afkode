@@ -20,7 +20,7 @@ def bluetooth(file_name):
     category_set = shared_session.setCategory_withOptions_error_(ns("AVAudioSessionCategoryPlayandRecord"), 4, None)
     settings = {
         ns("AVFormatIDKey"): ns(1819304813),
-        ns("AVSampleRateKey"): ns(44100.0),
+        ns("AVSampleRateKey"): ns(44100),
         ns("AVNumberOfChannelsKey"): ns(1),
     }
     output_path = os.path.abspath(file_name)
