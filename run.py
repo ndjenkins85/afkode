@@ -1,2 +1,3 @@
 # -*- coding: utf-8 -*-
-exec(open("ai_cookie/run.py").read())
+with open("ai_cookie/run.py", "r", encoding="utf-8") as f:
+    exec(f.read())
