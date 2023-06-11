@@ -89,11 +89,11 @@ class VoiceRecorder:
                     transcription = whisper(str(short_path))
                     transcribe_path.write_text(transcription, encoding="utf-8")
 
-                    logging.info(f"{file_name}-{transcription}")
+                    logging.info(f"{file_name} <<< {transcription}")
                     # If the transcription contains the stop word, set the flag
                     if self.stop_word in " " + transcription.lower():
                         stop_threads = True
-                        logging.info(">>>Stopped")
+                        logging.debug("Transcribe stopped")
                         break
 
     def transcribe_whole(self):
@@ -153,7 +153,7 @@ class VoiceRecorder:
         with wave.open(str(output_filename), "wb") as output_wav:
             # Process each input file
             for wav_file in combine_audio_list:
-                logging.info(f"Stitching {wav_file}")
+                logging.debug(f"Stitching {wav_file}")
                 with wave.open(str(wav_file), "rb") as input_wav:
                     # If this is the first file, set output parameters
                     if output_wav.getnframes() == 0:

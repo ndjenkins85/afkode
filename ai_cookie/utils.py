@@ -51,8 +51,20 @@ def running_on_pythonista() -> bool:
     try:
         import console
 
-        logging.info(">>>Running on pythonista")
+        logging.info("Running on iOS (pythonista)")
         return True
     except ModuleNotFoundError:
-        logging.info(">>>Running on standard compute")
+        logging.info("Running on MacOS (poetry-python)")
         return False
+
+
+def get_user_prompt_directory() -> Path:
+    """Simple retrieve of directory."""
+    user_prompt_directory_path = Path("data", "user_response")
+    if not user_prompt_directory_path.exists():
+        user_prompt_directory_path.mkdir()
+    return user_prompt_directory_path
+
+
+def get_user_prompt_files() -> str:
+    return "\n".join([x.name.replace(".txt", "") for x in get_user_prompt_directory().iterdir()])

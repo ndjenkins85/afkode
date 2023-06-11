@@ -42,6 +42,7 @@ def start():
         recorder = voice_alt.VoiceRecorder()
         recorder.clear_data()
         recorder.start_detection()
+        speak("Stopped")
 
         transcription = recorder.transcribe_whole()
         logging.info(transcription)
@@ -68,15 +69,16 @@ def start():
         #     continue
 
         # Otherwise it's not a command
-        prompt_user_input_assist = Path("prompts", "programflow", "proposed_filename.txt").read_text()
-        prompt_user_input_assist += "\n" + transcription
+        proposed_filename_prompt = Path("prompts", "programflow", "proposed_filename.txt").read_text()
 
-        # TODO need to create the actual chat loop with ongoing conversation elements
-        response = api.chatgpt(prompt_user_input_assist)
-
-        io.latest_response = response
-
-        speak(response)
+        # TODO, surely there is a template approach to prompts?
+        proposed_filename_prompt += (
+            "\n" + utils.get_user_prompt_files() + "\n\n--------- Here is the user input:\n" + transcription
+        )
+        logging.debug(proposed_filename_prompt)
+        proposed_filename_response = api.chatgpt(proposed_filename_prompt)
+        speak(proposed_filename_response)
+        io.save_response(transcription, proposed_filename_response)
 
 
 if __name__ == "__main__":

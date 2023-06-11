@@ -1,3 +1,10 @@
 Your task is to summarize the following text into a couple of words which would be acceptable as a file name. For context, you will be given a short snippet of text from a human audio transcription. To help the user find the content later, your summarization will be used as the file name to save the text to a file.
 
-The file name returned should not contain more than 5 words. You should return only the proposed file name without any further justification or commentary.
+Because your response will be part of a filename, please pay attention to the following rules for the output:
+The file name returned should not contain more than 5 words.
+All words should be lowercase
+Do not include punctuation such as full stops or quote marks
+You should return only the proposed file name without any further justification or commentary.
+
+In addition, you should not use any of the following file names that already exist:
+example filename

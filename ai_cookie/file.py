@@ -21,7 +21,10 @@
 
 """This module is responsible for detecting file commands."""
 
+import logging
 from pathlib import Path
+
+from ai_cookie import utils
 
 
 class FileIO:
@@ -82,3 +85,9 @@ class FileIO:
                 return str(f"No such folder {variable}")
         if command == "where":
             return str(f"Current working directory: {self.cwd}")
+
+    def save_response(self, transcript: str, file_name: str) -> None:
+        """Save file to the user response section."""
+        output_path = Path(utils.get_user_prompt_directory(), file_name.lower().strip() + ".txt")
+        logging.info(f">>>Saving to {output_path}")
+        output_path.write_text(transcript, encoding="utf-8")
