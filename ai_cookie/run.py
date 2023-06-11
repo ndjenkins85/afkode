@@ -25,28 +25,26 @@ from pathlib import Path
 
 from ai_cookie import utils
 
-utils.setup_logging()
+utils.setup_logging(log_level=logging.INFO)
 if utils.running_on_pythonista():
     from ai_cookie.ios.speech import speak
 else:
     from ai_cookie.macos.speech import speak
 
 from ai_cookie import api, file, voice_alt
-from ai_cookie.globals import *
 
 
 def start():
     io = file.FileIO()
-    while True:
+    # while True:
+    for i in ["1"]:
         speak("Recording")
-
-        global stop_threads
-        stop_threads = False
         recorder = voice_alt.VoiceRecorder()
         recorder.clear_data()
         recorder.start_detection()
 
         transcription = recorder.transcribe_whole()
+        logging.info(transcription)
 
         # 1/0
 
@@ -70,7 +68,7 @@ def start():
         #     continue
 
         # Otherwise it's not a command
-        prompt_user_input_assist = Path("prompts", "programflow", "user_input_assist.txt").read_text()
+        prompt_user_input_assist = Path("prompts", "programflow", "proposed_filename.txt").read_text()
         prompt_user_input_assist += "\n" + transcription
 
         # TODO need to create the actual chat loop with ongoing conversation elements
@@ -82,5 +80,4 @@ def start():
 
 
 if __name__ == "__main__":
-    utils.setup_logging()
     start()

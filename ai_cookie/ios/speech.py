@@ -25,7 +25,7 @@ import speech
 
 
 def speak(text):
-    logging.debug(f">>>{text}")
+    logging.info(f">>>{text}")
     speech.say(text, "en-US")
     # Block until speech synthesis has finished
     while speech.is_speaking():

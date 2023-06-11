@@ -26,11 +26,9 @@ from pathlib import Path
 from ai_cookie.globals import *
 
 
-def setup_logging() -> None:
+def setup_logging(log_level=logging.DEBUG) -> None:
     """Setup basic logging to path."""
     log_path = Path("logs", "_log.txt")
-    log_level = logging.DEBUG
-
     try:
         logging.basicConfig(
             level=log_level,
@@ -53,8 +51,8 @@ def running_on_pythonista() -> bool:
     try:
         import console
 
-        logging.debug(">>Running on pythonista")
+        logging.info(">>>Running on pythonista")
         return True
     except ModuleNotFoundError:
-        logging.debug(">>Running on standard compute")
+        logging.info(">>>Running on standard compute")
         return False

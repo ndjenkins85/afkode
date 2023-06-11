@@ -19,6 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+import logging
 import os
 import re
 import shutil
@@ -34,6 +35,7 @@ from pydub.playback import play
 
 def text_to_speech(sentence, idx):
     # Create a gTTS object
+    logging.info(f">>>{sentence}")
     tts = gTTS(text=sentence, lang="en", tld="com.au")
 
     # Save the speech audio into a file
