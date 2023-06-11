@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
+import logging
 import os
 import time
+from pathlib import Path
 
 import console
 from objc_util import *
+
+from ai_cookie import utils
 
 
 def bluetooth(file_name):
@@ -40,5 +44,8 @@ def basic_record(file_name, record_time):
 
 if __name__ == "__main__":
     # Can run this module directly for basic recording testing
+    utils.setup_logging(log_level=logging.INFO)
+    logging.info("Recording for 5 seconds")
     output_file_path = Path("data", "detect_stop", "basic_record_test.wav")
     basic_record(str(output_file_path), 5)
+    logging.info(f"Saved recording to {output_file_path}")
