@@ -30,3 +30,8 @@ def speak(text):
     # Block until speech synthesis has finished
     while speech.is_speaking():
         time.sleep(0.1)
+
+
+if __name__ == "__main__":
+    # Can run this module directly for basic speech testing
+    speak("This is a test of the speech module")

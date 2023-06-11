@@ -69,3 +69,17 @@ class Recorder:
 def bluetooth(file_name):
     # Example usage:
     return Recorder(file_name)
+
+
+def basic_record(file_name, record_time):
+    recorder = bluetooth(file_name)
+    recorder.record()
+    time.sleep(record_time)
+    recorder.stop()
+    recorder.release()
+
+
+if __name__ == "__main__":
+    # Can run this module directly for basic recording testing
+    output_file_path = Path("data", "detect_stop", "basic_record_test.wav")
+    basic_record(str(output_file_path), 5)

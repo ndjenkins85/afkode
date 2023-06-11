@@ -107,3 +107,8 @@ def speak(text) -> None:
 
     # Wait for all the audio files to be played
     q.join()
+
+
+if __name__ == "__main__":
+    # Can run this module directly for basic speech testing
+    speak("This is a test of the speech module")
