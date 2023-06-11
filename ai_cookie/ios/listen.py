@@ -9,8 +9,6 @@ from pathlib import Path
 import console
 from objc_util import *
 
-from ai_cookie import utils
-
 
 def bluetooth(file_name):
     """Instanciate bluetooth audio for recording."""
@@ -43,7 +41,10 @@ def basic_record(file_name, record_time):
 
 
 if __name__ == "__main__":
-    # Can run this module directly for basic recording testing
+    # Basic recording testing. Can't run as module, so we import our library here
+    os.chdir("../..")
+    from ai_cookie import utils
+
     utils.setup_logging(log_level=logging.INFO)
     logging.info("Recording for 5 seconds")
     output_file_path = Path("data", "detect_stop", "basic_record_test.wav")

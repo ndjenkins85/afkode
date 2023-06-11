@@ -2,10 +2,9 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
 import logging
+import os
 
 import speech
-
-from ai_cookie import utils
 
 
 def speak(text):
@@ -17,6 +16,9 @@ def speak(text):
 
 
 if __name__ == "__main__":
-    # Can run this module directly for basic speech testing
+    # Basic speech testing. Can't run as module, so we import our library here
+    os.chdir("../..")
+    from ai_cookie import utils
+
     utils.setup_logging(log_level=logging.INFO)
     speak("This is a test of the speech module")
