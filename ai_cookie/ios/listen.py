@@ -3,6 +3,7 @@
 
 import logging
 import os
+import sys
 import time
 from pathlib import Path
 
@@ -42,9 +43,7 @@ def basic_record(file_name, record_time):
 
 if __name__ == "__main__":
     # Basic recording testing. Can't run as module, so we import our library here
-    print(os.getcwd())
-    os.chdir("../..")
-    print(os.getcwd())
+    sys.path.append(os.path.realpath("../.."))
     from ai_cookie import utils
 
     utils.setup_logging(log_level=logging.INFO)
