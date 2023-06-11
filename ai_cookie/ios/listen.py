@@ -48,6 +48,6 @@ if __name__ == "__main__":
 
     utils.setup_logging(log_level=logging.INFO)
     logging.info("Recording for 5 seconds")
-    output_file_path = Path("data", "detect_stop", "basic_record_test.wav")
+    output_file_path = Path("..", "..", "data", "detect_stop", "basic_record_test.wav")
     basic_record(str(output_file_path), 5)
     logging.info(f"Saved recording to {output_file_path}")
