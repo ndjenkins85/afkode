@@ -1,14 +1,21 @@
-# AI Cookie
+# AFKode - Speak it, Save it, AFKode it!
 
-My personal voice command interface for iPhone on pythonista powered by Whisper and ChatGPT.
+AFKode allows users to interact with AI and file system using only voice, allowing you to work away from keyboard.
+Works on iPhone with pythonista, or MacOS.
+Powered by Whisper and ChatGPT.
 
-This repo is intended for developers who know how to use pythonista.
+This program intended for developers comfortable with python who know how to use pythonista.
 You are required to BYO OpenAI secret key in a `secrets.py` file using `OEPNAI_KEY` string.
 
-- Allows users to take notes using voice commands, and iterate on the note taking with ai assistance.
-- It includes commands to do usual file interfacing.
-- Includes stop work detection
+Key features:
 
+- Detection of start/stop dictation for transcription
+- Uses ChatGPT create smart file naming for your notes
+
+Interfaces:
+
+* At home: Supports MacOS with base speakers/microphone or AirPods. May not work with other bluetooth headsets like Bose headphones.
+* Out and about: Supports Pythonista iOS with base speakers/microphones, or plugged in lightning wired heaphones. Bluetooth headsets like AirPds and Bose headphones currently not working.
 
 * [Instructions for users](#instructions-for-users)
   * [Installation](#installation)
