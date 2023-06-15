@@ -3,6 +3,7 @@
 
 import logging
 import os
+import re
 import shutil
 import threading
 import time
@@ -28,12 +29,14 @@ class VoiceRecorder:
 
         self.whole_folder = Path(self.folder_base, "whole")
         self.short_folder = Path(self.folder_base, "short")
+        self.start_folder = Path(self.folder_base, "start")
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
         self.short_time = 3
         self.simple_wait = 3
         self.tick = 1
-        self.stop_word = " stop"
+        self.start_word = "record"
+        self.stop_word = "stop"
         self.size_threshold_bytes = 6 * 1024
 
     def short_recording(self):
@@ -66,6 +69,7 @@ class VoiceRecorder:
             for file in all_files:
                 if file.is_file() and file.stat().st_size >= self.size_threshold_bytes:
                     input_files.append(file.name)
+
             output_files = os.listdir(self.transcript_folder)
 
             # Check each input file
@@ -79,7 +83,11 @@ class VoiceRecorder:
                     transcribe_path.write_text(transcription, encoding="utf-8")
 
                     logging.info(f"{file_name} <<< {transcription}")
-                    # If the transcription contains the stop word, set the flag
+                    # If start word mentioned, start the recording from here
+                    if self.start_word in " " + transcription.lower():
+                        Path(self.start_folder, f"{file_name}.txt").write_text(transcription)
+                        logging.info("<<<Start command")
+                    # If stop word, set the break flag leading to stopping recording
                     if self.stop_word in " " + transcription.lower():
                         stop_threads = True
                         logging.debug("Transcribe stopped")
@@ -90,8 +98,16 @@ class VoiceRecorder:
         time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = whisper(str(whole_path))
-        transcription = transcription.split(self.stop_word, 1)[0]
-        transcription = transcription.split(self.stop_word.title(), 1)[0]
+
+        # create a pattern that's case-insensitive and matches word boundaries
+        pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(self.start_word))
+        split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
+        transcription = split_text[-1]
+
+        pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(self.stop_word))
+        split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
+        transcription = split_text[0]
+
         whole_output_path = Path(self.whole_folder, "whole.txt")
         whole_output_path.write_text(transcription, encoding="utf-8")
         return transcription
@@ -102,11 +118,13 @@ class VoiceRecorder:
             shutil.rmtree(self.whole_folder)
             shutil.rmtree(self.short_folder)
             shutil.rmtree(self.transcript_folder)
+            shutil.rmtree(self.start_folder)
         except:
             pass
         self.whole_folder.mkdir()
         self.short_folder.mkdir()
         self.transcript_folder.mkdir()
+        self.start_folder.mkdir()
 
     def start_detection(self):
         global stop_threads
@@ -136,8 +154,10 @@ class VoiceRecorder:
 
     def combine_wav_files(self):
         output_filename = Path(self.whole_folder, "whole" + self.file_ext)
-        combine_audio_list = sorted(list(Path("data", "detect_stop", "transcript").iterdir()))
-        combine_audio_list = [str(x).replace("/transcript/", "/short/").replace(".txt", "") for x in combine_audio_list]
+
+        # Gets list of files between latest start and latest stop
+        combine_audio_list = utils.get_files_between(self.start_folder, self.transcript_folder)
+        combine_audio_list = [Path(self.short_folder, str(x).replace(".txt", "")) for x in combine_audio_list]
 
         with wave.open(str(output_filename), "wb") as output_wav:
             # Process each input file

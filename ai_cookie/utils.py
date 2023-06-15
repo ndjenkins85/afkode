@@ -2,6 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
 import logging
+import re
 import time
 from pathlib import Path
 
@@ -50,3 +51,33 @@ def get_user_prompt_directory() -> Path:
 
 def get_user_prompt_files() -> str:
     return "\n".join([x.name.replace(".txt", "") for x in get_user_prompt_directory().iterdir()])
+
+
+def extract_number(filename):
+    """
+    This helper function uses regular expression to extract the number from filename.
+    """
+    match = re.search(r"\d+", filename)
+    return int(match.group()) if match else None
+
+
+def get_files_between(folder_start, folder_transcript):
+    """
+    This function takes in two folders, finds the latest numbered files in each,
+    and returns a list of filenames for each number between the two.
+    """
+    # List all files in the directories
+    files_start = list(Path(folder_start).glob("*.wav.txt"))
+    files_transcript = list(Path(folder_transcript).glob("*.wav.txt"))
+
+    # Extract the file numbers and find the maximum
+    numbers_start = [extract_number(f.stem) for f in files_start]
+    numbers_transcript = [extract_number(f.stem) for f in files_transcript]
+
+    max_start = max(numbers_start) if numbers_start else 1
+    max_transcript = max(numbers_transcript) if numbers_transcript else 1
+
+    # Generate filenames for each number between max_start and max_transcript
+    filenames = [f"short{str(i).zfill(4)}.wav.txt" for i in range(max_start, max_transcript + 1)]
+
+    return filenames
