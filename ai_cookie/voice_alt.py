@@ -64,7 +64,7 @@ class VoiceRecorder:
             time.sleep(self.short_time - self.tick)
 
             # Get all files in a directory above a minimum size
-            all_files = self.short_folder.glob(f"*{self.file_ext}")
+            all_files = list(sorted(self.short_folder.glob(f"*{self.file_ext}")))
             input_files = []
             for file in all_files:
                 if file.is_file() and file.stat().st_size >= self.size_threshold_bytes:
