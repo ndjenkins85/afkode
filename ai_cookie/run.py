@@ -16,7 +16,7 @@ if utils.running_on_pythonista():
 else:
     from ai_cookie.macos.speech import speak
 
-from ai_cookie import api, file, voice_interface
+from ai_cookie import api, voice_interface
 
 
 def start() -> None:
@@ -24,7 +24,6 @@ def start() -> None:
 
     The program records voice input, transcribes it, and performs various operations based on the user's commands.
     """
-    io = file.FileIO()
     while True:
         # for i in ["1"]: # for debug purposes
         speak("Recording")
@@ -50,7 +49,8 @@ def start() -> None:
         logging.debug(proposed_filename_prompt)
         proposed_filename_response = api.chatgpt(proposed_filename_prompt)
         speak(proposed_filename_response)
-        io.save_response(transcription, proposed_filename_response)
+        output_path = Path(utils.get_user_prompt_directory(), f"{dt.now()} - {proposed_filename_response}.txt")
+        output_path.write_text(transcription, encoding="utf-8")
 
 
 if __name__ == "__main__":

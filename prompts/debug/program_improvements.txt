@@ -18,6 +18,7 @@ Each of your recommendations MUST conform to the following standards:
 Other coding directives:
 - Prefer pathlib library for file operations
 - If creating documentation and docstrings based on your best guess as to the intent
+- Use of global variables is required for multithreading and will not be altered
 
 Following is the project README, then the code files with code naming headers.
 ------------

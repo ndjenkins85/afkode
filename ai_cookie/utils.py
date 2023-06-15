@@ -11,7 +11,11 @@ from ai_cookie.globals import *
 
 
 def setup_logging(log_level=logging.DEBUG) -> None:
-    """Setup basic logging to path."""
+    """Configures the logging settings for the application.
+
+    Args:
+        log_level: The log level to set. Default is DEBUG.
+    """
     log_path = Path("logs", "_log.txt")
     try:
         logging.basicConfig(
@@ -32,6 +36,11 @@ def setup_logging(log_level=logging.DEBUG) -> None:
 
 
 def running_on_pythonista() -> bool:
+    """Checks if the program is running on iOS (pythonista) or MacOS (poetry-python).
+
+    Returns:
+        True if running on iOS, False if running on MacOS.
+    """
     try:
         import console
 
@@ -43,7 +52,11 @@ def running_on_pythonista() -> bool:
 
 
 def get_user_prompt_directory() -> Path:
-    """Simple retrieve of directory."""
+    """Retrieves the directory path for user input.
+
+    Returns:
+        The path to the user input directory.
+    """
     user_prompt_directory_path = Path("data", "user_response")
     if not user_prompt_directory_path.exists():
         user_prompt_directory_path.mkdir()
@@ -51,21 +64,36 @@ def get_user_prompt_directory() -> Path:
 
 
 def get_user_prompt_files() -> str:
+    """Retrieves a string of all the filenames in the user input directory.
+
+    Returns:
+        The string of filenames.
+    """
     return "\n".join([x.name.replace(".txt", "") for x in get_user_prompt_directory().iterdir()])
 
 
 def extract_number(filename):
-    """
-    This helper function uses regular expression to extract the number from filename.
+    """Extracts a number from a filename using regular expressions.
+
+    Args:
+        filename: The name of the file.
+
+    Returns:
+        The extracted number, or None if no number is found.
     """
     match = re.search(r"\d+", filename)
     return int(match.group()) if match else None
 
 
 def get_files_between(folder_start, folder_transcript):
-    """
-    This function takes in two folders, finds the latest numbered files in each,
-    and returns a list of filenames for each number between the two.
+    """Gets a list of filenames between two folders based on the file numbering.
+
+    Args:
+        folder_start: The starting folder.
+        folder_transcript: The ending folder.
+
+    Returns:
+        A list of filenames for each number between the two.
     """
     # List all files in the directories
     files_start = list(Path(folder_start).glob("*.wav.txt"))
