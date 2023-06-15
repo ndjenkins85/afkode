@@ -1,0 +1,23 @@
+Prompt: Program improvements
+
+Your task is to analyze the following python project code files and make improvement recommendations.
+
+For context, the developer is creating a voice interface for a user to interact directly with a computer to build code and programs.
+
+The following are some examples of useful improvement recommendations:
+- Adding documentation to clear up the behaviour of a section of code, or a file
+- Organization of the python modules
+- Identifying bugs or potential unintended effects of the code
+
+Each of your recommendations MUST conform to the following standards:
+1. Specify the filename of the code file
+2. High level explanation of recommendation
+3. Re-print the exact code section from the original source DO NOT MAKE UP CODE THAT DOES NOT EXIST
+4. Write an example of the changes you would make based on your recommendation
+
+Other coding directives:
+- Prefer pathlib library for file operations
+- If creating documentation and docstrings based on your best guess as to the intent
+
+Following is the project README, then the code files with code naming headers.
+------------

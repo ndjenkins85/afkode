@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
-"""This script runs the user input loop."""
+"""This file is the main entry point of the AFKode program.
+
+It handles the execution of the program and orchestrates the different components.
+"""
 
 import logging
 from pathlib import Path
@@ -13,7 +16,7 @@ if utils.running_on_pythonista():
 else:
     from ai_cookie.macos.speech import speak
 
-from ai_cookie import api, file, voice_alt
+from ai_cookie import api, file, voice_interface
 
 
 def start():

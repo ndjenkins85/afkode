@@ -1,10 +1,12 @@
 # AFKode - Speak it, Save it, AFKode it!
 
 AFKode allows users to interact with AI and file system using only voice, allowing you to work away from keyboard.
-Works on iPhone with pythonista, or MacOS.
+Works on iPhone with pythonista, or on MacOS.
 Powered by Whisper and ChatGPT.
 
-This program intended for developers comfortable with python who know how to use pythonista.
+This project was inspired by long walks on the beach while ruminating and organizing ones thoughts.
+
+Users of this program should be comfortable using pythonista/python.
 You are required to BYO OpenAI secret key in a `secrets.py` file using `OEPNAI_KEY` string.
 
 Key features:

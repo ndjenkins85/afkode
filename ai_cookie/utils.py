@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
+"""Contains utility functions used throughout the AFKode project."""
 
 import logging
 import re

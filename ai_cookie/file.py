@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
-"""This module is responsible for detecting file commands."""
+"""This file contains functions related to file operations."""
 
 import logging
 from pathlib import Path

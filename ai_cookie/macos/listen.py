@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
+"""Contains functions related to recording speech on MacOS."""
 
 import logging
 import threading
