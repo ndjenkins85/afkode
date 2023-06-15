@@ -19,10 +19,14 @@ else:
 from ai_cookie import api, file, voice_interface
 
 
-def start():
+def start() -> None:
+    """Begins the AFKode program and handles the user interaction and file operations.
+
+    The program records voice input, transcribes it, and performs various operations based on the user's commands.
+    """
     io = file.FileIO()
     while True:
-        # for i in ["1"]:
+        # for i in ["1"]: # for debug purposes
         speak("Recording")
         recorder = voice_alt.VoiceRecorder()
         recorder.clear_data()
