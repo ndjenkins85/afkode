@@ -5,6 +5,8 @@
 Each command corresponds to a Python file in the 'command' directory with an 'execute' function.
 """
 import importlib
+import json
+import logging
 from pathlib import Path
 
 from ai_cookie import api
@@ -30,8 +32,7 @@ class Command:
             # get last info after command
             self.collate_and_choose_command(words[-1])
 
-    @staticmethod
-    def collate_and_choose_command(command_candidate):
+    def collate_and_choose_command(self, command_candidate):
         """Check the 'command' directory for a file matching the command_candidate.
 
         Args:
@@ -46,20 +47,24 @@ class Command:
         for command_file in command_files:
             options += command_file + "\n"
             command_data = Path(command_dir, f"{command_file}.py").read_text(encoding="utf-8")
-            # Ignore most of the code, take the last bit of documentation
-            command_data = '"""'.join(command_data.split('"""')[:-1])
+            drop = "# -*- coding: utf-8 -*-\n# Copyright © 2023 by Nick Jenkins. All rights reserved"
+            command_data = command_data.replace(drop, "")
+            # Ignore the code after the docstrings and definition, as it may contain prompt info
+            command_data = command_data.split(") -> str:")[0]
             options += command_data + "\n\n"
 
         # Get our command prompt
         choose_command_prompt = Path("prompts", "programflow", "choose_command.txt").read_text()
 
-        choose_command_request = choose_command_prompt + "\n" + command_candidate + "\n" + commands_data
+        choose_command_request = (
+            choose_command_prompt + "\nUser input:" + command_candidate + f"\n{'-'*20}Options:\n" + options
+        )
         choose_command_response = api.chatgpt(choose_command_request, model="gpt-3.5-turbo-16k")
-        logging.debug(f"Request {choose_command_request}")
-        logging.debug(f"Response {choose_command_response}")
+        logging.debug(f"Request: {choose_command_request}")
+        logging.info(f"Command: {choose_command_response}")
 
-        self.command = choose_command_response.get("command")
-        self.instructions = choose_command_response.get("instructions")
+        self.command = json.loads(choose_command_response).get("command")
+        self.instructions = json.loads(choose_command_response).get("parameters")
 
     def execute(self):
         """
@@ -73,7 +78,7 @@ class Command:
         """
         if self.command:
             try:
-                module = importlib.import_module(f"command.{self.command}")
+                module = importlib.import_module(f"ai_cookie.commands.{self.command}")
                 return module.execute(self.instructions)
             except ImportError:
                 logging.warning(f"Tried to import a non-existant command {self.command}")

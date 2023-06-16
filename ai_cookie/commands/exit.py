@@ -8,4 +8,4 @@ The user is giving an indication they want to stop recording and exit the progra
 
 
 def execute(instructions):
-    return ">>>Exiting"
+    return "Command exit"

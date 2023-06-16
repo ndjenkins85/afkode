@@ -6,7 +6,7 @@ It handles the execution of the program and orchestrates the different component
 """
 
 import logging
-from datetime import dt
+from datetime import datetime as dt
 from pathlib import Path
 
 from ai_cookie import utils
@@ -17,7 +17,7 @@ if utils.running_on_pythonista():
 else:
     from ai_cookie.macos.speech import speak
 
-from ai_cookie import api, commands, voice_interface
+from ai_cookie import action, api, voice_interface
 
 
 def start() -> None:
@@ -38,25 +38,35 @@ def start() -> None:
         transcription = recorder.transcribe_whole()
         logging.info(transcription)
 
-        resolved = commands.Command(transcription)
+        # Soft exit using transcription only
+        if len(transcription) < len("command exit.") and "exit" in transcription.lower():
+            result = "Exiting"
+            speak(result)
+            break
+
+        # Commands
+        resolved = action.Command(transcription)
         if resolved.command:
             result = resolved.execute()
             speak(result)
-            if result == ">>>Exiting":
+            if result == "Command exit":
                 break
+        # It could be that the command wasn't recognised and we dont want it to be recorded like that
+        elif len(transcription) < 25:
+            speak("Skipping")
+        else:
+            # Otherwise it's not a command
+            proposed_filename_prompt = Path("prompts", "programflow", "proposed_filename.txt").read_text()
 
-        # Otherwise it's not a command
-        proposed_filename_prompt = Path("prompts", "programflow", "proposed_filename.txt").read_text()
-
-        # TODO, surely there is a template approach to prompts?
-        proposed_filename_prompt += (
-            "\n" + utils.get_user_prompt_files() + "\n\n--------- Here is the user input:\n" + transcription
-        )
-        logging.debug(proposed_filename_prompt)
-        proposed_filename_response = api.chatgpt(proposed_filename_prompt)
-        speak(proposed_filename_response)
-        output_path = Path(utils.get_user_prompt_directory(), f"{dt.now()} - {proposed_filename_response}.txt")
-        output_path.write_text(transcription, encoding="utf-8")
+            # TODO, surely there is a template approach to prompts?
+            proposed_filename_prompt += (
+                "\n" + utils.get_user_prompt_files() + "\n\n--------- Here is the user input:\n" + transcription
+            )
+            logging.debug(proposed_filename_prompt)
+            proposed_filename_response = api.chatgpt(proposed_filename_prompt)
+            speak(proposed_filename_response)
+            output_path = Path(utils.get_user_prompt_directory(), f"{dt.now()} - {proposed_filename_response}.txt")
+            output_path.write_text(transcription, encoding="utf-8")
 
 
 if __name__ == "__main__":
