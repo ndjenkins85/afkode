@@ -7,11 +7,11 @@
 from datetime import datetime as dt
 from pathlib import Path
 
-from ai_cookie import api
+from afkode import api
 
 
 def execute(all_additional_instructions_provided_after_command) -> str:
-    command_dir = Path("ai_cookie", "commands")
+    command_dir = Path("afkode", "commands")
     ignore = ["__init__"]
     command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
 

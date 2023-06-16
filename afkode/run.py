@@ -9,15 +9,15 @@ import logging
 from datetime import datetime as dt
 from pathlib import Path
 
-from ai_cookie import utils
+from afkode import utils
 
 utils.setup_logging(log_level=logging.INFO)
 if utils.running_on_pythonista():
-    from ai_cookie.ios.speech import speak
+    from afkode.ios.speech import speak
 else:
-    from ai_cookie.macos.speech import speak
+    from afkode.macos.speech import speak
 
-from ai_cookie import action, api, voice_interface
+from afkode import action, api, voice_interface
 
 
 def start() -> None:

@@ -10,17 +10,17 @@ import time
 import wave
 from pathlib import Path
 
-from ai_cookie import utils
+from afkode import utils
 
 if utils.running_on_pythonista():
-    from ai_cookie.ios.listen import bluetooth
-    from ai_cookie.ios.speech import play_blip
+    from afkode.ios.listen import bluetooth
+    from afkode.ios.speech import play_blip
 else:
-    from ai_cookie.macos.listen import bluetooth
-    from ai_cookie.macos.speech import play_blip
+    from afkode.macos.listen import bluetooth
+    from afkode.macos.speech import play_blip
 
-from ai_cookie.api import chatgpt, whisper
-from ai_cookie.globals import *
+from afkode.api import chatgpt, whisper
+from afkode.globals import *
 
 
 class VoiceRecorder:

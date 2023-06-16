@@ -2,7 +2,7 @@
    :hidden:
    :maxdepth: 1
 
-   reference_ai_cookie
+   reference_afkode
    license
 
 .. mdinclude:: ../README.md

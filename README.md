@@ -48,23 +48,23 @@ Note: Instructions marked with %% are not functioning and are for demo purposes 
 Install the project using pip %%:
 
 ```bash
-pip install ai_cookie
+pip install afkode
 ```
 
 To replicate the data transformations and model results, run the following commands from the project root.
 These should be run from the `poetry shell`, or `conda` environment, or with the `poetry run` prefix.
 ```bash
-python -m ai_cookie.run
+python -m afkode.run
 ```
 
 ### Usage documentation
 
-The user guides can be found on [github pages](https://ndjenkins85.github.io/ndj_ai_cookie).
-This includes overview of features, discussion of `ndj_ai_cookie` framework, and API reference.
+The user guides can be found on [github pages](https://ndjenkins85.github.io/afkode).
+This includes overview of features, discussion of `afkode` framework, and API reference.
 
 ### Bug reports
 
-Please raise an [issue](https://github.com/ndjenkins85/ndj_ai_cookie/issues) with `bug` label and I will look into it!
+Please raise an [issue](https://github.com/ndjenkins85/afkode/issues) with `bug` label and I will look into it!
 
 ## Instructions for developers
 

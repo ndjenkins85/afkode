@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "ndj_ai_cookie"
+name = "afkode"
 version = "0"
 description = "Personal voice command interface for iPhone on pythonista powered by Whisper and ChatGPT."
 license = "MIT"
 authors = ["Nick Jenkins"]
 readme = "README.md"
 homepage = "https://www.ndjenkins.com/"
-repository = "https://github.com/ndjenkins85/ndj_ai_cookie/"
-documentation = "https://ndjenkins85.github.io/ndj_ai_cookie/"
+repository = "https://github.com/ndjenkins85/afkode/"
+documentation = "https://ndjenkins85.github.io/afkode/"
 keywords = [
     "quick_start",
     "python_packaging",
@@ -82,7 +82,7 @@ tests = ["pytest", "pytest-cases", "pytest-cov"]
 docs = ["m2r2", "sphinx", "sphinx_rtd_theme", "sphinx-autodoc-typehints"]
 
 [tool.poetry.scripts]
-ai_cookie = 'ai_cookie.run:start'
+afkode = 'afkode.run:start'
 
 [tool.poetry-version-plugin]
 source = "init"
@@ -97,9 +97,9 @@ line-length = 120
 
 [tool.isort]
 profile = "black"
-known_local_folder = ["ai_cookie"]
+known_local_folder = ["afkode"]
 skip_glob = [
-    "ai_cookie/__init__.py",
+    "afkode/__init__.py",
     ]
 
 [tool.mypy]

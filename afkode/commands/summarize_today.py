@@ -8,7 +8,7 @@ specifically ones with today's date.
 from datetime import datetime as dt
 from pathlib import Path
 
-from ai_cookie import api
+from afkode import api
 
 
 def execute(all_additional_instructions_provided_after_command) -> str:

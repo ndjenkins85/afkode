@@ -4,9 +4,7 @@
 
 import openai
 
-from ai_cookie import (
-    secrets,  # We load secrets from a python file to support pythonista
-)
+from afkode import secrets  # We load secrets from a python file to support pythonista
 
 try:
     openai.api_key = secrets.OPENAI_KEY

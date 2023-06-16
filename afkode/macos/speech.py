@@ -15,7 +15,7 @@ from gtts import gTTS
 from pydub import AudioSegment
 from pydub.playback import play
 
-from ai_cookie import utils
+from afkode import utils
 
 
 def text_to_speech(sentence, idx):
@@ -96,7 +96,7 @@ def speak(text) -> None:
 
 def play_blip() -> None:
     """Play a short sound to help notify of API speed."""
-    file_name = Path("ai_cookie", "macos", "blip.wav")
+    file_name = Path("afkode", "macos", "blip.wav")
     audio = AudioSegment.from_file(file_name)
     play(audio)
 

@@ -8,9 +8,9 @@ import tempfile
 import nox
 from nox.sessions import Session
 
-locations = "ai_cookie", "tests", "noxfile.py", "docs/conf.py"
+locations = "afkode", "tests", "noxfile.py", "docs/conf.py"
 nox.options.sessions = "tests", "lint"
-package = "ai_cookie"
+package = "afkode"
 PY_VERSIONS = ["3.8"]
 
 

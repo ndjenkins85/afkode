@@ -26,7 +26,7 @@ def play_blip() -> None:
 if __name__ == "__main__":
     # Basic speech testing. Can't run as module, so we import our library here
     sys.path.append(os.path.realpath("../.."))
-    from ai_cookie import utils
+    from afkode import utils
 
     utils.setup_logging(log_level=logging.INFO)
     speak("This is a test of the speech module")

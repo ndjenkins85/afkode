@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pyaudio
 
-from ai_cookie import utils
+from afkode import utils
 
 
 class Recorder:

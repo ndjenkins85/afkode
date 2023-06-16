@@ -45,7 +45,7 @@ def basic_record(file_name, record_time):
 if __name__ == "__main__":
     # Basic recording testing. Can't run as module, so we import our library here
     sys.path.append(os.path.realpath("../.."))
-    from ai_cookie import utils
+    from afkode import utils
 
     utils.setup_logging(log_level=logging.INFO)
     logging.info("Recording for 5 seconds")

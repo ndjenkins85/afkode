@@ -9,7 +9,7 @@ import json
 import logging
 from pathlib import Path
 
-from ai_cookie import api
+from afkode import api
 
 
 class Command:
@@ -38,7 +38,7 @@ class Command:
         Args:
             command_candidate (str): The potential command name to look for.
         """
-        command_dir = Path("ai_cookie", "commands")
+        command_dir = Path("afkode", "commands")
         ignore = ["__init__"]
         command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
 
@@ -78,7 +78,7 @@ class Command:
         """
         if self.command:
             try:
-                module = importlib.import_module(f"ai_cookie.commands.{self.command}")
+                module = importlib.import_module(f"afkode.commands.{self.command}")
                 return module.execute(self.instructions)
             except ImportError:
                 logging.warning(f"Tried to import a non-existant command {self.command}")

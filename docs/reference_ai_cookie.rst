@@ -1,5 +1,5 @@
-AI Cookie
-=========
+afkode
+======
 
 .. contents::
     :local:
@@ -7,32 +7,27 @@ AI Cookie
 
 Provides voice note taking functionality with Whisper and ChatGPT
 
-ai_cookie.api
+afkode.action
 -------------
-.. automodule:: ai_cookie.api
+.. automodule:: afkode.action
    :members:
 
-ai_cookie.apple
----------------
-.. automodule:: ai_cookie.apple
+afkode.api
+----------
+.. automodule:: afkode.api
    :members:
 
-ai_cookie.file
---------------
-.. automodule:: ai_cookie.file
+afkode.run
+----------
+.. automodule:: afkode.run
    :members:
 
-ai_cookie.run
--------------
-.. automodule:: ai_cookie.run
+afkode.utils
+------------
+.. automodule:: afkode.utils
    :members:
 
-ai_cookie.utils
----------------
-.. automodule:: ai_cookie.utils
-   :members:
-
-ai_cookie.voice_alt
--------------------
-.. automodule:: ai_cookie.voice_alt
+afkode.voice_interface
+----------------------
+.. automodule:: afkode.voice_interface
    :members:

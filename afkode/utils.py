@@ -7,7 +7,7 @@ import re
 import time
 from pathlib import Path
 
-from ai_cookie.globals import *
+from afkode.globals import *
 
 
 def setup_logging(log_level=logging.DEBUG) -> None:

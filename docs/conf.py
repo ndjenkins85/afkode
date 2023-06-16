@@ -24,9 +24,9 @@ from pathlib import Path
 
 import sphinx_rtd_theme  # noqa: F401
 
-from ai_cookie import __version__
+from afkode import __version__
 
-project = "ai_cookie"
+project = "afkode"
 author = "Nick Jenkins"
 copyright = open(Path("..", "LICENSE")).read()
 version = __version__

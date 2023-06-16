@@ -7,7 +7,7 @@
 from datetime import datetime as dt
 from pathlib import Path
 
-from ai_cookie import api
+from afkode import api
 
 
 def execute(not_used) -> str:
