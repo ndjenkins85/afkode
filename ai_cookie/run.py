@@ -47,6 +47,7 @@ def start() -> None:
         # Commands
         resolved = action.Command(transcription)
         if resolved.command:
+            speak(resolved.command.replace("_", " "))
             result = resolved.execute()
             speak(result)
             if result == "Command exit":

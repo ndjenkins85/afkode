@@ -10,13 +10,10 @@ from pathlib import Path
 from ai_cookie import api
 
 
-def execute(all_additional_instructions_provided_after_command) -> str:
+def execute(not_used) -> str:
     latest_path = sorted([x for x in Path("data", "user_response").glob("*.txt")])[-1]
 
-    latest = latest_path.read_text(encoding="utf-8")
-
-    # Include additional instructions
-    request = latest + "\n" + all_additional_instructions_provided_after_command
+    request = latest_path.read_text(encoding="utf-8")
     response = api.chatgpt(request)
 
     return response
