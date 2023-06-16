@@ -7,7 +7,7 @@ Powered by Whisper and ChatGPT.
 This project was inspired by long walks on the beach while ruminating and organizing ones thoughts.
 
 Users of this program should be comfortable using pythonista/python.
-You are required to BYO OpenAI secret key in a `secrets.py` file using `OEPNAI_KEY` string.
+You are required to BYO OpenAI secret key in variable `OPENAI_KEY` using environment variables or within `afkcode/secrets.py`.
 
 Key features:
 
@@ -17,7 +17,7 @@ Key features:
 Interfaces:
 
 * At home: Supports MacOS with base speakers/microphone or AirPods. May not work with other bluetooth headsets like Bose headphones.
-* Out and about: Supports Pythonista iOS with base speakers/microphones, or plugged in lightning wired heaphones. Bluetooth headsets like AirPds and Bose headphones currently not working.
+* Out and about: Supports Pythonista iOS with base speakers/microphones, or plugged in lightning wired heaphones. Bluetooth headsets like AirPods and Bose headphones currently not working.
 
 * [Instructions for users](#instructions-for-users)
   * [Installation](#installation)

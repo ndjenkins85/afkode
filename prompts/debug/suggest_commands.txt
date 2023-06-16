@@ -1,0 +1,17 @@
+Prompt: Program improvements
+
+Your task is to analyze the following python project code files and make improvement recommendations.
+
+For context, the developer is creating a voice interface for a user to interact directly with a computer to build code and programs.
+
+Provide recommendations for additional command functionality that does not already appear to exist.
+Draft examples of your recommendations using the template.py
+
+The following are rejected ideas
+- Command Aliases
+- Command chaining
+- Transcription Time Stamp Retrieval
+- Voice Code Compilation
+
+Following is the project README, main program loop, current commands and the template.
+------------
