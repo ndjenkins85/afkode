@@ -5,6 +5,7 @@ Your task is to analyze the following python project code files and make improve
 For context, the developer is creating a voice interface for a user to interact directly with a computer to build code and programs.
 
 The following are some examples of useful improvement recommendations:
+- Areas that could be easier to interpret or extend with refactoring
 - Adding documentation to clear up the behaviour of a section of code, or a file
 - Organization of the python modules
 - Identifying bugs or potential unintended effects of the code
@@ -16,7 +17,7 @@ Each of your recommendations MUST conform to the following standards:
 4. Write an example of the changes you would make based on your recommendation
 
 Other coding directives:
-- Prefer pathlib library for file operations
+- Prefer pathlib library for file operations, and hardcoded directory paths are OK
 - If creating documentation and docstrings based on your best guess as to the intent
 - Use of global variables is required for multithreading and will not be altered
 

@@ -8,7 +8,10 @@ from ai_cookie import (
     secrets,  # We load secrets from a python file to support pythonista
 )
 
-openai.api_key = secrets.OPENAI_KEY
+try:
+    openai.api_key = secrets.OPENAI_KEY
+except AttributeError:
+    raise ValueError("Missing OPENAI_KEY in secrets.py")
 
 
 def whisper(path: str) -> str:
