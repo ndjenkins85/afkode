@@ -8,7 +8,7 @@ import sys
 import time
 
 import speech
-import sound
+#import sound
 
 
 def speak(text):
@@ -21,7 +21,8 @@ def speak(text):
 
 def play_blip() -> None:
     """Play a short sound to help notify of API speed."""
-    sound.play_effect("ui:mouseclick1")
+    #sound.play_effect("ui:mouseclick1")
+    pass
 
 
 if __name__ == "__main__":
