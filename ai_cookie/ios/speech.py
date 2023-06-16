@@ -18,6 +18,11 @@ def speak(text):
         time.sleep(0.1)
 
 
+def play_blip() -> None:
+    """Play a short sound to help notify of API speed."""
+    sound.play_effect("ui:mouseclick1")
+
+
 if __name__ == "__main__":
     # Basic speech testing. Can't run as module, so we import our library here
     sys.path.append(os.path.realpath("../.."))

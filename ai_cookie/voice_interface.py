@@ -14,8 +14,10 @@ from ai_cookie import utils
 
 if utils.running_on_pythonista():
     from ai_cookie.ios.listen import bluetooth
+    from ai_cookie.ios.speech import play_blip
 else:
     from ai_cookie.macos.listen import bluetooth
+    from ai_cookie.macos.speech import play_blip
 
 from ai_cookie.api import chatgpt, whisper
 from ai_cookie.globals import *
@@ -78,9 +80,11 @@ class VoiceRecorder:
                 if f"{file_name}.txt" not in output_files:
                     short_path = Path(self.short_folder, file_name)
                     transcribe_path = Path(self.transcript_folder, f"{file_name}.txt")
+
                     # Transcribe the file
                     transcription = whisper(str(short_path))
                     transcribe_path.write_text(transcription, encoding="utf-8")
+                    play_blip()
 
                     logging.info(f"{file_name} <<< {transcription}")
                     # If start word mentioned, start the recording from here

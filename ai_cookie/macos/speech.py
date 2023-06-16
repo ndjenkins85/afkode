@@ -94,6 +94,13 @@ def speak(text) -> None:
     q.join()
 
 
+def play_blip() -> None:
+    """Play a short sound to help notify of API speed."""
+    file_name = Path("ai_cookie", "macos", "blip.wav")
+    audio = AudioSegment.from_file(file_name)
+    play(audio)
+
+
 if __name__ == "__main__":
     # Can run this module directly for basic speech testing
     utils.setup_logging(log_level=logging.INFO)
