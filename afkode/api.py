@@ -2,14 +2,24 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """This file contains functions related to interacting with external API systems."""
 
+import os
+
 import openai
 
-from afkode import secrets  # We load secrets from a python file to support pythonista
-
+# We load secrets from a python file to support pythonista
 try:
+    from afkode import secrets
+
     openai.api_key = secrets.OPENAI_KEY
-except AttributeError:
-    raise ValueError("Missing OPENAI_KEY in secrets.py")
+except ImportError:
+    try:
+        openai.api_key = os.getenv("OPENAI_KEY")
+    except NameError:
+        raise ValueError(
+            """You need to set an environment variable 'OPENAI_KEY'
+            export OPENAI_KEY=sk-
+            """
+        )
 
 
 def whisper(path: str) -> str:

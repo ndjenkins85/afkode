@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "afkode"
-version = "0"
+version = "0.2"
 description = "Personal voice command interface for iPhone on pythonista powered by Whisper and ChatGPT."
 license = "MIT"
 authors = ["Nick Jenkins"]
@@ -35,9 +35,10 @@ include = ["LICENSE", "README.md"]
 python = ">=3.8.8,<3.11"
 
 openai = "^0.27.5"
-SpeechRecognition = "^3.10.0"
 PyAudio = "^0.2.13"
 PyYAML = "^6.0"
+pydub = "^0.25.1"
+gTTS = "^2.3.2"
 
 black = { version = "^23.3", optional = true }
 darglint = { version = "^0.1", optional = true }
@@ -61,16 +62,11 @@ m2r2 = { version = "^0.3", optional = true }
 sphinx = { version = "^4.2", optional = true }
 sphinx-autodoc-typehints = { version = "^1.12", optional = true }
 sphinx_rtd_theme = { version = "^1", optional = true }
-ipykernel = "^6.23.1"
-ipython = "7.23.1"
-jupyter = "^1.0.0"
-traitlets = "^5.9.0"
-pydub = "^0.25.1"
-simpleaudio = "^1.0.4"
-gTTS = "^2.3.2"
-pyttsx3 = "^2.90"
 
 [tool.poetry.dev-dependencies]
+ipykernel = "^6.23.1"
+ipython = "7.23.1"
+traitlets = "^5.9.0"
 jupyter = "^1.0.0"
 nox = "^2023.04.22"
 pre-commit = "^2.15"
