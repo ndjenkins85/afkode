@@ -8,6 +8,7 @@ import sys
 import time
 
 import speech
+import sound
 
 
 def speak(text):

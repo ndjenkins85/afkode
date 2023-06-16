@@ -34,12 +34,12 @@ class VoiceRecorder:
         self.start_folder = Path(self.folder_base, "start")
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
-        self.short_time = 3
+        self.short_time = 5
         self.simple_wait = 3
         self.tick = 1
         self.start_word = "record"
         self.stop_word = "stop"
-        self.size_threshold_bytes = 6 * 1024
+        self.size_threshold_bytes = 10 * 1024
 
     def short_recording(self):
         """We use shorter recordings for stop word detection every few seconds."""
