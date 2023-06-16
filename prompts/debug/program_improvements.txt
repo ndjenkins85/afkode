@@ -13,8 +13,7 @@ The following are some examples of useful improvement recommendations:
 Each of your recommendations MUST conform to the following standards:
 1. Specify the filename of the code file
 2. High level explanation of recommendation
-3. Re-print the exact code section from the original source DO NOT MAKE UP CODE THAT DOES NOT EXIST
-4. Write an example of the changes you would make based on your recommendation
+3. Write an example of the changes you would make based on your recommendation
 
 Other coding directives:
 - Prefer pathlib library for file operations, and hardcoded directory paths are OK

@@ -17,7 +17,7 @@ if utils.running_on_pythonista():
 else:
     from ai_cookie.macos.speech import speak
 
-from ai_cookie import api, voice_interface
+from ai_cookie import api, commands, voice_interface
 
 
 def start() -> None:
@@ -38,9 +38,12 @@ def start() -> None:
         transcription = recorder.transcribe_whole()
         logging.info(transcription)
 
-        if transcription.lower()[:4] == "exit":
-            speak("Exiting")
-            break
+        resolved = commands.Command(transcription)
+        if resolved.command:
+            result = resolved.execute()
+            speak(result)
+            if result == ">>>Exiting":
+                break
 
         # Otherwise it's not a command
         proposed_filename_prompt = Path("prompts", "programflow", "proposed_filename.txt").read_text()

@@ -1,0 +1,15 @@
+Prompt: Choose command
+
+Your task is to determine what kind of command a user is looking to run. For context, the user is provide voice commands which have been transcribed into plain text.
+
+Output format must be followed strictly, you should provide a JSON output with the following properties. Do not provide any further justification or explanation for your output.
+- command: the file name of the command
+- instructions: any further text that appears to match the python definition specification in the file
+
+If you don't think the user is entering any command, or no command suitably matches, you should return a blank JSON like {}.
+
+The remaining input will be in the following format
+- The next text after these instructions will be the user input that needs to be assigned to a command
+- The remaining text will be all of the available commands, starting with the filename of the command, and for further context, the documentation and python code.
+
+-----------------------
