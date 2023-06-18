@@ -11,13 +11,12 @@ from afkode import utils
 
 def get_readme() -> str:
     """Loads first portion of the project readme."""
-    readme = Path("..", "README.md").read_text(encoding="utf-8")
+    readme = Path(utils.get_base_path(), "README.md").read_text(encoding="utf-8")
     clean_readme = readme.split("## Contents")[0]
     return clean_readme
 
 
 def start():
-    logging.info(utils.get_base_path())
     logging.info(get_readme())
 
 

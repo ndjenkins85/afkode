@@ -18,7 +18,7 @@ def setup_logging(log_level=logging.DEBUG) -> None:
     Args:
         log_level: The log level to set. Default is DEBUG.
     """
-    log_path = Path("logs", "_log.txt")
+    log_path = Path(get_base_path(), "logs", "_log.txt")
     try:
         logging.basicConfig(
             level=log_level,
@@ -39,7 +39,7 @@ def setup_logging(log_level=logging.DEBUG) -> None:
 
 def get_base_path():
     """Helps to determine where to run file activities depending on env"""
-    return importlib_resources.files("afkode").parts[:-1]
+    return Path(*importlib_resources.files("afkode").parts[:-1])
 
 
 def running_on_pythonista() -> bool:
