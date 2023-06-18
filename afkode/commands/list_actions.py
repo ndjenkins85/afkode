@@ -13,7 +13,7 @@ from afkode import api
 def execute(all_additional_instructions_provided_after_command) -> str:
     command_dir = Path("afkode", "commands")
     ignore = ["__init__"]
-    command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
+    command_files = [f.stem.replace("_", " ") for f in command_dir.glob("*.py") if f.stem not in ignore]
 
-    response = "List of commands: " + "\n".join(command_files.replace("_", " "))
+    response = "List of commands: " + "\n".join(command_files)
     return response

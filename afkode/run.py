@@ -9,7 +9,12 @@ import logging
 from datetime import datetime as dt
 from pathlib import Path
 
-import set_env
+# Any script entry must have this
+# For it to work on pythonista
+try:
+    import set_env
+except ModuleNotFoundError:
+    from afkode import set_env
 
 from afkode import utils
 
@@ -41,7 +46,7 @@ def start() -> None:
         logging.info(transcription)
 
         # Soft exit using transcription only
-        if len(transcription) < len("command exit.") and "exit" in transcription.lower():
+        if len(transcription) <= len("command, exit.") and "exit" in transcription.lower():
             result = "Exiting"
             speak(result)
             break
