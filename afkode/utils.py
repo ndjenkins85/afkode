@@ -7,6 +7,8 @@ import re
 import time
 from pathlib import Path
 
+import importlib_resources
+
 from afkode.globals import *
 
 
@@ -24,15 +26,20 @@ def setup_logging(log_level=logging.DEBUG) -> None:
             handlers=[logging.FileHandler(log_path), logging.StreamHandler()],
         )
     except FileNotFoundError:
-        msg = f'''Directory {log_path} missing, cannot create log file.
+        msg = f"""Directory {log_path} missing, cannot create log file.
                   Make sure you are running from base of repo, with correct data folder structure.
-                  Continuing without log file writing.'''
+                  Continuing without log file writing."""
         logging.basicConfig(
             level=log_level,
             format="%(asctime)s [%(levelname)s] %(message)s",
             handlers=[logging.StreamHandler()],
         )
         logging.warning(msg)
+
+
+def get_base_path():
+    """Helps to determine where to run file activities depending on env"""
+    return importlib_resources.files("afkode").parts[:-1]
 
 
 def running_on_pythonista() -> bool:

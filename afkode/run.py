@@ -18,7 +18,7 @@ except ModuleNotFoundError:
 
 from afkode import utils
 
-utils.setup_logging(log_level=logging.INFO)
+utils.setup_logging(log_level=logging.DEBUG)
 if utils.running_on_pythonista():
     from afkode.ios.speech import speak
 else:
