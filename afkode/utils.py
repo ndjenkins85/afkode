@@ -26,9 +26,7 @@ def setup_logging(log_level=logging.DEBUG) -> None:
             handlers=[logging.FileHandler(log_path), logging.StreamHandler()],
         )
     except FileNotFoundError:
-        msg = f"""Directory {log_path} missing, cannot create log file.
-                  Make sure you are running from base of repo, with correct data folder structure.
-                  Continuing without log file writing."""
+        msg = f"Directory {log_path} missing, cannot create log file."
         logging.basicConfig(
             level=log_level,
             format="%(asctime)s [%(levelname)s] %(message)s",
