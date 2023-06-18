@@ -9,6 +9,8 @@ import logging
 from datetime import datetime as dt
 from pathlib import Path
 
+import set_env
+
 from afkode import utils
 
 utils.setup_logging(log_level=logging.INFO)

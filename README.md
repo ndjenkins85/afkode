@@ -19,6 +19,8 @@ Interfaces:
 * At home: Supports MacOS with base speakers/microphone or AirPods. May not work with other bluetooth headsets like Bose headphones.
 * Out and about: Supports Pythonista iOS with base speakers/microphones, or plugged in lightning wired heaphones. Bluetooth headsets like AirPods and Bose headphones currently not working.
 
+## Contents
+
 * [Instructions for users](#instructions-for-users)
   * [Installation](#installation)
   * [Usage documentation](#usage-documentation)
