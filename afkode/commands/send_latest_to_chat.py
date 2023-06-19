@@ -11,7 +11,7 @@ from afkode import api
 
 
 def execute(not_used) -> str:
-    latest_path = sorted([x for x in Path("data", "user_response").glob("*.txt")])[-1]
+    latest_path = sorted([x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt")])[-1]
 
     request = latest_path.read_text(encoding="utf-8")
     response = api.chatgpt(request)

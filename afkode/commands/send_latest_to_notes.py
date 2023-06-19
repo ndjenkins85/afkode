@@ -12,7 +12,7 @@ import urllib.parse
 
 
 def execute(not_used) -> str:
-    latest_path = sorted([x for x in Path("data", "user_response").glob("*.txt")])[-1]
+    latest_path = sorted([x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt")])[-1]
 
     encoded_text = urllib.parse.quote(latest_path.read_text(encoding='utf-8'))
     

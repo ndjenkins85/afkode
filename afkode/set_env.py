@@ -9,10 +9,11 @@ try:
     import os
     import sys
     sys.path.append(os.path.abspath(".."))
-    from afkode import utils
-    utils.setup_logging()
-    logging.info('Running on iOS (pythonista)')
+    mode = 'Running on iOS (pythonista)'
 except ModuleNotFoundError:
-    from afkode import utils
-    utils.setup_logging()
-    logging.info('Running on MacOS (poetry-python)')
+    mode = 'Running on MacOS (poetry-python)'
+    
+from afkode import globals, utils
+utils.setup_logging(log_level=globals.LOG_LEVEL)
+logging.info(mode)    
+

@@ -13,7 +13,7 @@ from afkode import api
 
 def execute(all_additional_instructions_provided_after_command) -> str:
     today = str(dt.now())[:10]
-    todays_files = sorted([x for x in Path("data", "user_response").glob("*.txt") if x.name[:10] == today])
+    todays_files = sorted([x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt") if x.name[:10] == today])
 
     summarize_prompt = """Your task is to summarize the following thoughts from a
     user who is using a voice transcription system"""

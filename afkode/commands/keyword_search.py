@@ -6,9 +6,10 @@
 
 from pathlib import Path
 
+from afkode import utils
 
 def execute(keyword) -> str:
-    text_files = [x for x in Path("data", "user_response").glob("*.txt")]
+    text_files = [x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt")]
 
     results = {}
     for file in text_files:
