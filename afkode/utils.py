@@ -2,12 +2,11 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
+import os
 import logging
 import re
 import time
 from pathlib import Path
-
-import importlib_resources
 
 from afkode.globals import *
 
@@ -37,8 +36,13 @@ def setup_logging(log_level=logging.DEBUG) -> None:
 
 def get_base_path():
     """Helps to determine where to run file activities depending on env"""
-    return Path(*importlib_resources.files("afkode").parts[:-1])
-
+    try:
+        import importlib_resources
+        base_path  = Path(*importlib_resources.files("afkode").parts[:-1])
+    except ModuleNotFoundError:
+        base_path = Path(*Path(os.getcwd()).parts[:-1])
+    return base_path
+        
 
 def running_on_pythonista() -> bool:
     """Checks if the program is running on iOS (pythonista) or MacOS (poetry-python).
