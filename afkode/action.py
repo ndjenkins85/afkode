@@ -9,7 +9,7 @@ import json
 import logging
 from pathlib import Path
 
-from afkode import api
+from afkode import api, utils
 
 
 class Command:
@@ -38,7 +38,7 @@ class Command:
         Args:
             command_candidate (str): The potential command name to look for.
         """
-        command_dir = Path("afkode", "commands")
+        command_dir = Path(utils.get_base_path(), "afkode", "commands")
         ignore = ["__init__"]
         command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
 
@@ -54,7 +54,7 @@ class Command:
             options += command_data + "\n\n"
 
         # Get our command prompt
-        choose_command_prompt = Path("prompts", "programflow", "choose_command.txt").read_text()
+        choose_command_prompt = Path(get_base_path(), "prompts", "programflow", "choose_command.txt").read_text()
 
         choose_command_request = (
             choose_command_prompt + "\nUser input:" + command_candidate + f"\n{'-'*20}Options:\n" + options

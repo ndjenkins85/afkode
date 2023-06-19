@@ -13,18 +13,12 @@ from pathlib import Path
 # For it to work on pythonista
 try:
     import set_env
+    from afkode.ios.speech import speak
 except ModuleNotFoundError:
     from afkode import set_env
-
-from afkode import utils
-
-utils.setup_logging(log_level=logging.DEBUG)
-if utils.running_on_pythonista():
-    from afkode.ios.speech import speak
-else:
     from afkode.macos.speech import speak
 
-from afkode import action, api, voice_interface
+from afkode import action, api, voice_interface, utils
 
 
 def start() -> None:

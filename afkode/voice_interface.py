@@ -10,22 +10,24 @@ import time
 import wave
 from pathlib import Path
 
-from afkode import utils
-
-if utils.running_on_pythonista():
+# Any script entry must have this
+# For it to work on pythonista
+try:
+    import set_env
     from afkode.ios.listen import bluetooth
     from afkode.ios.speech import play_blip
-else:
+except ModuleNotFoundError:
+    from afkode import set_env
     from afkode.macos.listen import bluetooth
     from afkode.macos.speech import play_blip
 
-from afkode.api import chatgpt, whisper
-from afkode.globals import *
+from afkode import api, utils
+from afkode.globals import stop_threads
 
 
 class VoiceRecorder:
     def __init__(self):
-        self.folder_base = Path("data", "detect_stop")
+        self.folder_base = Path(utils.get_base_path(), "data", "detect_stop")
         if not self.folder_base.exists():
             self.folder_base.mkdir()
 
@@ -82,7 +84,7 @@ class VoiceRecorder:
                     transcribe_path = Path(self.transcript_folder, f"{file_name}.txt")
 
                     # Transcribe the file
-                    transcription = whisper(str(short_path))
+                    transcription = api.whisper(str(short_path))
                     transcribe_path.write_text(transcription, encoding="utf-8")
                     play_blip()
 
@@ -101,7 +103,7 @@ class VoiceRecorder:
         """Perform final transcribe, removing text after stopword."""
         time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
-        transcription = whisper(str(whole_path))
+        transcription = api.whisper(str(whole_path))
 
         # create a pattern that's case-insensitive and matches word boundaries
         pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(self.start_word))
@@ -153,7 +155,7 @@ class VoiceRecorder:
         recorder.stop()
         recorder.release()
 
-        transcription = whisper(str(file_path)).lower()
+        transcription = api.whisper(str(file_path)).lower()
         return transcription
 
     def combine_wav_files(self):

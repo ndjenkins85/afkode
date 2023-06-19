@@ -7,6 +7,7 @@ import logging
 import re
 import time
 from pathlib import Path
+from datetime import datetime as dt
 
 from afkode.globals import *
 
@@ -17,7 +18,10 @@ def setup_logging(log_level=logging.DEBUG) -> None:
     Args:
         log_level: The log level to set. Default is DEBUG.
     """
-    log_path = Path(get_base_path(), "logs", "_log.txt")
+    log_base = Path(get_base_path(), "logs")
+    if not log_base.exists():
+        log_base.mkdir()
+    log_path = Path(log_base, f'{str(dt.now())}.txt')
     try:
         logging.basicConfig(
             level=log_level,
@@ -44,29 +48,13 @@ def get_base_path():
     return base_path
         
 
-def running_on_pythonista() -> bool:
-    """Checks if the program is running on iOS (pythonista) or MacOS (poetry-python).
-
-    Returns:
-        True if running on iOS, False if running on MacOS.
-    """
-    try:
-        import console
-
-        logging.info("Running on iOS (pythonista)")
-        return True
-    except ModuleNotFoundError:
-        logging.info("Running on MacOS (poetry-python)")
-        return False
-
-
 def get_user_prompt_directory() -> Path:
     """Retrieves the directory path for user input.
 
     Returns:
         The path to the user input directory.
     """
-    user_prompt_directory_path = Path("data", "user_response")
+    user_prompt_directory_path = Path(get_base_path(), "data", "user_response")
     if not user_prompt_directory_path.exists():
         user_prompt_directory_path.mkdir()
     return user_prompt_directory_path
