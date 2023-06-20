@@ -9,8 +9,8 @@ import logging
 from datetime import datetime as dt
 from pathlib import Path
 
-# Any script entry must have this
-# For it to work on pythonista
+# Any script entry must have this to work on iOS
+# and we can use it for alternative importing
 try:
     import set_env
     from afkode.ios.speech import speak
