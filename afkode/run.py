@@ -13,12 +13,13 @@ from pathlib import Path
 # and we can use it for alternative importing
 try:
     import set_env
+
     from afkode.ios.speech import speak
 except ModuleNotFoundError:
     from afkode import set_env
     from afkode.macos.speech import speak
 
-from afkode import action, api, voice_interface, utils
+from afkode import action, api, utils, voice_interface
 
 
 def start() -> None:
@@ -58,7 +59,9 @@ def start() -> None:
             speak("Skipping")
         else:
             # Otherwise it's not a command
-            proposed_filename_prompt = Path(utils.get_base_path(), "prompts", "programflow", "proposed_filename.txt").read_text()
+            proposed_filename_prompt = Path(
+                utils.get_base_path(), "afkode", "prompts", "programflow", "proposed_filename.txt"
+            ).read_text()
 
             # TODO, surely there is a template approach to prompts?
             proposed_filename_prompt += (

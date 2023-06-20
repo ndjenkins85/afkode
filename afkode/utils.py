@@ -2,12 +2,12 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
-import os
 import logging
+import os
 import re
 import time
-from pathlib import Path
 from datetime import datetime as dt
+from pathlib import Path
 
 from afkode.globals import *
 
@@ -21,7 +21,7 @@ def setup_logging(log_level=logging.DEBUG) -> None:
     log_base = Path(get_base_path(), "logs")
     if not log_base.exists():
         log_base.mkdir()
-    log_path = Path(log_base, f'{str(dt.now())}.txt')
+    log_path = Path(log_base, f"{str(dt.now())}.txt")
     try:
         logging.basicConfig(
             level=log_level,
@@ -42,11 +42,21 @@ def get_base_path():
     """Helps to determine where to run file activities depending on env"""
     try:
         import importlib_resources
-        base_path  = Path(*importlib_resources.files("afkode").parts[:-1])
+
+        folder_parts = importlib_resources.files("afkode").parts
+
+        # Installed version
+        if "site-packages" in folder_parts:
+            base_path = Path(Path.home(), ".afkode")
+            base_path.mkdir(exist_ok=True)
+        # Import / dev version
+        else:
+            base_path = Path(*importlib_resources.files("afkode").parts[:-1])
     except ModuleNotFoundError:
+        # Pythonista version
         base_path = Path(*Path(os.getcwd()).parts[:-1])
     return base_path
-        
+
 
 def get_user_prompt_directory() -> Path:
     """Retrieves the directory path for user input.
