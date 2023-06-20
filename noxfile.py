@@ -40,7 +40,6 @@ def lint(session: Session) -> None:
             external=True,
         )
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
-    session.run("sqlfluff", "lint", *args)
     session.run("python", "-m", "xdoctest", package, *args)
     session.run("mypy", *args)
     session.run("flake8", *args)

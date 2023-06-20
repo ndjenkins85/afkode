@@ -13,7 +13,7 @@ from afkode import api, utils
 
 
 class Command:
-    def __init__(self, transcript):
+    def __init__(self, transcript: str):
         """Initialize the Command with a transcript of the user's voice input.
 
         Args:
@@ -32,7 +32,7 @@ class Command:
             # get last info after command
             self.collate_and_choose_command(words[-1])
 
-    def collate_and_choose_command(self, command_candidate):
+    def collate_and_choose_command(self, command_candidate: str) -> None:
         """Check the 'command' directory for a file matching the command_candidate.
 
         Args:
@@ -67,8 +67,7 @@ class Command:
         self.instructions = json.loads(choose_command_response).get("parameters")
 
     def execute(self):
-        """
-        Execute the recognized command by importing its module and calling its 'execute' function.
+        """Execute the recognized command by importing its module and calling its 'execute' function.
 
         Returns:
             The result of the 'execute' function if the command was recognized, otherwise None.

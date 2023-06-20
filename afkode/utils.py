@@ -8,6 +8,7 @@ import re
 import time
 from datetime import datetime as dt
 from pathlib import Path
+from typing import List
 
 from afkode.globals import *
 
@@ -131,3 +132,28 @@ def get_files_between(folder_start, folder_transcript):
     filenames = [f"short{str(i).zfill(4)}.wav.txt" for i in range(max_start, max_transcript + 1)]
 
     return filenames
+
+
+def resolve_input_paths(input_files: List[str], exclude: List[str] = None) -> List[Path]:
+    """Given a list of file paths, test and resolve them."""
+    if not exclude:
+        exclude = []
+    if not input_files:
+        return []
+    resolved = []
+    for inp in input_files:
+        if "*" in inp:
+            if "/**/" in inp:
+                folder, search = inp.split("/**/")
+                glob = "**/" + search
+            elif "/*" in inp:
+                folder, search = inp.split("/*")
+                glob = "*" + search
+            partly_resolved = sorted(list(Path(utils.get_base_path(), "afkode", folder).glob(glob)))
+        else:
+            partly_resolved = list(Path(utils.get_base_path(), "afkode", inp))
+
+        for pr in partly_resolved:
+            if pr and pr.name not in exclude:
+                resolved.append(pr)
+    return resolved
