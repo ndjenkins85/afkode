@@ -41,17 +41,16 @@ pydub = "^0.25.1"
 gTTS = "^2.3.2"
 
 black = { version = "^23.3", optional = true }
-darglint = { version = "^0.1", optional = true }
-flake8 = { version = "^4.0", optional = true }
-flake8-annotations = { version = "^2.7", optional = true }
-flake8-bandit = { version = "^2.1", optional = true }
-flake8-bugbear = { version = "^21.9", optional = true }
-flake8-builtins = { version = "^1.5", optional = true }
-flake8-docstrings = { version = "^1.6", optional = true }
+darglint = { version = "^1.8", optional = true }
+flake8 = { version = "^6.0", optional = true }
+flake8-annotations = { version = "^3.0", optional = true }
+flake8-bandit = { version = "^4.1", optional = true }
+flake8-bugbear = { version = "^23.6", optional = true }
+flake8-builtins = { version = "^2.1", optional = true }
+flake8-docstrings = { version = "^1.7", optional = true }
 mypy = { version = "^0.910", optional = true }
-safety = { version = "^1.10", optional = true }
-sqlfluff = { version = "^0.6", optional = true }
-xdoctest = { version = "^0.15", optional = true }
+safety = { version = "^2.3", optional = true }
+xdoctest = { version = "^1.1", optional = true }
 types-PyYAML = { version = "^6.0", optional = true }
 
 pytest = { version = "^6.2", optional = true }
@@ -59,9 +58,9 @@ pytest-cases = { version = "^3.6", optional = true }
 pytest-cov = { version = "^3.0", optional = true }
 
 m2r2 = { version = "^0.3", optional = true }
-sphinx = { version = "^4.2", optional = true }
-sphinx-autodoc-typehints = { version = "^1.12", optional = true }
-sphinx_rtd_theme = { version = "^1", optional = true }
+sphinx = { version = "^6.2", optional = true }
+sphinx-autodoc-typehints = { version = "^1.23", optional = true }
+sphinx_rtd_theme = { version = "^1.2", optional = true }
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.23.1"
@@ -73,7 +72,7 @@ pre-commit = "^2.15"
 MarkupSafe = "^2.0.1"
 
 [tool.poetry.extras]
-lint = ["black", "darglint", "flake8", "mypy", "safety", "sqlfluff", "xdoctest", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-docstrings", "types-PyYAML"]
+lint = ["black", "darglint", "flake8", "mypy", "safety", "xdoctest", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake8-builtins", "flake8-docstrings", "types-PyYAML"]
 tests = ["pytest", "pytest-cases", "pytest-cov"]
 docs = ["m2r2", "sphinx", "sphinx_rtd_theme", "sphinx-autodoc-typehints"]
 
@@ -100,6 +99,7 @@ skip_glob = [
 
 [tool.mypy]
 python_version = 3.8
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = [
@@ -107,4 +107,3 @@ module = [
     'nox.*',
     'pytest'
     ]
-ignore_missing_imports = true

@@ -76,7 +76,7 @@ def speak(text) -> None:
     """Run text-to-speech on non-ios platform."""
     make_dir()
     sentences = split_text(text)
-    q = Queue()
+    q: Queue = Queue()
 
     # Start the thread that will play the audio files
     with ThreadPoolExecutor(max_workers=2) as executor:

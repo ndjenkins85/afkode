@@ -21,3 +21,7 @@
 
 """Tests for utils.py."""
 import pytest
+
+
+def test_nothing():
+    return True
