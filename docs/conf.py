@@ -34,3 +34,5 @@ version = __version__
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "sphinx_autodoc_typehints", "m2r2", "sphinx_rtd_theme"]
 source_suffix = [".rst", ".md"]
 html_theme = "sphinx_rtd_theme"
+
+autodoc_mock_imports = ["console", "speech", "importlib_resources", "objc_util"]
