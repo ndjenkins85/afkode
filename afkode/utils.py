@@ -60,6 +60,18 @@ def get_base_path():
     return base_path
 
 
+def get_prompt_path() -> Path:
+    """Helper to find prompt directory"""
+    try:
+        import importlib_resources
+
+        base_path = Path(*importlib_resources.files("afkode").parts[:-1], "afkode", "prompts")
+    except ModuleNotFoundError:
+        # Pythonista version
+        base_path = Path(*Path(os.getcwd()).parts[:-1], "afkode", "prompts")
+    return base_path
+
+
 def get_user_prompt_directory() -> Path:
     """Retrieves the directory path for user input.
 

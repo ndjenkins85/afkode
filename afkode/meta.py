@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
-'''meta-programming scripts to receive help from chatgpt on program improvements.'''
+"""meta-programming scripts to receive help from chatgpt on program improvements."""
 
 import logging
 from pathlib import Path

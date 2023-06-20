@@ -54,7 +54,7 @@ class Command:
             options += command_data + "\n\n"
 
         # Get our command prompt
-        choose_command_prompt = Path("afkode", "prompts", "programflow", "choose_command.txt").read_text()
+        choose_command_prompt = Path(utils.get_prompt_path(), "programflow", "choose_command.txt").read_text()
 
         choose_command_request = (
             choose_command_prompt + "\nUser input:" + command_candidate + f"\n{'-'*20}Options:\n" + options

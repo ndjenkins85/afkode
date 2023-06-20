@@ -59,7 +59,7 @@ def start() -> None:
             speak("Skipping")
         else:
             # Otherwise it's not a command
-            proposed_filename_prompt = Path("afkode", "prompts", "programflow", "proposed_filename.txt").read_text()
+            proposed_filename_prompt = Path(utils.get_prompt_path(), "programflow", "proposed_filename.txt").read_text()
 
             # TODO, surely there is a template approach to prompts?
             proposed_filename_prompt += (
