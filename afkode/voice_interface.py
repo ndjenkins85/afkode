@@ -14,6 +14,7 @@ from pathlib import Path
 # For it to work on pythonista
 try:
     import set_env
+
     from afkode.ios.listen import bluetooth
     from afkode.ios.speech import play_blip
 except ModuleNotFoundError:
@@ -29,7 +30,7 @@ class VoiceRecorder:
     def __init__(self):
         self.folder_base = Path(utils.get_base_path(), "data", "detect_stop")
         if not self.folder_base.exists():
-            self.folder_base.mkdir()
+            self.folder_base.mkdir(parents=True)
 
         self.whole_folder = Path(self.folder_base, "whole")
         self.short_folder = Path(self.folder_base, "short")

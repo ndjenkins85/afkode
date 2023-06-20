@@ -48,7 +48,9 @@ def get_base_path():
         # Installed version
         if "site-packages" in folder_parts:
             base_path = Path(Path.home(), ".afkode")
-            base_path.mkdir(exist_ok=True)
+            if not base_path.exists():
+                logging.info(f"Creating user data directory at {base_path}")
+                base_path.mkdir()
         # Import / dev version
         else:
             base_path = Path(*importlib_resources.files("afkode").parts[:-1])
@@ -66,7 +68,7 @@ def get_user_prompt_directory() -> Path:
     """
     user_prompt_directory_path = Path(get_base_path(), "data", "user_response")
     if not user_prompt_directory_path.exists():
-        user_prompt_directory_path.mkdir()
+        user_prompt_directory_path.mkdir(parents=True)
     return user_prompt_directory_path
 
 

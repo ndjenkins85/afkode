@@ -55,10 +55,10 @@ def play_audio(q):
 
 def make_dir() -> None:
     """Clear and setup the output directories."""
-    target = Path("data/text_to_speech")
+    target = Path(utils.get_base_path(), "data", "text_to_speech")
     if target.exists():
         shutil.rmtree(target)
-    target.mkdir()
+    target.mkdir(parents=True)
 
 
 def split_text(text):
