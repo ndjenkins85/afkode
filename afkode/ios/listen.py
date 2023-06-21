@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 import console
-from objc_util import *  # noqa: F403
+from objc_util import *  # noqa: F403, F401
 from objc_util import ObjCClass, ns
 
 
@@ -20,6 +20,9 @@ def bluetooth(file_name: str) -> Any:
     Args:
         file_name: file name to convert to an apple URL
 
+    Raises:
+        ValueError: if recorder can't be started
+
     Returns:
         recording object
     """
@@ -27,9 +30,9 @@ def bluetooth(file_name: str) -> Any:
     NSURL = ObjCClass("NSURL")
     AVAudioRecorder = ObjCClass("AVAudioRecorder")
     shared_session = AVAudioSession.sharedInstance()
-    category_set = shared_session.setCategory_withOptions_error_(
+    category_set = shared_session.setCategory_withOptions_error_(  # noqa: F841
         ns("AVAudioSessionCategoryPlayandRecord"), 4, None
-    )  # noqa: F841
+    )
     settings = {
         ns("AVFormatIDKey"): ns(1819304813),
         ns("AVSampleRateKey"): ns(22050),
@@ -45,7 +48,7 @@ def bluetooth(file_name: str) -> Any:
 
 
 def basic_record(file_name: str, record_time: float) -> None:
-    """Simple recording by time for testing
+    """Simple recording by time for testing.
 
     Args:
         file_name: file name to convert to an apple URL

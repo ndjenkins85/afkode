@@ -15,9 +15,10 @@ from afkode import utils
 
 
 class Recorder:
+    """MacOS specific audio recording."""
+
     def __init__(self, file_name: str, chunk: int = 1024, channels: int = 1, rate: int = 44100) -> None:
-        """
-        Initialize Recorder object.
+        """Initialize Recorder object.
 
         Args:
             file_name: Name of the output file.

@@ -5,6 +5,6 @@
 import pytest  # noqa: F401
 
 
-def test_nothing() -> bool:
+def test_nothing() -> None:
     """Blank test."""
-    return True
+    pass

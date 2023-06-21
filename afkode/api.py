@@ -11,7 +11,7 @@ try:
     from afkode import secrets
 
     openai.api_key = secrets.OPENAI_KEY
-except ImportError as import_err:
+except ImportError:
     try:
         openai.api_key = os.getenv("OPENAI_KEY")
     except NameError as name_err:
