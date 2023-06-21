@@ -41,10 +41,6 @@ class Command:
         Args:
             command_candidate (str): The potential command name to look for.
         """
-        command_dir = Path(utils.get_base_path(), "afkode", "commands")
-        ignore = ["__init__"]
-        command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
-
         options = utils.get_formatted_command_list()
 
         # Get our command prompt

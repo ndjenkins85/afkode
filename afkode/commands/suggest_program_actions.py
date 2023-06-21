@@ -17,10 +17,10 @@ def execute(not_used: str) -> str:
     Returns:
         Chatgpt reponse
     """
-    program_commands_prompt = Path(utils.get_prompt_path(), "debug", "program_commands.txt").read_text()
+    program_commands_prompt = Path(utils.get_prompt_path(), "debug", "program_actions.txt").read_text()
 
     readme = meta.get_formatted_readme()
-    run = utils.clean_py(Path(utils.get_base_path(), "afkode", "run.py").read_text(encoding="utf-8"))
+    run = meta.clean_py(Path(utils.get_base_path(), "afkode", "run.py").read_text(encoding="utf-8"))
     commands = utils.get_formatted_command_list()
 
     request = program_commands_prompt + "\n\n" + readme + "\n\n" + run + "\n\n" + commands

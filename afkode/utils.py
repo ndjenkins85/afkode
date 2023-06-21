@@ -179,6 +179,10 @@ def get_formatted_command_list() -> str:
         Cleaned up string with 'filename - description'
     """
     # Get all commands ready for a prompt
+    command_dir = Path(get_base_path(), "afkode", "commands")
+    ignore = ["__init__"]
+    command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
+
     options = ""
     for command_file in command_files:
         options += f"Filename: {command_file} - Description: "
