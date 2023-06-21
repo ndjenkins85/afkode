@@ -8,7 +8,7 @@ import openai
 
 # We load secrets from a python file to support pythonista
 try:
-    from afkode import secrets
+    from afkode import secrets  # type: ignore
 
     openai.api_key = secrets.OPENAI_KEY
 except ImportError:
