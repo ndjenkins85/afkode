@@ -62,7 +62,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-afkode.meta">afkode.meta</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.meta.clean_py"><code class="docutils literal notranslate"><span class="pre">clean_py()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#afkode.meta.get_readme"><code class="docutils literal notranslate"><span class="pre">get_readme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.meta.get_formatted_readme"><code class="docutils literal notranslate"><span class="pre">get_formatted_readme()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.meta.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
 </ul>
 </li>
@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.extract_number"><code class="docutils literal notranslate"><span class="pre">extract_number()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_base_path"><code class="docutils literal notranslate"><span class="pre">get_base_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_files_between"><code class="docutils literal notranslate"><span class="pre">get_files_between()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_formatted_command_list"><code class="docutils literal notranslate"><span class="pre">get_formatted_command_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_prompt_path"><code class="docutils literal notranslate"><span class="pre">get_prompt_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_directory"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_directory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_files"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_files()</span></code></a></li>
@@ -276,8 +277,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="afkode.meta.get_readme">
-<span class="sig-prename descclassname"><span class="pre">afkode.meta.</span></span><span class="sig-name descname"><span class="pre">get_readme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.meta.get_readme" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="afkode.meta.get_formatted_readme">
+<span class="sig-prename descclassname"><span class="pre">afkode.meta.</span></span><span class="sig-name descname"><span class="pre">get_formatted_readme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.meta.get_formatted_readme" title="Permalink to this definition"></a></dt>
 <dd><p>Loads first portion of the project readme.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -380,6 +381,20 @@
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of filenames for each number between the two.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_formatted_command_list">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_formatted_command_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_formatted_command_list" title="Permalink to this definition"></a></dt>
+<dd><p>Parses the command folder and produces a simple list of commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cleaned up string with ‘filename - description’</p>
 </dd>
 </dl>
 </dd></dl>
