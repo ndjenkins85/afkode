@@ -1,12 +1,16 @@
 Prompt: Choose command
 
-Your task is to determine what kind of command a user is looking to run. For context, you will be provided a short voice transcription from a user, which may contain a command and maybe additional parameters.
+Your task is to determine which command a user is looking to run given their stated intent. For context, you will be provided a short voice transcription from a user, which will indicate the type of command they want to run. You should match the user input to the best description which provides the user's intent.
+
+The possible command options are in the format: 'Filename: command -- Description: User intent input' - For example:
+
+Filename: keyword_search -- Description: The user wants to search through their transcriptions with a keyword or phrase.
 
 Output format must be followed strictly, you should provide a JSON output with the following properties. Do not provide any further justification or explanation for your output.
 - command: the file name of the command
 - parameters: any further text that appears along with the command
 
-If you don't think the user is entering any command, or no command suitably matches, you should return a blank JSON like {}.
+If you don't think the user is entering any command, or no command suitably matches, you should return a blank JSON like {}. You must not make up any commands that do not appear in the provided list.
 
 The following input will be in two parts:
 - The next text after these instructions will be the user input that needs to be assigned to a command

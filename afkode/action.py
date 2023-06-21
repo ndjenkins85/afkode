@@ -24,7 +24,7 @@ class Command:
         """
         self.transcript = transcript.lower()
         self.command = None
-        self.instructions = None
+        self.instructions = ""
 
         self._parse_transcript()
 
@@ -48,13 +48,22 @@ class Command:
         # Get all commands ready for a prompt
         options = ""
         for command_file in command_files:
-            options += command_file + "\n"
+            options += f"Filename: {command_file} - Description: "
             command_data = Path(command_dir, f"{command_file}.py").read_text(encoding="utf-8")
-            drop = "# -*- coding: utf-8 -*-\n# Copyright © 2023 by Nick Jenkins. All rights reserved"
-            command_data = command_data.replace(drop, "")
-            # Ignore the code after the docstrings and definition, as it may contain prompt info
-            command_data = command_data.split(") -> str:")[0]
-            options += command_data + "\n\n"
+            # Use the start of the docstring as the description
+            description_start_tag = ' -> str:\n    """'
+            description_end_tag = "    Args:"
+            try:
+                description = (
+                    command_data.split(description_start_tag)[1]
+                    .split(description_end_tag)[0]
+                    .replace("\n", "")
+                    .replace("  ", " ")
+                )
+            except:
+                logging.warning(f"Could not parse {command_file} in standard way")
+                continue
+            options += description + "\n"
 
         # Get our command prompt
         choose_command_prompt = Path(utils.get_prompt_path(), "programflow", "choose_command.txt").read_text()
@@ -62,7 +71,7 @@ class Command:
         choose_command_request = (
             choose_command_prompt + "\nUser input:" + command_candidate + f"\n{'-'*20}Options:\n" + options
         )
-        choose_command_response = api.chatgpt(choose_command_request, model="gpt-3.5-turbo-16k")
+        choose_command_response = api.chatgpt(choose_command_request)
         logging.debug(f"Request: {choose_command_request}")
         logging.info(f"Command: {choose_command_response}")
 

@@ -6,9 +6,10 @@ from afkode import api
 
 
 def execute(optional_additional_instructions: str) -> str:
-    """This file is a template to help create new commands. This section is the file documentation.
+    """This file is only a template and doesn't perform any useful actions.
 
-    in which it is important to put information about what the command is, and how it helps the user perform tasks
+    It is useful to help an AI agent interpret how to create new commands.
+    This section is the docstring documentation which describes user intent.
 
     Args:
         optional_additional_instructions: optional_additional_instructions
