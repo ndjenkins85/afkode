@@ -17,6 +17,9 @@ jobs:
         python-version: '3.8'
         architecture: x64
 
+    - name: Get dependencies
+      run: sudo apt-get install portaudio19-dev
+
     - name: Install Nox
       run: pip install nox==2023.04.22
 
