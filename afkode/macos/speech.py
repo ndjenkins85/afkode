@@ -22,6 +22,7 @@ def text_to_speech(sentence: str, idx: int) -> str:
 
     Args:
         sentence: input text to be spoken
+        idx: index, to increment filename
 
     Returns:
         Saves a filename for further playing
@@ -36,7 +37,11 @@ def text_to_speech(sentence: str, idx: int) -> str:
 
 
 def play_audio(q: Queue) -> None:
-    """Play audio files in the queue."""
+    """Play audio files in the queue.
+
+    Args:
+        q: Queue for getting through speech.
+    """
     played_files = set()
 
     while True:
@@ -72,6 +77,9 @@ def split_text(text: str) -> List[str]:
 
     Args:
         text: text to be split into different spoken sections.
+
+    Returns:
+        List to split text into sections for speech engine.
     """
     # This regular expression matches either a full stop followed by a space or a new line.
     splits = re.split(r"\. |\n|\.\n", text)
@@ -84,7 +92,11 @@ def split_text(text: str) -> List[str]:
 
 
 def speak(text: str) -> None:
-    """Run text-to-speech on non-ios platform."""
+    """Run text-to-speech on non-ios platform.
+
+    Args:
+        text: full text to be spoken.
+    """
     make_dir()
     sentences = split_text(text)
     q: Queue = Queue()

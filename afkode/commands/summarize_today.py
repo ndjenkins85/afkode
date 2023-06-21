@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
-
-"""The user wants to use an AI program to summarize many different text files in a folder,
-specifically ones with today's date.
-"""
+"""Custom command."""
 
 from datetime import datetime as dt
 from pathlib import Path
@@ -11,7 +8,17 @@ from pathlib import Path
 from afkode import api, utils
 
 
-def execute(all_additional_instructions_provided_after_command) -> str:
+def execute(all_additional_instructions_provided_after_command: str) -> str:
+    """The user wants to use an AI program to summarize many different text files in a folder.
+
+    Specifically ones with today's date.
+
+    Args:
+        all_additional_instructions_provided_after_command: all_additional_instructions_provided_after_command
+
+    Returns:
+        Chatgpt reponse
+    """
     today = str(dt.now())[:10]
     todays_files = sorted(
         [x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt") if x.name[:10] == today]

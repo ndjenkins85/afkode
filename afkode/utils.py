@@ -7,7 +7,7 @@ import os
 import re
 from datetime import datetime as dt
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 
 def setup_logging(log_level: int = logging.DEBUG) -> None:
@@ -37,7 +37,11 @@ def setup_logging(log_level: int = logging.DEBUG) -> None:
 
 
 def get_base_path() -> Path:
-    """Helps to determine where to run file activities depending on env"""
+    """Helps to determine where to run file activities depending on env.
+
+    Returns:
+        Resolved base path of program
+    """
     try:
         import importlib_resources
 
@@ -59,7 +63,11 @@ def get_base_path() -> Path:
 
 
 def get_prompt_path() -> Path:
-    """Helper to find prompt directory"""
+    """Helper to find prompt directory.
+
+    Returns:
+        Resolved base path of prompt directory.
+    """
     try:
         import importlib_resources
 
@@ -91,7 +99,7 @@ def get_user_prompt_files() -> str:
     return "\n".join([x.name.replace(".txt", "") for x in get_user_prompt_directory().iterdir()])
 
 
-def extract_number(filename: str) -> Optional[int]:
+def extract_number(filename: str) -> int:
     """Extracts a number from a filename using regular expressions.
 
     Args:
@@ -101,10 +109,10 @@ def extract_number(filename: str) -> Optional[int]:
         The extracted number, or None if no number is found.
     """
     match = re.search(r"\d+", filename)
-    return int(match.group()) if match else None
+    return int(match.group()) if match else 0
 
 
-def get_files_between(folder_start: str, folder_transcript: str) -> List[str]:
+def get_files_between(folder_start: Path, folder_transcript: Path) -> List[str]:
     """Gets a list of filenames between two folders based on the file numbering.
 
     Args:
@@ -122,8 +130,8 @@ def get_files_between(folder_start: str, folder_transcript: str) -> List[str]:
     numbers_start = [extract_number(f.stem) for f in files_start]
     numbers_transcript = [extract_number(f.stem) for f in files_transcript]
 
-    max_start = max(numbers_start) if numbers_start else 1
-    max_transcript = max(numbers_transcript) if numbers_transcript else 1
+    max_start = max(numbers_start) if len(numbers_start) > 0 else 1
+    max_transcript = max(numbers_transcript) if len(numbers_start) > 0 else 1
 
     # Generate filenames for each number between max_start and max_transcript
     filenames = [f"short{str(i).zfill(4)}.wav.txt" for i in range(max_start, max_transcript + 1)]

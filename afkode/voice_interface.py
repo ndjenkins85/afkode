@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
+"""Main controller for voice recording and stop detection."""
 
 import logging
 import os
@@ -13,17 +14,17 @@ from pathlib import Path
 # Any script entry must have this
 # For it to work on pythonista
 try:
-    import set_env
+    import set_env  # noqa: F401
 
     from afkode.ios.listen import bluetooth
     from afkode.ios.speech import play_blip
 except ModuleNotFoundError:
-    from afkode import set_env
+    from afkode import set_env  # noqa: F401
     from afkode.macos.listen import bluetooth
     from afkode.macos.speech import play_blip
 
 from afkode import api, utils
-from afkode.globals import stop_threads
+from afkode.globals import *  # noqa: F403, F401
 
 
 class VoiceRecorder:
@@ -104,7 +105,11 @@ class VoiceRecorder:
                         break
 
     def transcribe_whole(self) -> str:
-        """Perform final transcribe, removing text after stopword."""
+        """Perform final transcribe, removing text after stopword.
+
+        Returns:
+            Transcribed text
+        """
         time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = api.whisper(str(whole_path))
@@ -123,14 +128,14 @@ class VoiceRecorder:
         return transcription
 
     def clear_data(self) -> None:
-        """clear input and output folders."""
+        """Clear input and output folders."""
         try:
             shutil.rmtree(self.whole_folder)
             shutil.rmtree(self.short_folder)
             shutil.rmtree(self.transcript_folder)
             shutil.rmtree(self.start_folder)
-        except:
-            pass
+        except Exception:
+            logging.info("No folder removal needed")
         self.whole_folder.mkdir()
         self.short_folder.mkdir()
         self.transcript_folder.mkdir()
@@ -152,7 +157,11 @@ class VoiceRecorder:
         self.combine_wav_files()
 
     def simple_record(self) -> str:
-        """Used for confirmations."""
+        """Used for confirmations.
+
+        Returns:
+            Transcription of recorded text
+        """
         file_name = Path(self.whole_folder, "confirm" + self.file_ext)
         recorder = bluetooth(str(file_name))
         recorder.record()
@@ -160,15 +169,16 @@ class VoiceRecorder:
         recorder.stop()
         recorder.release()
 
-        transcription = api.whisper(str(file_path)).lower()
+        transcription = api.whisper(str(file_name)).lower()
         return transcription
 
-    def combine_wav_files(self):
+    def combine_wav_files(self) -> None:
+        """Combines several .wav files into a single one for transcription."""
         output_filename = Path(self.whole_folder, "whole" + self.file_ext)
 
         # Gets list of files between latest start and latest stop
-        combine_audio_list = utils.get_files_between(self.start_folder, self.transcript_folder)
-        combine_audio_list = [Path(self.short_folder, str(x).replace(".txt", "")) for x in combine_audio_list]
+        combine_audio_list_raw = utils.get_files_between(self.start_folder, self.transcript_folder)
+        combine_audio_list = [Path(self.short_folder, str(x).replace(".txt", "")) for x in combine_audio_list_raw]
 
         with wave.open(str(output_filename), "wb") as output_wav:
             # Process each input file
