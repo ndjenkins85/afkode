@@ -149,9 +149,9 @@ def resolve_input_paths(input_files: List[str], exclude: List[str] = None) -> Li
             elif "/*" in inp:
                 folder, search = inp.split("/*")
                 glob = "*" + search
-            partly_resolved = sorted(list(Path(utils.get_base_path(), "afkode", folder).glob(glob)))
+            partly_resolved = sorted(list(Path(get_base_path(), "afkode", folder).glob(glob)))
         else:
-            partly_resolved = list(Path(utils.get_base_path(), "afkode", inp))
+            partly_resolved = [Path(get_base_path(), "afkode", inp)]
 
         for pr in partly_resolved:
             if pr and pr.name not in exclude:

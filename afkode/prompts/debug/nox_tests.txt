@@ -1,0 +1,25 @@
+Prompt: Fix code quality
+
+Your task is to assist the user in fixing some flake8 code quality recommendations.
+
+You will be provided a copy of the current code followed by the list of problems raised by flake8.
+
+You should provide a summary of the main problems with the code in plain english, then provide a full copy of the fixed code file.
+
+
+Code problems:
+------------
+
+afkode/action.py:15:1: D101 Missing docstring in public class
+afkode/action.py:16:18: ANN101 Missing type annotation for self in method
+afkode/action.py:16:24: ANN001 Missing type annotation for function argument 'transcript'
+afkode/action.py:16:35: ANN204 Missing return type annotation for special method
+afkode/action.py:28:27: ANN101 Missing type annotation for self in method
+afkode/action.py:28:32: ANN202 Missing return type annotation for protected function
+afkode/action.py:35:36: ANN101 Missing type annotation for self in method
+afkode/action.py:35:42: ANN001 Missing type annotation for function argument 'command_candidate'
+afkode/action.py:35:60: ANN201 Missing return type annotation for public function
+afkode/action.py:69:17: ANN101 Missing type annotation for self in method
+afkode/action.py:69:22: ANN201 Missing return type annotation for public function
+afkode/action.py:70:1: D212 Multi-line docstring summary should start at the first line
+afkode/action.py:76:1: DAR402 Excess exception(s) in Raises section: +r ValueError
