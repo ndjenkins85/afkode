@@ -27,7 +27,10 @@ from afkode.globals import stop_threads
 
 
 class VoiceRecorder:
-    def __init__(self):
+    """Main controller for voice recording and stop deteection."""
+
+    def __init__(self) -> None:
+        """Initialize the VoiceRecorder."""
         self.folder_base = Path(utils.get_base_path(), "data", "detect_stop")
         if not self.folder_base.exists():
             self.folder_base.mkdir(parents=True)
@@ -44,7 +47,7 @@ class VoiceRecorder:
         self.stop_word = "stop"
         self.size_threshold_bytes = 10 * 1024
 
-    def short_recording(self):
+    def short_recording(self) -> None:
         """We use shorter recordings for stop word detection every few seconds."""
         global stop_threads
         time.sleep(1)  # Add a slight delay for the recording
@@ -53,7 +56,7 @@ class VoiceRecorder:
             file_name = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
             recorder = bluetooth(str(file_name))
             recorder.record()
-            for i in range(int(self.short_time / self.tick)):
+            for _ in range(int(self.short_time / self.tick)):
                 time.sleep(self.tick)
                 if stop_threads:
                     break
@@ -61,8 +64,8 @@ class VoiceRecorder:
             recorder.release()
             file_counter += 1
 
-    def transcribe_and_detect_stop(self):
-        """This process looks for short recordings, transcribes, and looks for stopwords then signals to stop threads."""
+    def transcribe_and_detect_stop(self) -> None:
+        """Transcribe short recordings and detect stop words."""
         global stop_threads
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
@@ -100,7 +103,7 @@ class VoiceRecorder:
                         logging.debug("Transcribe stopped")
                         break
 
-    def transcribe_whole(self):
+    def transcribe_whole(self) -> str:
         """Perform final transcribe, removing text after stopword."""
         time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
@@ -119,8 +122,8 @@ class VoiceRecorder:
         whole_output_path.write_text(transcription, encoding="utf-8")
         return transcription
 
-    def clear_data(self):
-        # clear input and output folders
+    def clear_data(self) -> None:
+        """clear input and output folders."""
         try:
             shutil.rmtree(self.whole_folder)
             shutil.rmtree(self.short_folder)
@@ -133,7 +136,8 @@ class VoiceRecorder:
         self.transcript_folder.mkdir()
         self.start_folder.mkdir()
 
-    def start_detection(self):
+    def start_detection(self) -> None:
+        """Start the voice detection process."""
         global stop_threads
         stop_threads = False
         # start threads
@@ -147,7 +151,7 @@ class VoiceRecorder:
             thread.join()
         self.combine_wav_files()
 
-    def simple_record(self):
+    def simple_record(self) -> str:
         """Used for confirmations."""
         file_name = Path(self.whole_folder, "confirm" + self.file_ext)
         recorder = bluetooth(str(file_name))

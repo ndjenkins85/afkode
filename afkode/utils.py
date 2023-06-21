@@ -5,15 +5,12 @@
 import logging
 import os
 import re
-import time
 from datetime import datetime as dt
 from pathlib import Path
-from typing import List
-
-from afkode.globals import *
+from typing import List, Optional
 
 
-def setup_logging(log_level=logging.DEBUG) -> None:
+def setup_logging(log_level: int = logging.DEBUG) -> None:
     """Configures the logging settings for the application.
 
     Args:
@@ -39,7 +36,7 @@ def setup_logging(log_level=logging.DEBUG) -> None:
         logging.warning(msg)
 
 
-def get_base_path():
+def get_base_path() -> Path:
     """Helps to determine where to run file activities depending on env"""
     try:
         import importlib_resources
@@ -94,7 +91,7 @@ def get_user_prompt_files() -> str:
     return "\n".join([x.name.replace(".txt", "") for x in get_user_prompt_directory().iterdir()])
 
 
-def extract_number(filename):
+def extract_number(filename: str) -> Optional[int]:
     """Extracts a number from a filename using regular expressions.
 
     Args:
@@ -107,7 +104,7 @@ def extract_number(filename):
     return int(match.group()) if match else None
 
 
-def get_files_between(folder_start, folder_transcript):
+def get_files_between(folder_start: str, folder_transcript: str) -> List[str]:
     """Gets a list of filenames between two folders based on the file numbering.
 
     Args:
@@ -135,7 +132,15 @@ def get_files_between(folder_start, folder_transcript):
 
 
 def resolve_input_paths(input_files: List[str], exclude: List[str] = None) -> List[Path]:
-    """Given a list of file paths, test and resolve them."""
+    """Given a list of file paths, test and resolve them.
+
+    Args:
+        input_files: The list of input file paths.
+        exclude: The list of files to exclude. Default is None.
+
+    Returns:
+        The list of resolved paths.
+    """
     if not exclude:
         exclude = []
     if not input_files:

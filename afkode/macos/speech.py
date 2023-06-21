@@ -8,7 +8,7 @@ import shutil
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from queue import Queue
-from typing import List, Optional
+from typing import List
 
 from gtts import gTTS
 from pydub import AudioSegment
@@ -18,7 +18,14 @@ from afkode import utils
 
 
 def text_to_speech(sentence: str, idx: int) -> str:
-    # Create a gTTS object
+    """Create a gTTS object.
+
+    Args:
+        sentence: input text to be spoken
+
+    Returns:
+        Saves a filename for further playing
+    """
     logging.info(f">>>{sentence}")
     tts = gTTS(text=sentence, lang="en", tld="com.au")
 
@@ -60,8 +67,12 @@ def make_dir() -> None:
     target.mkdir(parents=True)
 
 
-def split_text(text):
-    """Split the given text into sentences."""
+def split_text(text: str) -> List[str]:
+    """Split the given text into sentences.
+
+    Args:
+        text: text to be split into different spoken sections.
+    """
     # This regular expression matches either a full stop followed by a space or a new line.
     splits = re.split(r"\. |\n|\.\n", text)
 

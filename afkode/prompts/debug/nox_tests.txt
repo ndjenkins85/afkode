@@ -9,17 +9,17 @@ You should provide a summary of the main problems with the code in plain english
 
 Code problems:
 ------------
-afkode/macos/speech.py:21:1: D103 Missing docstring in public function
-afkode/macos/speech.py:21:20: ANN001 Missing type annotation for function argument 'sentence'
-afkode/macos/speech.py:21:30: ANN001 Missing type annotation for function argument 'idx'
-afkode/macos/speech.py:22:0: ANN201 Missing return type annotation for public function
-afkode/macos/speech.py:33:1: D103 Missing docstring in public function
-afkode/macos/speech.py:33:16: ANN001 Missing type annotation for function argument 'q'
-afkode/macos/speech.py:33:18: ANN201 Missing return type annotation for public function
-afkode/macos/speech.py:64:1: D103 Missing docstring in public function
-afkode/macos/speech.py:64:16: ANN001 Missing type annotation for function argument 'text'
-afkode/macos/speech.py:65:0: ANN201 Missing return type annotation for public function
-afkode/macos/speech.py:66:24: W605 invalid escape sequence '\.'
-afkode/macos/speech.py:66:31: W605 invalid escape sequence '\.'
-afkode/macos/speech.py:75:11: ANN001 Missing type annotation for function argument 'text'
-afkode/macos/speech.py:76:1: DAR101 Missing parameter(s) in Docstring: - text
+afkode/utils.py:16:19: ANN001 Missing type annotation for function argument 'log_level'
+afkode/utils.py:42:20: ANN201 Missing return type annotation for public function
+afkode/utils.py:43:1: DAR201 Missing "Returns" in Docstring: - return
+afkode/utils.py:43:1: D415 First line should end with a period, question mark, or exclamation point
+afkode/utils.py:65:1: DAR201 Missing "Returns" in Docstring: - return
+afkode/utils.py:65:1: D415 First line should end with a period, question mark, or exclamation point
+afkode/utils.py:97:20: ANN001 Missing type annotation for function argument 'filename'
+afkode/utils.py:97:29: ANN201 Missing return type annotation for public function
+afkode/utils.py:110:23: ANN001 Missing type annotation for function argument 'folder_start'
+afkode/utils.py:110:37: ANN001 Missing type annotation for function argument 'folder_transcript'
+afkode/utils.py:110:55: ANN201 Missing return type annotation for public function
+afkode/utils.py:138:1: DAR101 Missing parameter(s) in Docstring: - exclude
+afkode/utils.py:138:1: DAR101 Missing parameter(s) in Docstring: - input_files
+afkode/utils.py:138:1: DAR201 Missing "Returns" in Docstring: - return

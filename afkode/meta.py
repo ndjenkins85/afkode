@@ -18,20 +18,38 @@ from afkode import api, utils
 
 
 def get_readme() -> str:
-    """Loads first portion of the project readme."""
+    """Loads first portion of the project readme.
+
+    Returns:
+        Cleaned up readme string only taking first part.
+    """
     readme = Path(utils.get_base_path(), "README.md").read_text(encoding="utf-8")
     clean_readme = readme.split("## Contents")[0]
     return clean_readme
 
 
 def clean_py(python_text: str) -> str:
+    """Loads first portion of the project readme.
+
+    Args:
+        python_text: input text of loaded python file
+
+    Returns:
+        Removes top text from file
+    """
     remove = "# -*- coding: utf-8 -*-\n# Copyright © 2023 by Nick Jenkins. All rights reserved"
     clean_python_text = python_text.replace(remove, "")
     return clean_python_text
 
 
-def start(prompt: str = None, input_files: List[Path] = None, execute: bool = False):
-    """Conduct an adhoc analysis on the codebase."""
+def start(prompt: str = None, input_files: List[Path] = None, execute: bool = False) -> None:
+    """Conduct an adhoc analysis on the codebase.
+
+    Args:
+        prompt: text of the LLM prompt
+        input_files: list of paths to include in the prompt
+        execute: whether to run on LLM or not
+    """
     request = ""
     if prompt:
         request += prompt + "\n"
