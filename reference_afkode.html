@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFKode API &mdash; afkode  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="AFKode - Speak it, Save it, AFKode it!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            afkode
+          </a>
+              <div class="version">
+                0.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AFKode API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.action">afkode.action</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.action.Command"><code class="docutils literal notranslate"><span class="pre">Command</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.action.Command.collate_and_choose_command"><code class="docutils literal notranslate"><span class="pre">Command.collate_and_choose_command()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.action.Command.execute"><code class="docutils literal notranslate"><span class="pre">Command.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.api">afkode.api</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.api.chatgpt"><code class="docutils literal notranslate"><span class="pre">chatgpt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.api.whisper"><code class="docutils literal notranslate"><span class="pre">whisper()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.meta">afkode.meta</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.meta.clean_py"><code class="docutils literal notranslate"><span class="pre">clean_py()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.meta.get_readme"><code class="docutils literal notranslate"><span class="pre">get_readme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.meta.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.run">afkode.run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.run.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.set_env">afkode.set_env</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.utils">afkode.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.extract_number"><code class="docutils literal notranslate"><span class="pre">extract_number()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_base_path"><code class="docutils literal notranslate"><span class="pre">get_base_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_files_between"><code class="docutils literal notranslate"><span class="pre">get_files_between()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_prompt_path"><code class="docutils literal notranslate"><span class="pre">get_prompt_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_directory"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_files"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.resolve_input_paths"><code class="docutils literal notranslate"><span class="pre">resolve_input_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.setup_logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.voice_interface">afkode.voice_interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.clear_data"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.clear_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.combine_wav_files"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.combine_wav_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.short_recording"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.short_recording()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.simple_record"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.simple_record()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.start_detection"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.start_detection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.transcribe_and_detect_stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.transcribe_whole"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.transcribe_whole()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.ios.listen">afkode.ios.listen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.listen.basic_record"><code class="docutils literal notranslate"><span class="pre">basic_record()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.listen.bluetooth"><code class="docutils literal notranslate"><span class="pre">bluetooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.ios.speech">afkode.ios.speech</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.speech.play_blip"><code class="docutils literal notranslate"><span class="pre">play_blip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.speech.speak"><code class="docutils literal notranslate"><span class="pre">speak()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.macos.listen">afkode.macos.listen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.listen.Recorder"><code class="docutils literal notranslate"><span class="pre">Recorder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.macos.listen.Recorder.record"><code class="docutils literal notranslate"><span class="pre">Recorder.record()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.macos.listen.Recorder.release"><code class="docutils literal notranslate"><span class="pre">Recorder.release()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.macos.listen.Recorder.stop"><code class="docutils literal notranslate"><span class="pre">Recorder.stop()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.listen.basic_record"><code class="docutils literal notranslate"><span class="pre">basic_record()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.listen.bluetooth"><code class="docutils literal notranslate"><span class="pre">bluetooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.macos.speech">afkode.macos.speech</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.make_dir"><code class="docutils literal notranslate"><span class="pre">make_dir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.play_audio"><code class="docutils literal notranslate"><span class="pre">play_audio()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.play_blip"><code class="docutils literal notranslate"><span class="pre">play_blip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.speak"><code class="docutils literal notranslate"><span class="pre">speak()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.split_text"><code class="docutils literal notranslate"><span class="pre">split_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.text_to_speech"><code class="docutils literal notranslate"><span class="pre">text_to_speech()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">afkode</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AFKode API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference_afkode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="afkode-api">
+<h1>AFKode API<a class="headerlink" href="#afkode-api" title="Permalink to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#module-afkode.action" id="id2">afkode.action</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.api" id="id3">afkode.api</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.meta" id="id4">afkode.meta</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.run" id="id5">afkode.run</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.set_env" id="id6">afkode.set_env</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.utils" id="id7">afkode.utils</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.voice_interface" id="id8">afkode.voice_interface</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.ios.listen" id="id9">afkode.ios.listen</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.ios.speech" id="id10">afkode.ios.speech</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.macos.listen" id="id11">afkode.macos.listen</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.macos.speech" id="id12">afkode.macos.speech</a></p></li>
+</ul>
+</nav>
+<p>Provides voice note taking functionality with Whisper and ChatGPT</p>
+<section id="module-afkode.action">
+<span id="afkode-action"></span><h2>afkode.action<a class="headerlink" href="#module-afkode.action" title="Permalink to this heading"></a></h2>
+<p>This module provides a Command class for recognizing and executing voice commands.</p>
+<p>Each command corresponds to a Python file in the ‘command’ directory with an ‘execute’ function.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="afkode.action.Command">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">afkode.action.</span></span><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.action.Command" title="Permalink to this definition"></a></dt>
+<dd><p>Allows for selection of commands from extra folder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.action.Command.collate_and_choose_command">
+<span class="sig-name descname"><span class="pre">collate_and_choose_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_candidate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.action.Command.collate_and_choose_command" title="Permalink to this definition"></a></dt>
+<dd><p>Check the ‘command’ directory for a file matching the command_candidate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>command_candidate</strong> (<em>str</em>) – The potential command name to look for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.action.Command.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.action.Command.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the recognized command by importing its module and calling its ‘execute’ function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The result of the ‘execute’ function if the command was recognized, otherwise None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ImportError</strong> – If the command was not recognized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-afkode.api">
+<span id="id1"></span><h2>afkode.api<a class="headerlink" href="#module-afkode.api" title="Permalink to this heading"></a></h2>
+<p>This file contains functions related to interacting with external API systems.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.api.chatgpt">
+<span class="sig-prename descclassname"><span class="pre">afkode.api.</span></span><span class="sig-name descname"><span class="pre">chatgpt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.api.chatgpt" title="Permalink to this definition"></a></dt>
+<dd><p>Sends a prompt to the ChatGPT API for chat-based language generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prompt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The prompt text.</p></li>
+<li><p><strong>model</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the model to use. Default is “gpt-3.5-turbo”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The generated text response.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.api.whisper">
+<span class="sig-prename descclassname"><span class="pre">afkode.api.</span></span><span class="sig-name descname"><span class="pre">whisper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.api.whisper" title="Permalink to this definition"></a></dt>
+<dd><p>Transcribes audio from the specified file path using the Whisper API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The path to the audio file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The transcribed text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.meta">
+<span id="afkode-meta"></span><h2>afkode.meta<a class="headerlink" href="#module-afkode.meta" title="Permalink to this heading"></a></h2>
+<p>meta-programming scripts to receive help from chatgpt on program improvements.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.meta.clean_py">
+<span class="sig-prename descclassname"><span class="pre">afkode.meta.</span></span><span class="sig-name descname"><span class="pre">clean_py</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">python_text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.meta.clean_py" title="Permalink to this definition"></a></dt>
+<dd><p>Loads first portion of the project readme.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>python_text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – input text of loaded python file</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Removes top text from file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.meta.get_readme">
+<span class="sig-prename descclassname"><span class="pre">afkode.meta.</span></span><span class="sig-name descname"><span class="pre">get_readme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.meta.get_readme" title="Permalink to this definition"></a></dt>
+<dd><p>Loads first portion of the project readme.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cleaned up readme string only taking first part.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.meta.start">
+<span class="sig-prename descclassname"><span class="pre">afkode.meta.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.meta.start" title="Permalink to this definition"></a></dt>
+<dd><p>Conduct an adhoc analysis on the codebase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prompt</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – text of the LLM prompt</p></li>
+<li><p><strong>input_files</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]]) – list of paths to include in the prompt</p></li>
+<li><p><strong>execute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – whether to run on LLM or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.run">
+<span id="afkode-run"></span><h2>afkode.run<a class="headerlink" href="#module-afkode.run" title="Permalink to this heading"></a></h2>
+<p>This file is the main entry point of the AFKode program.</p>
+<p>It handles the execution of the program and orchestrates the different components.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.run.start">
+<span class="sig-prename descclassname"><span class="pre">afkode.run.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.run.start" title="Permalink to this definition"></a></dt>
+<dd><p>Begins the AFKode program and handles the user interaction and file operations.</p>
+<p>The program records voice input, transcribes it, and performs various operations based on the user’s commands.</p>
+<p>It includes the main program loop, which only exits when specifically commanded by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.set_env">
+<span id="afkode-set-env"></span><h2>afkode.set_env<a class="headerlink" href="#module-afkode.set_env" title="Permalink to this heading"></a></h2>
+<p>This script helps imports on Pythonista or MacOS.</p>
+</section>
+<section id="module-afkode.utils">
+<span id="afkode-utils"></span><h2>afkode.utils<a class="headerlink" href="#module-afkode.utils" title="Permalink to this heading"></a></h2>
+<p>Contains utility functions used throughout the AFKode project.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.extract_number">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">extract_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.extract_number" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts a number from a filename using regular expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The extracted number, or None if no number is found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_base_path">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_base_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_base_path" title="Permalink to this definition"></a></dt>
+<dd><p>Helps to determine where to run file activities depending on env.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved base path of program</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_files_between">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_files_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_transcript</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_files_between" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of filenames between two folders based on the file numbering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder_start</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – The starting folder.</p></li>
+<li><p><strong>folder_transcript</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – The ending folder.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of filenames for each number between the two.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_prompt_path">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_prompt_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_prompt_path" title="Permalink to this definition"></a></dt>
+<dd><p>Helper to find prompt directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved base path of prompt directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_user_prompt_directory">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_user_prompt_directory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_user_prompt_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the directory path for user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The path to the user input directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.get_user_prompt_files">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_user_prompt_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_user_prompt_files" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves a string of all the filenames in the user input directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The string of filenames.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.resolve_input_paths">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">resolve_input_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.resolve_input_paths" title="Permalink to this definition"></a></dt>
+<dd><p>Given a list of file paths, test and resolve them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_files</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The list of input file paths.</p></li>
+<li><p><strong>exclude</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – The list of files to exclude. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of resolved paths.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.setup_logging">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">setup_logging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.setup_logging" title="Permalink to this definition"></a></dt>
+<dd><p>Configures the logging settings for the application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_level</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The log level to set. Default is DEBUG.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.voice_interface">
+<span id="afkode-voice-interface"></span><h2>afkode.voice_interface<a class="headerlink" href="#module-afkode.voice_interface" title="Permalink to this heading"></a></h2>
+<p>Main controller for voice recording and stop detection.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">afkode.voice_interface.</span></span><span class="sig-name descname"><span class="pre">VoiceRecorder</span></span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder" title="Permalink to this definition"></a></dt>
+<dd><p>Main controller for voice recording and stop deteection.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.clear_data">
+<span class="sig-name descname"><span class="pre">clear_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.clear_data" title="Permalink to this definition"></a></dt>
+<dd><p>Clear input and output folders.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.combine_wav_files">
+<span class="sig-name descname"><span class="pre">combine_wav_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.combine_wav_files" title="Permalink to this definition"></a></dt>
+<dd><p>Combines several .wav files into a single one for transcription.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.short_recording">
+<span class="sig-name descname"><span class="pre">short_recording</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.short_recording" title="Permalink to this definition"></a></dt>
+<dd><p>We use shorter recordings for stop word detection every few seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.simple_record">
+<span class="sig-name descname"><span class="pre">simple_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.simple_record" title="Permalink to this definition"></a></dt>
+<dd><p>Used for confirmations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transcription of recorded text</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.start_detection">
+<span class="sig-name descname"><span class="pre">start_detection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.start_detection" title="Permalink to this definition"></a></dt>
+<dd><p>Start the voice detection process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop">
+<span class="sig-name descname"><span class="pre">transcribe_and_detect_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop" title="Permalink to this definition"></a></dt>
+<dd><p>Transcribe short recordings and detect stop words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.transcribe_whole">
+<span class="sig-name descname"><span class="pre">transcribe_whole</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.transcribe_whole" title="Permalink to this definition"></a></dt>
+<dd><p>Perform final transcribe, removing text after stopword.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transcribed text</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-afkode.ios.listen">
+<span id="afkode-ios-listen"></span><h2>afkode.ios.listen<a class="headerlink" href="#module-afkode.ios.listen" title="Permalink to this heading"></a></h2>
+<p>Contains functions related to recording speech on iOS with pythonista.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.listen.basic_record">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.listen.</span></span><span class="sig-name descname"><span class="pre">basic_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.listen.basic_record" title="Permalink to this definition"></a></dt>
+<dd><p>Simple recording by time for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – file name to convert to an apple URL</p></li>
+<li><p><strong>record_time</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – record using a sleep timer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.listen.bluetooth">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.listen.</span></span><span class="sig-name descname"><span class="pre">bluetooth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.listen.bluetooth" title="Permalink to this definition"></a></dt>
+<dd><p>Instanciate bluetooth audio for recording.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – file name to convert to an apple URL</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if recorder can’t be started</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>recording object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.ios.speech">
+<span id="afkode-ios-speech"></span><h2>afkode.ios.speech<a class="headerlink" href="#module-afkode.ios.speech" title="Permalink to this heading"></a></h2>
+<p>Contains functions related to text-to-speech on iOS with pythonista.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.speech.play_blip">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.speech.</span></span><span class="sig-name descname"><span class="pre">play_blip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.speech.play_blip" title="Permalink to this definition"></a></dt>
+<dd><p>Play a short sound to help notify of API speed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.speech.speak">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.speech.</span></span><span class="sig-name descname"><span class="pre">speak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.speech.speak" title="Permalink to this definition"></a></dt>
+<dd><p>Say the text using iOS capability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – text to say</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.macos.listen">
+<span id="afkode-macos-listen"></span><h2>afkode.macos.listen<a class="headerlink" href="#module-afkode.macos.listen" title="Permalink to this heading"></a></h2>
+<p>Contains functions related to recording speech on MacOS.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="afkode.macos.listen.Recorder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">afkode.macos.listen.</span></span><span class="sig-name descname"><span class="pre">Recorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">44100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.Recorder" title="Permalink to this definition"></a></dt>
+<dd><p>MacOS specific audio recording.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.macos.listen.Recorder.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.Recorder.record" title="Permalink to this definition"></a></dt>
+<dd><p>Start recording audio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.macos.listen.Recorder.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.Recorder.release" title="Permalink to this definition"></a></dt>
+<dd><p>Release recorded audio and save to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.macos.listen.Recorder.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.Recorder.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop recording audio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.listen.basic_record">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.listen.</span></span><span class="sig-name descname"><span class="pre">basic_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.basic_record" title="Permalink to this definition"></a></dt>
+<dd><p>Record audio for a specified duration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the output file.</p></li>
+<li><p><strong>record_time</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Duration of the recording in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.listen.bluetooth">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.listen.</span></span><span class="sig-name descname"><span class="pre">bluetooth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.listen.bluetooth" title="Permalink to this definition"></a></dt>
+<dd><p>Example usage: Obtain a Recorder object using a Bluetooth connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the output file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#afkode.macos.listen.Recorder" title="afkode.macos.listen.Recorder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Recorder</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Recorder object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-afkode.macos.speech">
+<span id="afkode-macos-speech"></span><h2>afkode.macos.speech<a class="headerlink" href="#module-afkode.macos.speech" title="Permalink to this heading"></a></h2>
+<p>Contains functions related to text-to-speech on MacOS.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.make_dir">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">make_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.make_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Clear and setup the output directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.play_audio">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">play_audio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.play_audio" title="Permalink to this definition"></a></dt>
+<dd><p>Play audio files in the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code>) – Queue for getting through speech.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.play_blip">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">play_blip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.play_blip" title="Permalink to this definition"></a></dt>
+<dd><p>Play a short sound to help notify of API speed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.speak">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">speak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.speak" title="Permalink to this definition"></a></dt>
+<dd><p>Run text-to-speech on non-ios platform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – full text to be spoken.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.split_text">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">split_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.split_text" title="Permalink to this definition"></a></dt>
+<dd><p>Split the given text into sentences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – text to be split into different spoken sections.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List to split text into sections for speech engine.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.macos.speech.text_to_speech">
+<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">text_to_speech</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.text_to_speech" title="Permalink to this definition"></a></dt>
+<dd><p>Create a gTTS object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sentence</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – input text to be spoken</p></li>
+<li><p><strong>idx</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – index, to increment filename</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Saves a filename for further playing</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="AFKode - Speak it, Save it, AFKode it!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2023 by Nick Jenkins. All rights reserved
+.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

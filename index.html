@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFKode - Speak it, Save it, AFKode it! &mdash; afkode  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AFKode API" href="reference_afkode.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            afkode
+          </a>
+              <div class="version">
+                0.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="reference_afkode.html">AFKode API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">afkode</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AFKode - Speak it, Save it, AFKode it!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound">
+</div>
+<section id="afkode-speak-it-save-it-afkode-it">
+<h1>AFKode - Speak it, Save it, AFKode it!<a class="headerlink" href="#afkode-speak-it-save-it-afkode-it" title="Permalink to this heading"></a></h1>
+<p>AFKode allows users to interact with AI and file system using only voice, allowing you to work away from keyboard.
+Works on iPhone with pythonista, or on MacOS.
+Powered by Whisper and ChatGPT.</p>
+<p>This project was inspired by long walks on the beach while ruminating and organizing ones thoughts.</p>
+<p>Users of this program should be comfortable using pythonista/python.
+You are required to BYO OpenAI secret key in variable <code class="docutils literal notranslate"><span class="pre">OPENAI_KEY</span></code> using environment variables or within <code class="docutils literal notranslate"><span class="pre">afkcode/secrets.py</span></code>.</p>
+<p>Key features:</p>
+<ul class="simple">
+<li><p>Detection of start/stop dictation for transcription</p></li>
+<li><p>Uses ChatGPT create smart file naming for your notes</p></li>
+</ul>
+<p>Interfaces:</p>
+<ul class="simple">
+<li><p>At home: Supports MacOS with base speakers/microphone or AirPods. May not work with other bluetooth headsets like Bose headphones.</p></li>
+<li><p>Out and about: Supports Pythonista iOS with base speakers/microphones, or plugged in lightning wired heaphones. Bluetooth headsets like AirPods and Bose headphones currently not working.</p></li>
+</ul>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#instructions-for-users">Instructions for users</a></p>
+<ul>
+<li><p><a class="reference external" href="#installation">Installation</a></p></li>
+<li><p><a class="reference external" href="#usage-documentation">Usage documentation</a></p></li>
+<li><p><a class="reference external" href="#bug-reports">Bug reports</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#instructions-for-developers">Instructions for developers</a></p>
+<ul>
+<li><p><a class="reference external" href="#environment-1-poetry">Poetry</a></p></li>
+<li><p><a class="reference external" href="#testing-with-nox">Testing with Nox</a></p></li>
+<li><p><a class="reference external" href="#code-formatting-with-pre-commit">Code formatting with Pre-commit</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#contributors">Contributors</a></p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Instructions for users<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>The following are the quick start instructions for using the project as an end-user.</p>
+<p>Follow the <a class="reference external" href="#instructions-for-developers">Instructions for developers</a> to set up the virtual environment and dependency management.</p>
+<section id="id3">
+<h3>Installation<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>MacOS requirements:</p>
+<ul class="simple">
+<li><p>Python 3.8</p></li>
+<li><p>ffmpeg for mp3 text-to-speech, <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">ffmpeg</span></code></p></li>
+</ul>
+<p>Note: Instructions marked with %% are not functioning and are for demo purposes only.</p>
+<p>Install the project using pip %%:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>afkode
+</pre></div>
+</div>
+<p>To replicate the data transformations and model results, run the following commands from the project root.
+These should be run from the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code>, or <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment, or with the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span></code> prefix.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>afkode.run
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Usage documentation<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>The user guides can be found on <a class="reference external" href="https://ndjenkins85.github.io/afkode">github pages</a>.
+This includes overview of features, discussion of <code class="docutils literal notranslate"><span class="pre">afkode</span></code> framework, and API reference.</p>
+</section>
+<section id="id5">
+<h3>Bug reports<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>Please raise an <a class="reference external" href="https://github.com/ndjenkins85/afkode/issues">issue</a> with <code class="docutils literal notranslate"><span class="pre">bug</span></code> label and I will look into it!</p>
+</section>
+</section>
+<section id="id6">
+<h2>Instructions for developers<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<p>The following are the setup instructions for developers looking to improve this project.
+For information on current contributors and guidelines see the <a class="reference external" href="#contributors">contributors</a> section.
+Follow each step here and ensure tests are working.</p>
+<section id="id8">
+<h3>Poetry<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://python-poetry.org/docs/">Poetry</a> handles virtual environment management, dev and optional extra libraries, library development, builds and publishing.</p>
+<p>Check the poetry website for the latest instructions on how to install poetry.
+You can use the following command on OS/linux to install poetry 1.1.9 used in this project.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://install.python-poetry.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.1.9
+</pre></div>
+</div>
+<p>It is recommended to set virtual environment creation to within project using the following command.
+This adds a <code class="docutils literal notranslate"><span class="pre">.venv</span></code> directory to project to handle cache and virtual environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>config<span class="w"> </span>virtualenvs.in-project<span class="w"> </span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>You can set up the virtual environment in the repo using the following command.
+Make sure that any other virtual environments (i.e. <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code>) are deactivated before running.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install
+</pre></div>
+</div>
+<p>Troubleshooting: You may need to point poetry to the correct python interpreter using the following command.
+In another terminal and in conda, run <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>env<span class="w"> </span>use<span class="w"> </span>/path/to/python3
+</pre></div>
+</div>
+<p>When the environment is correctly installed, you can enter the virtual environment using <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code>. Library can be built using <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">build</span></code>.</p>
+</section>
+<section id="id10">
+<h3>Testing with Nox<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://nox.thea.codes/en/stable/index.html">Nox</a> is a command-line tool that automates testing in multiple Python environments, similar to tox, Makefiles or scripts. Unlike tox, Nox uses a standard Python file for configuration.</p>
+<p>Here it is used for code quality, testing, and generating documentation.</p>
+<p>The following command can be used to run mypy, lint, and tests.
+It is recommended to run these before pushing code, as this is run with Github Actions.
+Some checks such as black are run more frequently with <a class="reference external" href="#code-formatting-with-pre-commit">pre-commit</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>nox
+</pre></div>
+</div>
+<p>Local Sphinx documentation can be generated with the following command.
+Documentation publishing using Github Actions to Github pages is enabled by default.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>nox<span class="w"> </span>-s<span class="w"> </span>docs
+</pre></div>
+</div>
+<p>Other available commands include:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>nox<span class="w"> </span>-rs<span class="w"> </span>coverage
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>Code formatting with Pre-commit<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://pre-commit.com/">Pre-commit</a> is a framework for managing and maintaining multi-language pre-commit hooks.</p>
+<p>It intercepts the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code> command to run checks of staged code before the commit is finalized.
+The checks are specified in <code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>.
+Checks in use are quick, pragmatic, and apply automatic formatting checks.
+If checks fail, it is usually only a matter of re-staging the files (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>) and attempting to commit again.</p>
+<p>The aim is to provide a lightweight way to keep some code standards automatically in line with standards.
+This does not replace the need to run nox tests, although pre-commits will satisfy some of the nox test checks.</p>
+<p>On first time use of the repository, pre-commit will need to be installed locally.
+You will need to be in the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">shell</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment.
+Run the following command to perform a first time install.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+<p>This will cache several code assets used in the checks.</p>
+<p>When you have new code to commit, pre-commit will kick in and check the code.
+Alternatively, you can run the following command to run for all files in repo.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>Contributors<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ndjenkins.com">Nick Jenkins</a> - Data Scientist, API &amp; Web dev, Team lead, Writer</p></li>
+</ul>
+<p>See <a class="reference external" href="CONTRIBUTING.md">CONTRIBUTING.md</a> in Github repo for specific instructions on contributing to project.</p>
+<p>Usage rights governed by <a class="reference external" href="LICENSE">LICENSE</a>  in Github repo or page footer.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference_afkode.html" class="btn btn-neutral float-right" title="AFKode API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2023 by Nick Jenkins. All rights reserved
+.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
