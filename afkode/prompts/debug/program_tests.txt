@@ -1,6 +1,6 @@
-Prompt: Program functionality
+Prompt: Program tests
 
-Your task is to analyze the following python project code files and suggest functionality that should be added to the codebase.
+Your task is to analyze the following python project code files and suggest pytests that should be created and added to the codebase to improve it's testability.
 
 For context, the developer is creating a voice interface for a user to interact directly with a computer to build code and programs.
 

@@ -45,25 +45,7 @@ class Command:
         ignore = ["__init__"]
         command_files = [f.stem for f in command_dir.glob("*.py") if f.stem not in ignore]
 
-        # Get all commands ready for a prompt
-        options = ""
-        for command_file in command_files:
-            options += f"Filename: {command_file} - Description: "
-            command_data = Path(command_dir, f"{command_file}.py").read_text(encoding="utf-8")
-            # Use the start of the docstring as the description
-            description_start_tag = ' -> str:\n    """'
-            description_end_tag = "    Args:"
-            try:
-                description = (
-                    command_data.split(description_start_tag)[1]
-                    .split(description_end_tag)[0]
-                    .replace("\n", "")
-                    .replace("  ", " ")
-                )
-            except:
-                logging.warning(f"Could not parse {command_file} in standard way")
-                continue
-            options += description + "\n"
+        options = utils.get_formatted_command_list()
 
         # Get our command prompt
         choose_command_prompt = Path(utils.get_prompt_path(), "programflow", "choose_command.txt").read_text()

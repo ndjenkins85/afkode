@@ -170,3 +170,31 @@ def resolve_input_paths(input_files: List[str], exclude: List[str] = None) -> Li
             if pr and pr.name not in exclude:
                 resolved.append(pr)
     return resolved
+
+
+def get_formatted_command_list() -> str:
+    """Parses the command folder and produces a simple list of commands.
+
+    Returns:
+        Cleaned up string with 'filename - description'
+    """
+    # Get all commands ready for a prompt
+    options = ""
+    for command_file in command_files:
+        options += f"Filename: {command_file} - Description: "
+        command_data = Path(command_dir, f"{command_file}.py").read_text(encoding="utf-8")
+        # Use the start of the docstring as the description
+        description_start_tag = ' -> str:\n    """'
+        description_end_tag = "    Args:"
+        try:
+            description = (
+                command_data.split(description_start_tag)[1]
+                .split(description_end_tag)[0]
+                .replace("\n", "")
+                .replace("  ", " ")
+            )
+        except:
+            logging.warning(f"Could not parse {command_file} in standard way")
+            return ""
+        options += description + "\n"
+    return options

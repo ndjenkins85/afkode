@@ -17,7 +17,7 @@ except ModuleNotFoundError:
 from afkode import api, utils
 
 
-def get_readme() -> str:
+def get_formatted_readme() -> str:
     """Loads first portion of the project readme.
 
     Returns:
@@ -57,7 +57,7 @@ def start(prompt: str = None, input_files: List[Path] = None, execute: bool = Fa
         input_files = []
     for input_file in input_files:
         if input_file.stem == "README":
-            clean = get_readme()
+            clean = get_formatted_readme()
         else:
             clean = clean_py(input_file.read_text(encoding="utf-8"))
         request += f"File: {str(input_file)} ****\n"
