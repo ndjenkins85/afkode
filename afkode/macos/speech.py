@@ -3,13 +3,12 @@
 """Contains functions related to text-to-speech on MacOS."""
 
 import logging
-import os
 import re
 import shutil
-import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from queue import Queue
+from typing import List, Optional
 
 from gtts import gTTS
 from pydub import AudioSegment
@@ -18,7 +17,7 @@ from pydub.playback import play
 from afkode import utils
 
 
-def text_to_speech(sentence, idx):
+def text_to_speech(sentence: str, idx: int) -> str:
     # Create a gTTS object
     logging.info(f">>>{sentence}")
     tts = gTTS(text=sentence, lang="en", tld="com.au")
@@ -26,11 +25,11 @@ def text_to_speech(sentence, idx):
     # Save the speech audio into a file
     file_name = f"data/text_to_speech/speech_{str(idx).zfill(4)}.mp3"
     tts.save(file_name)
-
     return file_name
 
 
-def play_audio(q):
+def play_audio(q: Queue) -> None:
+    """Play audio files in the queue."""
     played_files = set()
 
     while True:
@@ -62,8 +61,9 @@ def make_dir() -> None:
 
 
 def split_text(text):
+    """Split the given text into sentences."""
     # This regular expression matches either a full stop followed by a space or a new line.
-    splits = re.split("\. |\n|\.\n", text)
+    splits = re.split(r"\. |\n|\.\n", text)
 
     # The filter() function is used to remove empty strings.
     # In Python, empty strings are "falsy" and will be removed by filter.
@@ -72,7 +72,7 @@ def split_text(text):
     return splits
 
 
-def speak(text) -> None:
+def speak(text: str) -> None:
     """Run text-to-speech on non-ios platform."""
     make_dir()
     sentences = split_text(text)

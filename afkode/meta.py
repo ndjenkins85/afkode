@@ -10,9 +10,9 @@ from typing import List
 # Any script entry must have this to work on iOS
 # and we can use it for alternative importing
 try:
-    import set_env
+    import set_env  # noqa: F401
 except ModuleNotFoundError:
-    from afkode import set_env
+    from afkode import set_env  # noqa: F401
 
 from afkode import api, utils
 
@@ -30,7 +30,7 @@ def clean_py(python_text: str) -> str:
     return clean_python_text
 
 
-def start(prompt: str = None, input_files: List[str] = None, execute: bool = False):
+def start(prompt: str = None, input_files: List[Path] = None, execute: bool = False):
     """Conduct an adhoc analysis on the codebase."""
     request = ""
     if prompt:

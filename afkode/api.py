@@ -11,15 +11,15 @@ try:
     from afkode import secrets
 
     openai.api_key = secrets.OPENAI_KEY
-except ImportError:
+except ImportError as import_err:
     try:
         openai.api_key = os.getenv("OPENAI_KEY")
-    except NameError:
+    except NameError as name_err:
         raise ValueError(
             """You need to set an environment variable 'OPENAI_KEY'
             export OPENAI_KEY=sk-
             """
-        )
+        ) from name_err
 
 
 def whisper(path: str) -> str:

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
-"""This script helps imports on Pythonista or MacOS"""
+"""This script helps imports on Pythonista or MacOS."""
 import logging
 import os
 import sys
 
 try:
-    import console
+    import console  # noqa: F401
 
     sys.path.append(os.path.abspath(".."))
     mode = "Running on iOS (pythonista)"

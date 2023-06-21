@@ -12,11 +12,11 @@ from pathlib import Path
 # Any script entry must have this to work on iOS
 # and we can use it for alternative importing
 try:
-    import set_env
+    import set_env  # noqa: F401
 
     from afkode.ios.speech import speak
 except ModuleNotFoundError:
-    from afkode import set_env
+    from afkode import set_env  # noqa: F401
     from afkode.macos.speech import speak
 
 from afkode import action, api, utils, voice_interface

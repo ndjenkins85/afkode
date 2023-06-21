@@ -7,6 +7,7 @@ import threading
 import time
 import wave
 from pathlib import Path
+from typing import List
 
 import pyaudio
 
@@ -14,26 +15,38 @@ from afkode import utils
 
 
 class Recorder:
-    def __init__(self, file_name, chunk=1024, channels=1, rate=44100):
+    def __init__(self, file_name: str, chunk: int = 1024, channels: int = 1, rate: int = 44100) -> None:
+        """
+        Initialize Recorder object.
+
+        Args:
+            file_name: Name of the output file.
+            chunk: Number of audio frames per buffer.
+            channels: Number of audio channels.
+            rate: Sample rate of the audio.
+        """
         self.file_name = file_name
         self.chunk = chunk
         self.channels = channels
         self.rate = rate
 
         self.audio = pyaudio.PyAudio()
-        self.frames = []
+        self.frames: List[bytes] = []
         self.recording = False
 
-    def record(self):
+    def record(self) -> None:
+        """Start recording audio."""
         self.recording = True
         self.thread = threading.Thread(target=self._record)
         self.thread.start()
 
-    def stop(self):
+    def stop(self) -> None:
+        """Stop recording audio."""
         self.recording = False
         self.thread.join()
 
-    def _record(self):
+    def _record(self) -> None:
+        """Internal method for audio recording."""
         stream = self.audio.open(
             format=pyaudio.paInt16, channels=self.channels, rate=self.rate, input=True, frames_per_buffer=self.chunk
         )
@@ -45,7 +58,8 @@ class Recorder:
         stream.stop_stream()
         stream.close()
 
-    def release(self):
+    def release(self) -> None:
+        """Release recorded audio and save to file."""
         wf = wave.open(self.file_name, "wb")
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.audio.get_sample_size(pyaudio.paInt16))
@@ -54,12 +68,25 @@ class Recorder:
         wf.close()
 
 
-def bluetooth(file_name):
-    # Example usage:
+def bluetooth(file_name: str) -> Recorder:
+    """Example usage: Obtain a Recorder object using a Bluetooth connection.
+
+    Args:
+        file_name: Name of the output file.
+
+    Returns:
+        Recorder object.
+    """
     return Recorder(file_name)
 
 
-def basic_record(file_name, record_time):
+def basic_record(file_name: str, record_time: int) -> None:
+    """Record audio for a specified duration.
+
+    Args:
+        file_name: Name of the output file.
+        record_time: Duration of the recording in seconds.
+    """
     recorder = bluetooth(file_name)
     recorder.record()
     time.sleep(record_time)

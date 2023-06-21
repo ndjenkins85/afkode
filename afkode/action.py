@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
 """This module provides a Command class for recognizing and executing voice commands.
@@ -16,6 +14,8 @@ from afkode import api, utils
 
 
 class Command:
+    """Allows for selection of commands from extra folder."""
+
     def __init__(self, transcript: str) -> None:
         """Initialize the Command with a transcript of the user's voice input.
 
@@ -76,7 +76,7 @@ class Command:
             str: The result of the 'execute' function if the command was recognized, otherwise None.
 
         Raises:
-            ValueError: If the command was not recognized.
+            ImportError: If the command was not recognized.
         """
         if self.command:
             try:
@@ -84,4 +84,4 @@ class Command:
                 return module.execute(self.instructions)
             except ImportError:
                 logging.warning(f"Tried to import a non-existant command {self.command}")
-        return None
+        return ""

@@ -12,7 +12,12 @@ import speech
 # import sound
 
 
-def speak(text):
+def speak(text: str) -> None:
+    """Say the text using iOS capability.
+
+    Args:
+        text: text to say
+    """
     logging.info(f">>>{text}")
     speech.say(text, "en-US")
     # Block until speech synthesis has finished
