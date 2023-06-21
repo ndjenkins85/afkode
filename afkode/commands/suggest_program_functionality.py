@@ -2,7 +2,6 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Custom command."""
 
-from datetime import datetime as dt
 from pathlib import Path
 
 from afkode import api, meta, utils
@@ -24,7 +23,7 @@ def execute(not_used: str) -> str:
     file_data = ""
     input_files = utils.resolve_input_paths(["/**/*.py"], exclude=["__init__.py"])
     for input_file in input_files:
-        clean = clean_py(input_file.read_text(encoding="utf-8"))
+        clean = meta.clean_py(input_file.read_text(encoding="utf-8"))
         file_data += f"File: {str(input_file)} ****\n"
         file_data += clean + "\n\n"
 

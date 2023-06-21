@@ -197,7 +197,7 @@ def get_formatted_command_list() -> str:
                 .replace("\n", "")
                 .replace("  ", " ")
             )
-        except:
+        except Exception:
             logging.warning(f"Could not parse {command_file} in standard way")
             return ""
         options += description + "\n"

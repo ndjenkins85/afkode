@@ -2,7 +2,6 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Custom command."""
 
-from datetime import datetime as dt
 from pathlib import Path
 
 from afkode import api, meta, utils
