@@ -46,7 +46,7 @@ class VoiceRecorder:
         self.tick = 1
         self.start_word = "record"
         self.stop_word = "stop"
-        self.size_threshold_bytes = 10 * 1024
+        self.size_threshold_bytes = 200 * 1024
 
     def short_recording(self) -> None:
         """We use shorter recordings for stop word detection every few seconds."""
@@ -70,7 +70,7 @@ class VoiceRecorder:
         global stop_threads
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
-            time.sleep(self.short_time - self.tick)
+            time.sleep(self.short_time + self.tick)
 
             # Get all files in a directory above a minimum size
             all_files = list(sorted(self.short_folder.glob(f"*{self.file_ext}")))
