@@ -50,7 +50,6 @@ class VoiceRecorder:
     def short_recording(self) -> None:
         """We use shorter recordings for stop word detection every few seconds."""
         global stop_threads
-        time.sleep(1)  # Add a slight delay for the recording
         file_counter = 1
         while not stop_threads:
             file_name = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
@@ -69,7 +68,7 @@ class VoiceRecorder:
         global stop_threads
         while not stop_threads:
             # Get the list of input files and output files, ignoring latest partial recording
-            time.sleep(self.short_time + self.tick)
+            time.sleep(self.tick)
 
             # Get all files in a directory above a minimum size
             all_files = list(sorted(self.short_folder.glob(f"*{self.file_ext}")))
@@ -92,18 +91,17 @@ class VoiceRecorder:
                     transcribe_path.write_text(transcription, encoding="utf-8")
                     play_blip()
 
-                    # If start word mentioned, start the recording from here
                     logging.info(f"{file_name} <<< {transcription}")
 
                     # Will be shorter than original if there was a start word
                     start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
-                    if len(start_test) < len(transcript):
+                    if len(start_test) < len(transcription):
                         Path(self.start_folder, f"{file_name}.txt").write_text(transcription)
                         logging.info("<<<Start command")
 
                     # Will be shorter than original if there was a start word
                     stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
-                    if len(stop_test) < len(transcript):
+                    if len(stop_test) < len(transcription):
                         # If stop word, set the break flag leading to stopping recording
                         stop_threads = True
                         logging.debug("Transcribe stopped")
