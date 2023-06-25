@@ -202,3 +202,35 @@ def get_formatted_command_list() -> str:
             return ""
         options += description + "\n"
     return options
+
+
+def split_transcription_on(transcription: str, word: str, strategy: str = "after") -> str:
+    """Uses regex matching based on case-insensitive, matched word boundaries to split text before or after.
+
+    * It matches the exact word you're looking for, bounded by non-word characters or the beginning/end of the string.
+    * It splits the transcription at these word boundaries.
+    * If strategy is "after", it takes everything after the last occurrence of the word.
+    * If strategy is "before", it takes everything before the first occurrence of the word.
+    * If the word is part of a larger word it doesn't match.
+    * Case insensitive
+
+    Args:
+        transcription: raw transcription text
+        word: they keyword to search and split on
+        strategy: whether to return text before or after the word
+
+    Raises:
+        ValueError: if an invalid strategy selected
+
+    Returns:
+        Cleaned transcription text that focuses on info between keywords
+    """
+    pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(word))
+    split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
+    if strategy == "after":
+        clean_transcription = split_text[-1]
+    elif strategy == "before":
+        clean_transcription = split_text[0]
+    else:
+        raise ValueError("Invalid strategy, must be after or before")
+    return clean_transcription

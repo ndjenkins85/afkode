@@ -4,7 +4,6 @@
 
 import logging
 import os
-import re
 import shutil
 import threading
 import time
@@ -114,14 +113,8 @@ class VoiceRecorder:
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = api.whisper(str(whole_path))
 
-        # create a pattern that's case-insensitive and matches word boundaries
-        pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(self.start_word))
-        split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
-        transcription = split_text[-1]
-
-        pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(self.stop_word))
-        split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
-        transcription = split_text[0]
+        transcription = utils.split_transcription_on(transcription, word=self.start_word, strategy="after")
+        transcription = utils.split_transcription_on(transcription, word=self.stop_word, strategy="before")
 
         whole_output_path = Path(self.whole_folder, "whole.txt")
         whole_output_path.write_text(transcription, encoding="utf-8")
