@@ -3,7 +3,6 @@
 """Main controller for voice recording and stop detection."""
 
 import logging
-import os
 import queue
 import shutil
 import threading
@@ -43,13 +42,17 @@ class VoiceRecorder:
         self.file_ext = ".wav"
         self.short_time = 5
         self.simple_wait = 3
-        self.tick = 1
+        self.tick = 0.1
         self.start_word = "record"
         self.stop_word = "stop"
         self.size_threshold_bytes = 10 * 1024
 
-    def short_recording(self, q) -> None:
-        """We use shorter recordings for stop word detection every few seconds."""
+    def short_recording(self, q) -> None:  # type: ignore # noqa: ANN001
+        """We use shorter recordings for stop word detection every few seconds.
+
+        Args:
+            q: Queue to hold completed audio paths.
+        """
         global stop_threads
         file_counter = 1
         while not stop_threads:
@@ -69,11 +72,14 @@ class VoiceRecorder:
             else:
                 logging.warning(f"Invalid file size for {short_audio_path.name}, recording not working?")
 
-    def transcribe_and_detect_stop(self, q) -> None:
-        """Transcribe short recordings and detect stop words."""
+    def transcribe_and_detect_stop(self, q) -> None:  # type: ignore # noqa: ANN001
+        """Transcribe short recordings and detect stop words.
+
+        Args:
+            q: Queue to hold completed audio paths.
+        """
         global stop_threads
         while not stop_threads:
-            time.sleep(self.tick)
             short_audio_path = q.get()
             transcribe_path = Path(self.transcript_folder, f"{short_audio_path.name}.txt")
 
@@ -106,7 +112,6 @@ class VoiceRecorder:
         Returns:
             Transcribed text
         """
-        time.sleep(0.5)
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = api.whisper(str(whole_path))
 
@@ -135,7 +140,7 @@ class VoiceRecorder:
         """Start the voice detection process."""
         global stop_threads
         stop_threads = False
-        q = queue.Queue()
+        q = queue.Queue()  # type: ignore
         t1 = threading.Thread(target=self.short_recording, args=(q,))
         t2 = threading.Thread(target=self.transcribe_and_detect_stop, args=(q,))
         t1.start()
