@@ -40,10 +40,10 @@ def start() -> None:
         transcription = recorder.transcribe_whole()
         logging.info(transcription)
 
-        # Soft exit using transcription only
-        if len(transcription) <= len("command, exit.") and "exit" in transcription.lower():
-            result = "Exiting"
-            speak(result)
+        # Soft exit using a very short transcription
+        exit_test = utils.split_transcription_on(transcription, words="exit", strategy="detect")
+        if len(exit_test) < len(transcription) and len(transcription) < 21:
+            speak("Exiting")
             break
 
         # Commands
@@ -52,10 +52,9 @@ def start() -> None:
             speak(resolved.command.replace("_", " "))
             result = resolved.execute()
             speak(result)
-            if result == "Command exit":
-                break
+
         # It could be that the command wasn't recognised and we dont want it to be recorded like that
-        elif len(transcription) < 25:
+        elif len(transcription) < 21:
             speak("Skipping")
         else:
             # Otherwise it's not a command
