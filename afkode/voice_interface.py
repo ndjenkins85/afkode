@@ -87,7 +87,7 @@ class VoiceRecorder:
             # Will be shorter than original if there was a start word
             start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
             if len(start_test) < len(transcription):
-                Path(self.start_folder, f"{short_audio_path.name}.txt").write_text(transcription)
+                Path(self.start_folder, f"{short_audio_path.name}.txt").touch()
                 logging.info("<<<Start command")
 
             # Will be shorter than original if there was a start word
@@ -162,20 +162,24 @@ class VoiceRecorder:
 
     def combine_wav_files(self) -> None:
         """Combines several .wav files into a single one for transcription."""
+        # Get all transcribed data (smaller than all 'recorded')
+        all_transcripts = sorted(self.transcript_folder.glob("*.wav.txt"))
+
+        # Find the latest ever reset, but include the first as a minimum if no reset
+        Path(self.start_folder, "short0001.wav.txt").touch()
+        latest_restart = sorted(self.start_folder.glob("*.wav.txt"))[-1].name
+
+        # Get minimum set of short .wav files based on valid transcript files
+        min_transcripts = [x for x in all_transcripts if x.name >= latest_restart]
+        min_shorts = sorted([Path(self.short_folder, file.name.replace(".txt", "")) for file in min_transcripts])
+
+        # Populate the larger .wav file with min set of short audio .wav files
         output_filename = Path(self.whole_folder, "whole" + self.file_ext)
-
-        # Gets list of files between latest start and latest stop
-        combine_audio_list_raw = utils.get_files_between(self.start_folder, self.transcript_folder)
-        combine_audio_list = [Path(self.short_folder, str(x).replace(".txt", "")) for x in combine_audio_list_raw]
-
         with wave.open(str(output_filename), "wb") as output_wav:
-            # Process each input file
-            for wav_file in combine_audio_list:
-                logging.debug(f"Stitching {wav_file}")
-                with wave.open(str(wav_file), "rb") as input_wav:
+            for i, short_audio_path in enumerate(min_shorts):
+                logging.debug(f"Stitching {short_audio_path}")
+                with wave.open(str(short_audio_path), "rb") as input_wav:
                     # If this is the first file, set output parameters
-                    if output_wav.getnframes() == 0:
+                    if i == 0:
                         output_wav.setparams(input_wav.getparams())
-
-                    # Write frames to output file
                     output_wav.writeframes(input_wav.readframes(input_wav.getnframes()))
