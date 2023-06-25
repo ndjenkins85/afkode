@@ -478,7 +478,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="afkode.utils.split_transcription_on">
-<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">split_transcription_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'after'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.split_transcription_on" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">split_transcription_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">words</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'after'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.split_transcription_on" title="Permalink to this definition"></a></dt>
 <dd><p>Uses regex matching based on case-insensitive, matched word boundaries to split text before or after.</p>
 <ul class="simple">
 <li><p>It matches the exact word you’re looking for, bounded by non-word characters or the beginning/end of the string.</p></li>
@@ -492,7 +492,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>transcription</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – raw transcription text</p></li>
-<li><p><strong>word</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – they keyword to search and split on</p></li>
+<li><p><strong>words</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – single or list of keywords to search and split on</p></li>
 <li><p><strong>strategy</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – whether to return text before or after the word</p></li>
 </ul>
 </dd>
