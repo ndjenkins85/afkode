@@ -112,33 +112,6 @@ def extract_number(filename: str) -> int:
     return int(match.group()) if match else 0
 
 
-def get_files_between(folder_start: Path, folder_transcript: Path) -> List[str]:
-    """Gets a list of filenames between two folders based on the file numbering.
-
-    Args:
-        folder_start: The starting folder.
-        folder_transcript: The ending folder.
-
-    Returns:
-        A list of filenames for each number between the two.
-    """
-    # List all files in the directories
-    files_start = list(Path(folder_start).glob("*.wav.txt"))
-    files_transcript = list(Path(folder_transcript).glob("*.wav.txt"))
-
-    # Extract the file numbers and find the maximum
-    numbers_start = [extract_number(f.stem) for f in files_start]
-    numbers_transcript = [extract_number(f.stem) for f in files_transcript]
-
-    max_start = max(numbers_start) if len(numbers_start) > 0 else 1
-    max_transcript = max(numbers_transcript) if len(numbers_start) > 0 else 1
-
-    # Generate filenames for each number between max_start and max_transcript
-    filenames = [f"short{str(i).zfill(4)}.wav.txt" for i in range(max_start, max_transcript + 1)]
-
-    return filenames
-
-
 def resolve_input_paths(input_files: List[str], exclude: List[str] = None) -> List[Path]:
     """Given a list of file paths, test and resolve them.
 
