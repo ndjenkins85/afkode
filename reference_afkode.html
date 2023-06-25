@@ -81,6 +81,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_files"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_files()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.resolve_input_paths"><code class="docutils literal notranslate"><span class="pre">resolve_input_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.setup_logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.split_transcription_on"><code class="docutils literal notranslate"><span class="pre">split_transcription_on()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-afkode.voice_interface">afkode.voice_interface</a><ul>
@@ -471,6 +472,38 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.split_transcription_on">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">split_transcription_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcription</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'after'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.split_transcription_on" title="Permalink to this definition"></a></dt>
+<dd><p>Uses regex matching based on case-insensitive, matched word boundaries to split text before or after.</p>
+<ul class="simple">
+<li><p>It matches the exact word you’re looking for, bounded by non-word characters or the beginning/end of the string.</p></li>
+<li><p>It splits the transcription at these word boundaries.</p></li>
+<li><p>If strategy is “after”, it takes everything after the last occurrence of the word.</p></li>
+<li><p>If strategy is “before”, it takes everything before the first occurrence of the word.</p></li>
+<li><p>If the word is part of a larger word it doesn’t match.</p></li>
+<li><p>Case insensitive</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transcription</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – raw transcription text</p></li>
+<li><p><strong>word</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – they keyword to search and split on</p></li>
+<li><p><strong>strategy</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – whether to return text before or after the word</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if an invalid strategy selected</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cleaned transcription text that focuses on info between keywords</p>
 </dd>
 </dl>
 </dd></dl>
