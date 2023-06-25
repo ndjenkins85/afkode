@@ -211,6 +211,7 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
     * It splits the transcription at these word boundaries.
     * If strategy is "after", it takes everything after the last occurrence of the word.
     * If strategy is "before", it takes everything before the first occurrence of the word.
+    * If strategy is "detect", it will remove the word; this can be tested as a length difference
     * If the word is part of a larger word it doesn't match.
     * Case insensitive
 
@@ -233,6 +234,8 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
         clean_transcription = split_text[-1].strip()
     elif strategy == "before":
         clean_transcription = split_text[0].strip()
+    elif strategy == "detect":
+        clean_transcription = " ".join(split_text).strip()
     else:
-        raise ValueError("Invalid strategy, must be after or before")
+        raise ValueError("Invalid strategy")
     return clean_transcription

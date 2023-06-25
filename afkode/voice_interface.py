@@ -92,13 +92,19 @@ class VoiceRecorder:
                     transcribe_path.write_text(transcription, encoding="utf-8")
                     play_blip()
 
-                    logging.info(f"{file_name} <<< {transcription}")
                     # If start word mentioned, start the recording from here
-                    if self.start_word in " " + transcription.lower():
+                    logging.info(f"{file_name} <<< {transcription}")
+
+                    # Will be shorter than original if there was a start word
+                    start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
+                    if len(start_test) < len(transcript):
                         Path(self.start_folder, f"{file_name}.txt").write_text(transcription)
                         logging.info("<<<Start command")
-                    # If stop word, set the break flag leading to stopping recording
-                    if self.stop_word in " " + transcription.lower():
+
+                    # Will be shorter than original if there was a start word
+                    stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
+                    if len(stop_test) < len(transcript):
+                        # If stop word, set the break flag leading to stopping recording
                         stop_threads = True
                         logging.debug("Transcribe stopped")
                         break
