@@ -74,7 +74,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-afkode.utils">afkode.utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.extract_number"><code class="docutils literal notranslate"><span class="pre">extract_number()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_base_path"><code class="docutils literal notranslate"><span class="pre">get_base_path()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_files_between"><code class="docutils literal notranslate"><span class="pre">get_files_between()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_formatted_command_list"><code class="docutils literal notranslate"><span class="pre">get_formatted_command_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_prompt_path"><code class="docutils literal notranslate"><span class="pre">get_prompt_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_directory"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_directory()</span></code></a></li>
@@ -367,26 +366,6 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="afkode.utils.get_files_between">
-<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_files_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_transcript</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_files_between" title="Permalink to this definition"></a></dt>
-<dd><p>Gets a list of filenames between two folders based on the file numbering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>folder_start</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – The starting folder.</p></li>
-<li><p><strong>folder_transcript</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – The ending folder.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of filenames for each number between the two.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="afkode.utils.get_formatted_command_list">
 <span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">get_formatted_command_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.get_formatted_command_list" title="Permalink to this definition"></a></dt>
 <dd><p>Parses the command folder and produces a simple list of commands.</p>
@@ -485,6 +464,7 @@
 <li><p>It splits the transcription at these word boundaries.</p></li>
 <li><p>If strategy is “after”, it takes everything after the last occurrence of the word.</p></li>
 <li><p>If strategy is “before”, it takes everything before the first occurrence of the word.</p></li>
+<li><p>If strategy is “detect”, it will remove the word; this can be tested as a length difference</p></li>
 <li><p>If the word is part of a larger word it doesn’t match.</p></li>
 <li><p>Case insensitive</p></li>
 </ul>
@@ -540,11 +520,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.short_recording">
-<span class="sig-name descname"><span class="pre">short_recording</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.short_recording" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">short_recording</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.short_recording" title="Permalink to this definition"></a></dt>
 <dd><p>We use shorter recordings for stop word detection every few seconds.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – Queue to hold completed audio paths.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -576,11 +559,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop">
-<span class="sig-name descname"><span class="pre">transcribe_and_detect_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transcribe_and_detect_stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.transcribe_and_detect_stop" title="Permalink to this definition"></a></dt>
 <dd><p>Transcribe short recordings and detect stop words.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – Queue to hold completed audio paths.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
