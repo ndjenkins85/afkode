@@ -7,7 +7,7 @@ import os
 import re
 from datetime import datetime as dt
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 
 def setup_logging(log_level: int = logging.DEBUG) -> None:
@@ -204,7 +204,7 @@ def get_formatted_command_list() -> str:
     return options
 
 
-def split_transcription_on(transcription: str, word: str, strategy: str = "after") -> str:
+def split_transcription_on(transcription: str, words: Union[str, List[str]], strategy: str = "after") -> str:
     """Uses regex matching based on case-insensitive, matched word boundaries to split text before or after.
 
     * It matches the exact word you're looking for, bounded by non-word characters or the beginning/end of the string.
@@ -216,7 +216,7 @@ def split_transcription_on(transcription: str, word: str, strategy: str = "after
 
     Args:
         transcription: raw transcription text
-        word: they keyword to search and split on
+        words: single or list of keywords to search and split on
         strategy: whether to return text before or after the word
 
     Raises:
@@ -225,12 +225,14 @@ def split_transcription_on(transcription: str, word: str, strategy: str = "after
     Returns:
         Cleaned transcription text that focuses on info between keywords
     """
-    pattern = r"[\W]*\b{}\b[\W]*".format(re.escape(word))
+    if isinstance(words, str):
+        words = [words]
+    pattern = r"[\W]*\b{}\b[\W]*".format("|".join(map(re.escape, words)))
     split_text = re.split(pattern, transcription, flags=re.IGNORECASE)
     if strategy == "after":
-        clean_transcription = split_text[-1]
+        clean_transcription = split_text[-1].strip()
     elif strategy == "before":
-        clean_transcription = split_text[0]
+        clean_transcription = split_text[0].strip()
     else:
         raise ValueError("Invalid strategy, must be after or before")
     return clean_transcription

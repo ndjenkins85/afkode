@@ -113,8 +113,8 @@ class VoiceRecorder:
         whole_path = Path(self.whole_folder, "whole" + self.file_ext)
         transcription = api.whisper(str(whole_path))
 
-        transcription = utils.split_transcription_on(transcription, word=self.start_word, strategy="after")
-        transcription = utils.split_transcription_on(transcription, word=self.stop_word, strategy="before")
+        transcription = utils.split_transcription_on(transcription, words=self.start_word, strategy="after")
+        transcription = utils.split_transcription_on(transcription, words=self.stop_word, strategy="before")
 
         whole_output_path = Path(self.whole_folder, "whole.txt")
         whole_output_path.write_text(transcription, encoding="utf-8")

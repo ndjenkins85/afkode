@@ -86,3 +86,21 @@ def test_split_transcription_on_word_ignored_hyphenated() -> None:
     strategy = "after"
     expected_output = "word is here. And there is some more text."
     assert split_transcription_on(transcription, word, strategy) == expected_output
+
+
+def test_split_transcription_on_multi_before() -> None:
+    """Test that the function handles situations where there are multiple target words before."""
+    transcription = "This is a sample transcription. target-word is here. And there is some more text."
+    word = ["target", "transcription"]
+    strategy = "before"
+    expected_output = "This is a sample"
+    assert split_transcription_on(transcription, word, strategy) == expected_output
+
+
+def test_split_transcription_on_multi_after() -> None:
+    """Test that the function handles situations where there are multiple target words after."""
+    transcription = "This is a sample transcription. target-word is here. And there is some more text."
+    word = ["target", "there"]
+    strategy = "after"
+    expected_output = "is some more text."
+    assert split_transcription_on(transcription, word, strategy) == expected_output
