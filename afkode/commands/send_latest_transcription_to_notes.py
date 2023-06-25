@@ -2,7 +2,6 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Custom command."""
 
-import urllib.parse
 import webbrowser
 from pathlib import Path
 
@@ -18,13 +17,15 @@ def execute(not_used: str) -> str:
     Returns:
         confirmation
     """
-    latest_path = sorted([x for x in Path(utils.get_base_path(), "data", "user_response").glob("*.txt")])[-1]
+    latest_path = sorted(Path(utils.get_user_prompt_directory()).glob("*.txt"))[-1]
 
-    encoded_text = urllib.parse.quote(latest_path.read_text(encoding="utf-8"))
+    title = latest_path.name
+    encoded_text = latest_path.read_text(encoding="utf-8")
+    data = title + "\n\n" + encoded_text
 
     shortcut_name = "CreateNote"
-    url = f"shortcuts://run-shortcut?name={shortcut_name}&input={encoded_text}"
+    url = f"shortcuts://run-shortcut?name={shortcut_name}&input={data}"
     webbrowser.open(url)
 
-    response = "saved latest to apple notes"
+    response = "Saved"
     return response

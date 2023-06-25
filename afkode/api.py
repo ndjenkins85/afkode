@@ -2,6 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """This file contains functions related to interacting with external API systems."""
 
+import logging
 import os
 
 import openai

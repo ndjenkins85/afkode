@@ -90,6 +90,18 @@ def get_user_prompt_directory() -> Path:
     return user_prompt_directory_path
 
 
+def get_agent_response_directory() -> Path:
+    """Retrieves the directory path for user input.
+
+    Returns:
+        The path to the user input directory.
+    """
+    agent_response_directory_path = Path(get_base_path(), "data", "agent_response")
+    if not agent_response_directory_path.exists():
+        agent_response_directory_path.mkdir(parents=True)
+    return agent_response_directory_path
+
+
 def get_user_prompt_files() -> str:
     """Retrieves a string of all the filenames in the user input directory.
 
