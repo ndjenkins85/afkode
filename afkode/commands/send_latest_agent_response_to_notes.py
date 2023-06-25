@@ -2,6 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Custom command."""
 
+import urllib.parse
 import webbrowser
 from pathlib import Path
 
@@ -21,7 +22,7 @@ def execute(not_used: str) -> str:
 
     title = latest_path.name[:10] + " agent response"
     encoded_text = latest_path.read_text(encoding="utf-8")
-    data = title + "\n\n" + encoded_text
+    data = urllib.parse.quote(title + "\n\n" + encoded_text)
 
     shortcut_name = "CreateNote"
     url = f"shortcuts://run-shortcut?name={shortcut_name}&input={data}"
