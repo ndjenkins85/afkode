@@ -4,6 +4,7 @@
 
 import logging
 import os
+import queue
 import shutil
 import threading
 import time
@@ -45,15 +46,15 @@ class VoiceRecorder:
         self.tick = 1
         self.start_word = "record"
         self.stop_word = "stop"
-        self.size_threshold_bytes = 200 * 1024
+        self.size_threshold_bytes = 10 * 1024
 
-    def short_recording(self) -> None:
+    def short_recording(self, q) -> None:
         """We use shorter recordings for stop word detection every few seconds."""
         global stop_threads
         file_counter = 1
         while not stop_threads:
-            file_name = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
-            recorder = bluetooth(str(file_name))
+            short_audio_path = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
+            recorder = bluetooth(str(short_audio_path))
             recorder.record()
             for _ in range(int(self.short_time / self.tick)):
                 time.sleep(self.tick)
@@ -62,50 +63,42 @@ class VoiceRecorder:
             recorder.stop()
             recorder.release()
             file_counter += 1
+            # Fallback in case for some reason the recorder is failing to produce proper files
+            if short_audio_path.stat().st_size >= self.size_threshold_bytes:
+                q.put(short_audio_path)
+            else:
+                logging.warning(f"Invalid file size for {short_audio_path.name}, recording not working?")
 
-    def transcribe_and_detect_stop(self) -> None:
+    def transcribe_and_detect_stop(self, q) -> None:
         """Transcribe short recordings and detect stop words."""
         global stop_threads
         while not stop_threads:
-            # Get the list of input files and output files, ignoring latest partial recording
             time.sleep(self.tick)
+            short_audio_path = q.get()
+            transcribe_path = Path(self.transcript_folder, f"{short_audio_path.name}.txt")
 
-            # Get all files in a directory above a minimum size
-            all_files = list(sorted(self.short_folder.glob(f"*{self.file_ext}")))
-            input_files = []
-            for file in all_files:
-                if file.is_file() and file.stat().st_size >= self.size_threshold_bytes:
-                    input_files.append(file.name)
+            # Transcribe the file
+            transcription = api.whisper(str(short_audio_path))
+            transcribe_path.write_text(transcription, encoding="utf-8")
+            play_blip()
 
-            output_files = os.listdir(self.transcript_folder)
+            logging.info(f"{short_audio_path.stem} <<< {transcription}")
 
-            # Check each input file
-            for file_name in input_files:
-                # If this file hasn't been transcribed yet
-                if f"{file_name}.txt" not in output_files:
-                    short_path = Path(self.short_folder, file_name)
-                    transcribe_path = Path(self.transcript_folder, f"{file_name}.txt")
+            # Will be shorter than original if there was a start word
+            start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
+            if len(start_test) < len(transcription):
+                Path(self.start_folder, f"{short_audio_path.name}.txt").write_text(transcription)
+                logging.info("<<<Start command")
 
-                    # Transcribe the file
-                    transcription = api.whisper(str(short_path))
-                    transcribe_path.write_text(transcription, encoding="utf-8")
-                    play_blip()
-
-                    logging.info(f"{file_name} <<< {transcription}")
-
-                    # Will be shorter than original if there was a start word
-                    start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
-                    if len(start_test) < len(transcription):
-                        Path(self.start_folder, f"{file_name}.txt").write_text(transcription)
-                        logging.info("<<<Start command")
-
-                    # Will be shorter than original if there was a start word
-                    stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
-                    if len(stop_test) < len(transcription):
-                        # If stop word, set the break flag leading to stopping recording
-                        stop_threads = True
-                        logging.debug("Transcribe stopped")
-                        break
+            # Will be shorter than original if there was a start word
+            stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
+            if len(stop_test) < len(transcription):
+                # If stop word, set the break flag leading to stopping recording
+                stop_threads = True
+                logging.debug("Transcribe stopped")
+                q.task_done()
+                break
+            q.task_done()
 
     def transcribe_whole(self) -> str:
         """Perform final transcribe, removing text after stopword.
@@ -142,15 +135,13 @@ class VoiceRecorder:
         """Start the voice detection process."""
         global stop_threads
         stop_threads = False
-        # start threads
-        threads = []
-        threads.append(threading.Thread(target=self.short_recording))
-        threads.append(threading.Thread(target=self.transcribe_and_detect_stop))
-
-        for thread in threads:
-            thread.start()
-        for thread in threads:
-            thread.join()
+        q = queue.Queue()
+        t1 = threading.Thread(target=self.short_recording, args=(q,))
+        t2 = threading.Thread(target=self.transcribe_and_detect_stop, args=(q,))
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
         self.combine_wav_files()
 
     def simple_record(self) -> str:
