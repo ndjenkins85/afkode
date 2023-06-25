@@ -71,4 +71,4 @@ class Command:
                 return module.execute(self.instructions)
             except ImportError:
                 logging.warning(f"Tried to import a non-existant command {self.command}")
-        return ""
+        return "No command"

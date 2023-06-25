@@ -40,7 +40,7 @@ class VoiceRecorder:
         self.start_folder = Path(self.folder_base, "start")
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
-        self.short_time = 5
+        self.short_time = 3
         self.simple_wait = 3
         self.tick = 0.1
         self.start_word = "record"

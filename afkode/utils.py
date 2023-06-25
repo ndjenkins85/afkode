@@ -24,7 +24,7 @@ def setup_logging(log_level: int = logging.DEBUG) -> None:
         logging.basicConfig(
             level=log_level,
             format="%(asctime)s [%(levelname)s] %(message)s",
-            handlers=[logging.FileHandler(log_path), logging.StreamHandler()],
+            handlers=[logging.FileHandler(log_path, encoding="utf-8"), logging.StreamHandler()],
         )
     except FileNotFoundError:
         msg = f"Directory {log_path} missing, cannot create log file."

@@ -21,6 +21,16 @@ except ImportError:
             """
         ) from name_err
 
+# Any script entry must have this to work on iOS
+# and we can use it for alternative importing
+try:
+    import set_env  # noqa: F401
+
+    from afkode.ios.speech import speak
+except ModuleNotFoundError:
+    from afkode import set_env  # noqa: F401
+    from afkode.macos.speech import speak
+
 
 def whisper(path: str) -> str:
     """Transcribes audio from the specified file path using the Whisper API.
@@ -31,8 +41,18 @@ def whisper(path: str) -> str:
     Returns:
         The transcribed text.
     """
-    transcript = openai.Audio.translate("whisper-1", open(path, "rb"), options={"language": "en", "temperature": "0"})
-    return transcript.text
+    try:
+        transcript = openai.Audio.translate(
+            "whisper-1", open(path, "rb"), options={"language": "en", "temperature": "0"}
+        ).text
+    except openai.error.InvalidRequestError:
+        logging.error("Whisper API received <0.1s audio file")
+        transcript = ""
+    except openai.error.APIConnectionError:
+        logging.error("Whisper API connection error")
+        speak("Connection error")
+        transcript = "exit"
+    return transcript
 
 
 def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
@@ -45,6 +65,11 @@ def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
     Returns:
         The generated text response.
     """
-    completion = openai.ChatCompletion.create(model=model, messages=[{"role": "user", "content": prompt}])
-    raw_commands = completion.choices[0].message.content
+    try:
+        completion = openai.ChatCompletion.create(model=model, messages=[{"role": "user", "content": prompt}])
+        raw_commands = completion.choices[0].message.content
+    except openai.error.APIConnectionError:
+        logging.error("Whisper API connection error")
+        speak("Connection error")
+        raw_commands = "exit"
     return raw_commands
