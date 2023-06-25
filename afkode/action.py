@@ -25,15 +25,15 @@ class Command:
         self.transcript = transcript.lower()
         self.command = None
         self.instructions = ""
-
+        self.command_word = "command"
         self._parse_transcript()
 
     def _parse_transcript(self) -> None:
         """Parse the transcript to recognize a command and its instructions."""
-        words = self.transcript.split("command")
-        if len(words) > 1:
-            # get last info after command
-            self.collate_and_choose_command(words[-1])
+        command_data = utils.split_transcription_on(self.transcript, self.command_word, strategy="after")
+        # Will be shorter than original if there was a command word
+        if len(command_data) < len(self.transcript):
+            self.collate_and_choose_command(command_data)
 
     def collate_and_choose_command(self, command_candidate: str) -> None:
         """Check the 'command' directory for a file matching the command_candidate.
