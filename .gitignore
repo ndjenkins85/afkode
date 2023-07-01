@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 # Specific folders
+credentials/*
 data/*
 logs/*
 notebooks/*
