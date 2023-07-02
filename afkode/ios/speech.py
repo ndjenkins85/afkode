@@ -48,10 +48,10 @@ def speak(text: str) -> None:
         api.google_tts(tts_path, text_input=text)
 
     player = sound.Player(str(tts_path))
-    
+
     player.play()
     while player.playing:
-        time.wait(0.1)
+        time.sleep(0.1)
 
 
 def play_blip() -> None:
