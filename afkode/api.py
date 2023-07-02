@@ -10,42 +10,53 @@ from pathlib import Path
 from typing import Dict
 
 import openai
+import requests
 from google.auth.transport.requests import Request
 from google.oauth2 import service_account
 
 from afkode import utils
 
-# Any script entry must have this to work on iOS
-# and we can use it for alternative importing
-try:
-    import set_env  # noqa: F401
+# # Any script entry must have this to work on iOS
+# # and we can use it for alternative importing
+# try:
+#     import set_env  # noqa: F401
 
-    from afkode.ios.speech import speak
-except ModuleNotFoundError:
-    from afkode import set_env  # noqa: F401
-    from afkode.macos.speech import speak
+#     from afkode.ios.speech import speak
+# except ModuleNotFoundError:
+#     from afkode import set_env  # noqa: F401
+#     from afkode.macos.speech import speak
 
 
 def get_credentials() -> Dict[str, str]:
-    """Loads credentials for API calls."""
-    credentials = {
-        "GOOGLE_SERVICE_ACCOUNT": None,
-        "OPENAI_KEY": None,
-        "GOOGLE_KEY": None,
-    }
+    """Loads credentials for API calls.
+
+    Returns:
+        Credentials from several services used in API calls
+    """
+    credentials = {"GOOGLE_SERVICE_ACCOUNT": "", "OPENAI_KEY": "", "GOOGLE_KEY": "", "GOOGLE_OATH2": ""}
+
     google_service_credentials_path = Path(utils.get_base_path(), "credentials", "google.json")
-    if google_service_credentials_path.exist():
+    if google_service_credentials_path.exists():
         credentials["GOOGLE_SERVICE_ACCOUNT"] = json.loads(google_service_credentials_path.read_text())
-    else:
-        credentials["GOOGLE_SERVICE_ACCOUNT"] = json.loads(os.getenv("OPENAI_KEY"))
+    elif os.getenv("GOOGLE_SERVICE_ACCOUNT"):
+        google_service_account = str(os.getenv("GOOGLE_SERVICE_ACCOUNT"))
+        credentials["GOOGLE_SERVICE_ACCOUNT"] = json.loads(google_service_account)
 
     api_keys_path = Path(utils.get_base_path(), "credentials", "api_keys.json")
     if api_keys_path.exists():
         credentials["OPENAI_KEY"] = json.loads(api_keys_path.read_text()).get("OPENAI_KEY")
         credentials["GOOGLE_KEY"] = json.loads(api_keys_path.read_text()).get("GOOGLE_KEY")
     else:
-        credentials["OPENAI_KEY"] = os.getenv("OPENAI_KEY")
-        credentials["GOOGLE_KEY"] = os.getenv("GOOGLE_KEY")
+        credentials["OPENAI_KEY"] = os.getenv("OPENAI_KEY", "")
+        credentials["GOOGLE_KEY"] = os.getenv("GOOGLE_KEY", "")
+
+    if credentials.get("GOOGLE_SERVICE_ACCOUNT"):
+        gsa_credentials = service_account.Credentials.from_service_account_file(google_service_credentials_path)
+        scoped_credentials = gsa_credentials.with_scopes(["https://www.googleapis.com/auth/cloud-platform"])
+        # Refresh the credentials
+        if not scoped_credentials.valid:
+            scoped_credentials.refresh(Request())
+        credentials["GOOGLE_OATH2"] = scoped_credentials.token
     return credentials
 
 
@@ -68,7 +79,7 @@ def whisper(path: str) -> str:
         transcript = ""
     except openai.error.APIConnectionError:
         logging.error("Whisper API connection error")
-        speak("Connection error")
+        # speak("Connection error")
         transcript = "exit"
     return transcript
 
@@ -89,6 +100,45 @@ def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
         raw_commands = completion.choices[0].message.content
     except openai.error.APIConnectionError:
         logging.error("Whisper API connection error")
-        speak("Connection error")
+        # speak("Connection error")
         raw_commands = "exit"
     return raw_commands
+
+
+def google_tts(output_path: Path, text_input: str = None, ssml_input: str = None) -> None:
+    """Converts text to speech audio file and saves."""
+    # Define the endpoint URL
+    url = f'https://texttospeech.googleapis.com/v1/text:synthesize?key={get_credentials()["GOOGLE_KEY"]}'
+    headers = {
+        "Authorization": f'Bearer {get_credentials()["GOOGLE_OATH2"]}',
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+    }
+    data = {
+        "audioConfig": {
+            "audioEncoding": "LINEAR16",
+            "effectsProfileId": ["small-bluetooth-speaker-class-device"],
+            "pitch": 2,
+            "speakingRate": 1.1,
+        },
+        "input": {"text": text_input},
+        "voice": {"name": "en-AU-Polyglot-1", "languageCode": "en-AU"},
+    }
+
+    if text_input:
+        data["input"]["text"] = text_input  # typing: ignore
+    if ssml_input:
+        data["input"]["ssml"] = ssml_input  # typing: ignore
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+    # Print the response
+    if response.status_code == 200:
+        # Decode the base64 string
+        byte_data = base64.b64decode(response.json().get("audioContent"))
+        logging.info(f"Writing audio file to {output_path}")
+        with open(output_path, "wb") as f:
+            f.write(byte_data)
+    else:
+        logging.error(f"Invalid status code {response.status_code}")

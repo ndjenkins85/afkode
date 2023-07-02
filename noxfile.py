@@ -41,7 +41,7 @@ def lint(session: Session) -> None:
         )
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
     session.run("python", "-m", "xdoctest", package, *args)
-    session.run("mypy", *args)
+    session.run("mypy", "--install-types", "--non-interactive", *args)
     session.run("flake8", *args)
 
 

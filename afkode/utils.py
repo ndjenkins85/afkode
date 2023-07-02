@@ -224,3 +224,11 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
     else:
         raise ValueError("Invalid strategy")
     return clean_transcription
+
+
+def get_spoken_command_list() -> List[str]:
+    """Get cleaned up simple list of actions."""
+    command_dir = Path(get_base_path(), "afkode", "commands")
+    ignore = ["__init__"]
+    command_files = sorted([f.stem.replace("_", " ") for f in command_dir.glob("*.py") if f.stem not in ignore])
+    return command_files

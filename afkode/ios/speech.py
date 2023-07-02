@@ -6,13 +6,15 @@ import logging
 import os
 import sys
 import time
+from pathlib import Path
 
+import sound
 import speech
 
-# import sound
+from afkode import api
 
 
-def speak(text: str) -> None:
+def speak_old(text: str) -> None:
     """Say the text using iOS capability.
 
     Args:
@@ -23,6 +25,30 @@ def speak(text: str) -> None:
     # Block until speech synthesis has finished
     while speech.is_speaking():
         time.sleep(0.1)
+
+
+def speak(text: str) -> None:
+    """Run text-to-speech on ios platform.
+
+    Args:
+        text: full text to be spoken.
+    """
+    tts_base_path = Path(utils.get_base_path(), "data", "text_to_speech")
+    if not tts_base_path.exists():
+        tts_base_path.mkdir(parents=True)
+    logging.info(f">>>{text}")
+
+    # Attempt to use cache if couple of words or is a command
+    if len(text.split(" ")) <= 2 or text in utils.get_spoken_command_list():
+        tts_path = Path(tts_base_path, f"{text}.wav")
+        if tts_path.exists():
+            sound.play(tts_path)
+            return None
+    else:
+        tts_path = Path(tts_base_path, f"latest.wav")
+
+    api.google_tts(tts_path, text_input=text)
+    sound.play(tts_path)
 
 
 def play_blip() -> None:

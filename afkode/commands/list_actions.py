@@ -16,9 +16,6 @@ def execute(all_additional_instructions_provided_after_command: str) -> str:
     Returns:
         list of commands
     """
-    command_dir = Path(utils.get_base_path(), "afkode", "commands")
-    ignore = ["__init__"]
-    command_files = sorted([f.stem.replace("_", " ") for f in command_dir.glob("*.py") if f.stem not in ignore])
-
+    command_files = utils.get_spoken_command_list()
     response = "List of commands: " + "\n".join(command_files)
     return response
