@@ -47,7 +47,11 @@ def speak(text: str) -> None:
         tts_path = Path(tts_base_path, "latest.wav")
         api.google_tts(tts_path, text_input=text)
 
-    sound.play(tts_path)
+    player = sound.Player(str(tts_path))
+    
+    player.play()
+    while player.playing:
+        time.wait(0.1)
 
 
 def play_blip() -> None:
