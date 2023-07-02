@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Custom command."""
-
-from pathlib import Path
-
 from afkode import utils
 
 

@@ -106,7 +106,13 @@ def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
 
 
 def google_tts(output_path: Path, text_input: str = None, ssml_input: str = None) -> None:
-    """Converts text to speech audio file and saves."""
+    """Converts text to speech audio file and saves.
+
+    Args:
+        output_path: Location to write completed google TTS file
+        text_input: Text input for text to speech
+        ssml_input: Alternatively pass in SSML input for text to speech
+    """
     # Define the endpoint URL
     url = f'https://texttospeech.googleapis.com/v1/text:synthesize?key={get_credentials()["GOOGLE_KEY"]}'
     headers = {
@@ -121,17 +127,12 @@ def google_tts(output_path: Path, text_input: str = None, ssml_input: str = None
             "pitch": 2,
             "speakingRate": 1.1,
         },
-        "input": {"text": text_input},
+        "input": {"text": text_input, "ssml": ssml_input},
         "voice": {"name": "en-AU-Polyglot-1", "languageCode": "en-AU"},
     }
 
-    if text_input:
-        data["input"]["text"] = text_input  # typing: ignore
-    if ssml_input:
-        data["input"]["ssml"] = ssml_input  # typing: ignore
-
     # Make the POST request
-    response = requests.post(url, headers=headers, data=json.dumps(data))
+    response = requests.post(url, headers=headers, data=json.dumps(data), timeout=10)
 
     # Print the response
     if response.status_code == 200:

@@ -11,7 +11,7 @@ from pathlib import Path
 import sound
 import speech
 
-from afkode import api
+from afkode import api, utils
 
 
 def speak_old(text: str) -> None:
@@ -41,13 +41,12 @@ def speak(text: str) -> None:
     # Attempt to use cache if couple of words or is a command
     if len(text.split(" ")) <= 2 or text in utils.get_spoken_command_list():
         tts_path = Path(tts_base_path, f"{text}.wav")
-        if tts_path.exists():
-            sound.play(tts_path)
-            return None
+        if not tts_path.exists():
+            api.google_tts(tts_path, text_input=text)
     else:
-        tts_path = Path(tts_base_path, f"latest.wav")
+        tts_path = Path(tts_base_path, "latest.wav")
+        api.google_tts(tts_path, text_input=text)
 
-    api.google_tts(tts_path, text_input=text)
     sound.play(tts_path)
 
 
@@ -60,7 +59,6 @@ def play_blip() -> None:
 if __name__ == "__main__":
     # Basic speech testing. Can't run as module, so we import our library here
     sys.path.append(os.path.realpath("../.."))
-    from afkode import utils
 
     utils.setup_logging(log_level=logging.INFO)
     speak("This is a test of the speech module")

@@ -131,14 +131,12 @@ def speak(text: str) -> None:
     # Attempt to use cache if couple of words or is a command
     if len(text.split(" ")) <= 2 or text in utils.get_spoken_command_list():
         tts_path = Path(tts_base_path, f"{text}.wav")
-        if tts_path.exists():
-            audio = AudioSegment.from_file(tts_path)
-            play(audio)
-            return None
+        if not tts_path.exists():
+            api.google_tts(tts_path, text_input=text)
     else:
-        tts_path = Path(tts_base_path, f"latest.wav")
+        tts_path = Path(tts_base_path, "latest.wav")
+        api.google_tts(tts_path, text_input=text)
 
-    api.google_tts(tts_path, text_input=text)
     play(AudioSegment.from_file(tts_path))
 
 
