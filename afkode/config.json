@@ -1,5 +1,5 @@
 {
-  "max_record_seconds": 420,
+  "max_record_seconds": 270,
   "short_time": 3,
   "size_threshold_bytes": 10240,
   "start_word": "record",
