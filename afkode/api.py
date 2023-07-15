@@ -62,7 +62,15 @@ def whisper(path: str) -> str:
     openai.api_key = get_credentials()["OPENAI_KEY"]
     try:
         transcript = openai.Audio.translate(
-            "whisper-1", open(path, "rb"), options={"language": "en", "temperature": "0"}
+            "whisper-1",
+            open(path, "rb"),
+            options={
+                "language": "en",
+                "temperature": "0",
+                "beam_size": 3,
+                "compression_ratio_threshold": 2.4,
+                "condition_on_previous_text": False,
+            },
         ).text
     except openai.error.InvalidRequestError:
         logging.error("Whisper API received <0.1s audio file")
