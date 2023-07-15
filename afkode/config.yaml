@@ -1,6 +1,0 @@
-short_time: 3 # How long each mini-record lasts
-tick: 0.1 # How quickly to break out of mini-record cycle on stopword
-start_word: "record"
-stop_word: "stop"
-size_threshold_bytes: 10240
-max_record_seconds: 420 # 7 minutes max before OpenAI has problems with .wav files

@@ -2,14 +2,13 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
+import json
 import logging
 import os
 import re
 from datetime import datetime as dt
 from pathlib import Path
 from typing import Any, Dict, List, Union
-
-import yaml
 
 
 def setup_logging(log_level: int = logging.DEBUG) -> None:
@@ -237,9 +236,9 @@ def load_config() -> Dict[str, Any]:
     Returns:
         Basic dictionary with user facing options.
     """
-    config_path = Path(get_base_path(), "afkode", "config.yaml")
+    config_path = Path(get_base_path(), "afkode", "config.json")
     with open(config_path, "r") as f:
-        config = yaml.safe_load(f)
+        config = json.load(f)
     return config
 
 
