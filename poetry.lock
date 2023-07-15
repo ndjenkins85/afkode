@@ -2095,6 +2095,25 @@ optional = true
 python-versions = "*"
 
 [[package]]
+name = "types-requests"
+version = "2.31.0.1"
+description = "Typing stubs for requests"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+types-urllib3 = "*"
+
+[[package]]
+name = "types-urllib3"
+version = "1.26.25.13"
+description = "Typing stubs for urllib3"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "4.6.3"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -2248,7 +2267,7 @@ tests = ["pytest", "pytest-cases", "pytest-cov"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.8,<3.11"
-content-hash = "be9c51ed3bdfef3bf19b4233043b4c067fc3a1de4bdf9bde40241fdcd0eff218"
+content-hash = "39d10b0826ec37844b3d8117658d85fdaf23ae9e241200c79321b5ac2de913fe"
 
 [metadata.files]
 aiohttp = []
@@ -2416,6 +2435,8 @@ tornado = []
 tqdm = []
 traitlets = []
 types-pyyaml = []
+types-requests = []
+types-urllib3 = []
 typing-extensions = []
 uri-template = []
 urllib3 = []
