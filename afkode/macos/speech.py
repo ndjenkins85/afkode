@@ -18,7 +18,7 @@ from afkode import api, utils
 
 
 def text_to_speech(sentence: str, idx: int) -> str:
-    """Create a gTTS object.
+    """Create a Google text to speech object.
 
     Args:
         sentence: input text to be spoken
