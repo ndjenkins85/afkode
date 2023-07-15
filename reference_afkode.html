@@ -57,8 +57,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-afkode.api">afkode.api</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.api.chatgpt"><code class="docutils literal notranslate"><span class="pre">chatgpt()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#afkode.api.get_credentials"><code class="docutils literal notranslate"><span class="pre">get_credentials()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#afkode.api.google_tts"><code class="docutils literal notranslate"><span class="pre">google_tts()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.api.whisper"><code class="docutils literal notranslate"><span class="pre">whisper()</span></code></a></li>
 </ul>
 </li>
@@ -82,6 +80,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_spoken_command_list"><code class="docutils literal notranslate"><span class="pre">get_spoken_command_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_directory"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_directory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.get_user_prompt_files"><code class="docutils literal notranslate"><span class="pre">get_user_prompt_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.utils.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.resolve_input_paths"><code class="docutils literal notranslate"><span class="pre">resolve_input_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.setup_logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.utils.split_transcription_on"><code class="docutils literal notranslate"><span class="pre">split_transcription_on()</span></code></a></li>
@@ -91,6 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.clear_data"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.clear_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.combine_wav_files"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.combine_wav_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.load_config"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.load_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.short_recording"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.short_recording()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.simple_record"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.simple_record()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.voice_interface.VoiceRecorder.start_detection"><code class="docutils literal notranslate"><span class="pre">VoiceRecorder.start_detection()</span></code></a></li>
@@ -105,7 +105,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.ios.listen.bluetooth"><code class="docutils literal notranslate"><span class="pre">bluetooth()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#afkode-ios-speech">afkode.ios.speech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-afkode.ios.speech">afkode.ios.speech</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.speech.play_blip"><code class="docutils literal notranslate"><span class="pre">play_blip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afkode.ios.speech.speak"><code class="docutils literal notranslate"><span class="pre">speak()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-afkode.macos.listen">afkode.macos.listen</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.listen.Recorder"><code class="docutils literal notranslate"><span class="pre">Recorder</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#afkode.macos.listen.Recorder.record"><code class="docutils literal notranslate"><span class="pre">Recorder.record()</span></code></a></li>
@@ -122,7 +126,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.play_audio"><code class="docutils literal notranslate"><span class="pre">play_audio()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.play_blip"><code class="docutils literal notranslate"><span class="pre">play_blip()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.speak"><code class="docutils literal notranslate"><span class="pre">speak()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.speak_old"><code class="docutils literal notranslate"><span class="pre">speak_old()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.split_text"><code class="docutils literal notranslate"><span class="pre">split_text()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#afkode.macos.speech.text_to_speech"><code class="docutils literal notranslate"><span class="pre">text_to_speech()</span></code></a></li>
 </ul>
@@ -168,7 +171,7 @@
 <li><p><a class="reference internal" href="#module-afkode.utils" id="id7">afkode.utils</a></p></li>
 <li><p><a class="reference internal" href="#module-afkode.voice_interface" id="id8">afkode.voice_interface</a></p></li>
 <li><p><a class="reference internal" href="#module-afkode.ios.listen" id="id9">afkode.ios.listen</a></p></li>
-<li><p><a class="reference internal" href="#afkode-ios-speech" id="id10">afkode.ios.speech</a></p></li>
+<li><p><a class="reference internal" href="#module-afkode.ios.speech" id="id10">afkode.ios.speech</a></p></li>
 <li><p><a class="reference internal" href="#module-afkode.macos.listen" id="id11">afkode.macos.listen</a></p></li>
 <li><p><a class="reference internal" href="#module-afkode.macos.speech" id="id12">afkode.macos.speech</a></p></li>
 </ul>
@@ -235,38 +238,6 @@
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The generated text response.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="afkode.api.get_credentials">
-<span class="sig-prename descclassname"><span class="pre">afkode.api.</span></span><span class="sig-name descname"><span class="pre">get_credentials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.api.get_credentials" title="Permalink to this definition"></a></dt>
-<dd><p>Loads credentials for API calls.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Credentials from several services used in API calls</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="afkode.api.google_tts">
-<span class="sig-prename descclassname"><span class="pre">afkode.api.</span></span><span class="sig-name descname"><span class="pre">google_tts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssml_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.api.google_tts" title="Permalink to this definition"></a></dt>
-<dd><p>Converts text to speech audio file and saves.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – Location to write completed google TTS file</p></li>
-<li><p><strong>text_input</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Text input for text to speech</p></li>
-<li><p><strong>ssml_input</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Alternatively pass in SSML input for text to speech</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -483,6 +454,17 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="afkode.utils.load_config">
+<span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.load_config" title="Permalink to this definition"></a></dt>
+<dd><p>Load the config file for basic behaviour change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="afkode.utils.resolve_input_paths">
 <span class="sig-prename descclassname"><span class="pre">afkode.utils.</span></span><span class="sig-name descname"><span class="pre">resolve_input_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.utils.resolve_input_paths" title="Permalink to this definition"></a></dt>
 <dd><p>Given a list of file paths, test and resolve them.</p>
@@ -572,6 +554,17 @@
 <dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.combine_wav_files">
 <span class="sig-name descname"><span class="pre">combine_wav_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.combine_wav_files" title="Permalink to this definition"></a></dt>
 <dd><p>Combines several .wav files into a single one for transcription.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="afkode.voice_interface.VoiceRecorder.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.voice_interface.VoiceRecorder.load_config" title="Permalink to this definition"></a></dt>
+<dd><p>Load relevant configuration options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
@@ -690,8 +683,34 @@
 </dd></dl>
 
 </section>
-<section id="afkode-ios-speech">
-<h2>afkode.ios.speech<a class="headerlink" href="#afkode-ios-speech" title="Permalink to this heading"></a></h2>
+<section id="module-afkode.ios.speech">
+<span id="afkode-ios-speech"></span><h2>afkode.ios.speech<a class="headerlink" href="#module-afkode.ios.speech" title="Permalink to this heading"></a></h2>
+<p>Contains functions related to text-to-speech on iOS with pythonista.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.speech.play_blip">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.speech.</span></span><span class="sig-name descname"><span class="pre">play_blip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.speech.play_blip" title="Permalink to this definition"></a></dt>
+<dd><p>Play a short sound to help notify of API speed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="afkode.ios.speech.speak">
+<span class="sig-prename descclassname"><span class="pre">afkode.ios.speech.</span></span><span class="sig-name descname"><span class="pre">speak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.ios.speech.speak" title="Permalink to this definition"></a></dt>
+<dd><p>Say the text using iOS capability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – text to say</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-afkode.macos.listen">
 <span id="afkode-macos-listen"></span><h2>afkode.macos.listen<a class="headerlink" href="#module-afkode.macos.listen" title="Permalink to this heading"></a></h2>
@@ -812,20 +831,6 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="afkode.macos.speech.speak">
 <span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">speak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.speak" title="Permalink to this definition"></a></dt>
-<dd><p>Run text-to-speech on non-ios platform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>text</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – full text to be spoken.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="afkode.macos.speech.speak_old">
-<span class="sig-prename descclassname"><span class="pre">afkode.macos.speech.</span></span><span class="sig-name descname"><span class="pre">speak_old</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#afkode.macos.speech.speak_old" title="Permalink to this definition"></a></dt>
 <dd><p>Run text-to-speech on non-ios platform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
