@@ -104,13 +104,13 @@ class VoiceRecorder:
 
             # Will be shorter than original if there was a start word
             start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
-            if len(start_test) < len(transcription):
+            if len(start_test.strip()) < len(transcription.strip()):
                 Path(self.start_folder, f"{short_audio_path.name}.txt").touch()
                 logging.info("<<<Start command")
 
             # Will be shorter than original if there was a start word
             stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
-            if len(stop_test) < len(transcription):
+            if len(stop_test.strip()) < len(transcription.strip()):
                 # If stop word, set the break flag leading to stopping recording
                 stop_threads = True
                 logging.debug("Transcribe stopped")

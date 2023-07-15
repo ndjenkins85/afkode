@@ -6,8 +6,6 @@ It handles the execution of the program and orchestrates the different component
 """
 
 import logging
-from datetime import datetime as dt
-from pathlib import Path
 
 # Any script entry must have this to work on iOS
 # and we can use it for alternative importing
@@ -19,7 +17,8 @@ except ModuleNotFoundError:
     from afkode import set_env  # noqa: F401
     from afkode.macos.speech import speak
 
-from afkode import action, api, utils, voice_interface
+from afkode import action, utils, voice_interface
+from afkode.commands import summarize_filename
 
 
 def start() -> None:
@@ -37,38 +36,28 @@ def start() -> None:
         recorder.start_detection()
         speak("Stopped")
 
-        transcription = recorder.transcribe_whole()
-        logging.info(transcription)
+        transcript = recorder.transcribe_whole()
+        logging.info(transcript)
 
-        # Soft exit using a very short transcription
-        exit_test = utils.split_transcription_on(transcription, words="exit", strategy="detect")
-        if len(exit_test) < len(transcription) and len(transcription) < 21:
+        # Soft exit using a very short transcript
+        exit_test = utils.split_transcription_on(transcript, words="exit", strategy="detect")
+        if len(exit_test.strip()) < len(transcript.strip()) and len(transcript) < 21:
             speak("Exiting")
             break
 
-        # Commands
-        resolved = action.Command(transcription)
+        # Checks if it is a command
+        resolved = action.Command(transcript)
         if resolved.command:
             speak(resolved.command.replace("_", " "))
             result = resolved.execute()
             speak(result)
-
         # It could be that the command wasn't recognised and we dont want it to be recorded like that
-        elif len(transcription) < 21:
+        elif len(transcript) < 21:
             speak("Skipping")
+        # Otherwise use the default command to summarize_filename and save transcript
         else:
-            # Otherwise it's not a command
-            proposed_filename_prompt = Path(utils.get_prompt_path(), "programflow", "proposed_filename.txt").read_text()
-
-            # TODO, surely there is a template approach to prompts?
-            proposed_filename_prompt += (
-                "\n" + utils.get_user_prompt_files() + "\n\n--------- Here is the user input:\n" + transcription
-            )
-            logging.debug(proposed_filename_prompt)
-            proposed_filename_response = api.chatgpt(proposed_filename_prompt)
-            speak(proposed_filename_response)
-            output_path = Path(utils.get_user_prompt_directory(), f"{dt.now()} - {proposed_filename_response}.txt")
-            output_path.write_text(transcription, encoding="utf-8")
+            proposed_filename = summarize_filename.execute(transcript)
+            speak(proposed_filename)
 
 
 if __name__ == "__main__":
