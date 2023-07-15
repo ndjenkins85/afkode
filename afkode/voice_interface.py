@@ -41,12 +41,6 @@ class VoiceRecorder:
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
         self.simple_wait = 3
-        self.short_time = None
-        self.tick = None
-        self.start_word = None
-        self.stop_word = None
-        self.size_threshold_bytes = None
-        self.max_record_seconds = None
         self.load_config()
 
     def load_config(self) -> None:
@@ -54,8 +48,8 @@ class VoiceRecorder:
         config = utils.load_config()
         self.short_time = config.get("short_time", 3)
         self.tick = config.get("tick", 0.1)
-        self.start_word = config.get("start_word", "record")
-        self.stop_word = config.get("stop_word", "stop")
+        self.start_word = config.get("start_word", "")
+        self.stop_word = config.get("stop_word", "")
         self.size_threshold_bytes = config.get("size_threshold_bytes", 10 * 1024)
         self.max_record_seconds = config.get("max_record_seconds", 420)
 

@@ -232,7 +232,11 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
 
 
 def load_config() -> Dict[str, Any]:
-    """Load the config file for basic behaviour change."""
+    """Load the config file for basic behaviour change.
+
+    Returns:
+        Basic dictionary with user facing options.
+    """
     config_path = Path(get_base_path(), "afkode", "config.yaml")
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
