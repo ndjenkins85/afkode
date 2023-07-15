@@ -22,8 +22,7 @@ except ModuleNotFoundError:
     from afkode.macos.listen import bluetooth
     from afkode.macos.speech import play_blip
 
-from afkode import api, utils
-from afkode.globals import *  # noqa: F403, F401
+from afkode import api, globals, utils
 
 
 class VoiceRecorder:
@@ -40,12 +39,18 @@ class VoiceRecorder:
         self.start_folder = Path(self.folder_base, "start")
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
-        self.short_time = 3
         self.simple_wait = 3
-        self.tick = 0.1
-        self.start_word = "record"
-        self.stop_word = "stop"
-        self.size_threshold_bytes = 10 * 1024
+        self.load_config()
+
+    def load_config(self) -> None:
+        """Load relevant configuration options."""
+        config = utils.load_config()
+        self.short_time = config.get("short_time", 3)
+        self.tick = config.get("tick", 0.1)
+        self.start_word = config.get("start_word", "")
+        self.stop_word = config.get("stop_word", "")
+        self.size_threshold_bytes = config.get("size_threshold_bytes", 10 * 1024)
+        self.max_record_seconds = config.get("max_record_seconds", 420)
 
     def short_recording(self, q) -> None:  # type: ignore # noqa: ANN001
         """We use shorter recordings for stop word detection every few seconds.
@@ -53,19 +58,24 @@ class VoiceRecorder:
         Args:
             q: Queue to hold completed audio paths.
         """
-        global stop_threads
         file_counter = 1
-        while not stop_threads:
+        while not globals.stop_threads:
             short_audio_path = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
             recorder = bluetooth(str(short_audio_path))
             recorder.record()
             for _ in range(int(self.short_time / self.tick)):
                 time.sleep(self.tick)
-                if stop_threads:
+                if globals.stop_threads:
                     break
             recorder.stop()
             recorder.release()
             file_counter += 1
+
+            # Maximum record time
+            if (file_counter * self.short_time) > self.max_record_seconds:
+                logging.info(f"Reached maximum record time {self.max_record_seconds}")
+                globals.stop_threads = True
+
             # Fallback in case for some reason the recorder is failing to produce proper files
             if short_audio_path.stat().st_size >= self.size_threshold_bytes:
                 q.put(short_audio_path)
@@ -78,8 +88,7 @@ class VoiceRecorder:
         Args:
             q: Queue to hold completed audio paths.
         """
-        global stop_threads
-        while not stop_threads:
+        while not globals.stop_threads:
             short_audio_path = q.get()
             transcribe_path = Path(self.transcript_folder, f"{short_audio_path.name}.txt")
 
@@ -92,15 +101,15 @@ class VoiceRecorder:
 
             # Will be shorter than original if there was a start word
             start_test = utils.split_transcription_on(transcription, words=self.start_word, strategy="detect")
-            if len(start_test) < len(transcription):
+            if len(start_test.strip()) < len(transcription.strip()):
                 Path(self.start_folder, f"{short_audio_path.name}.txt").touch()
                 logging.info("<<<Start command")
 
             # Will be shorter than original if there was a start word
             stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
-            if len(stop_test) < len(transcription):
+            if len(stop_test.strip()) < len(transcription.strip()):
                 # If stop word, set the break flag leading to stopping recording
-                stop_threads = True
+                globals.stop_threads = True
                 logging.debug("Transcribe stopped")
                 q.task_done()
                 break
@@ -138,8 +147,7 @@ class VoiceRecorder:
 
     def start_detection(self) -> None:
         """Start the voice detection process."""
-        global stop_threads
-        stop_threads = False
+        globals.stop_threads = False
         q = queue.Queue()  # type: ignore
         t1 = threading.Thread(target=self.short_recording, args=(q,))
         t2 = threading.Thread(target=self.transcribe_and_detect_stop, args=(q,))

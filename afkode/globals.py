@@ -7,4 +7,8 @@ import logging
 global stop_threads
 stop_threads = False
 
+global system_message
+system_message = ""
+
+global LOG_LEVEL
 LOG_LEVEL = logging.INFO

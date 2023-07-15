@@ -1,7 +1,8 @@
 name: Release
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '*'
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -11,8 +12,12 @@ jobs:
       with:
         python-version: '3.8'
         architecture: x64
+    - run: sudo apt-get install portaudio19-dev
     - run: pip install nox==2023.04.22
     - run: pip install poetry==1.1.9
+    - run: pip install urllib3==1.26.16
+    - run: pip install requests_toolbelt==1.0.0
+    - run: pip install requests==2.23.0
     - run: nox
     - run: poetry build
     - run: poetry publish --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
