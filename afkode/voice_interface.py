@@ -23,7 +23,7 @@ except ModuleNotFoundError:
     from afkode.macos.speech import play_blip
 
 from afkode import api, utils
-from afkode.globals import *  # noqa: F403, F401
+from afkode.globals import stop_threads  # noqa: F403, F401
 
 
 class VoiceRecorder:

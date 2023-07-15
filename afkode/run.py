@@ -61,4 +61,5 @@ def start() -> None:
 
 
 if __name__ == "__main__":
+    utils.setup_logging()
     start()

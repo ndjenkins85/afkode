@@ -16,16 +16,6 @@ from google.oauth2 import service_account
 
 from afkode import utils
 
-# # Any script entry must have this to work on iOS
-# # and we can use it for alternative importing
-# try:
-#     import set_env  # noqa: F401
-
-#     from afkode.ios.speech import speak
-# except ModuleNotFoundError:
-#     from afkode import set_env  # noqa: F401
-#     from afkode.macos.speech import speak
-
 
 def get_credentials() -> Dict[str, str]:
     """Loads credentials for API calls.

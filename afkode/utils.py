@@ -10,8 +10,10 @@ from datetime import datetime as dt
 from pathlib import Path
 from typing import Any, Dict, List, Union
 
+from afkode import globals
 
-def setup_logging(log_level: int = logging.DEBUG) -> None:
+
+def setup_logging(log_level: int = globals.LOG_LEVEL) -> None:
     """Configures the logging settings for the application.
 
     Args:
@@ -35,6 +37,7 @@ def setup_logging(log_level: int = logging.DEBUG) -> None:
             handlers=[logging.StreamHandler()],
         )
         logging.warning(msg)
+    logging.info(globals.system_message)
 
 
 def get_base_path() -> Path:

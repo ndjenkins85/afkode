@@ -14,13 +14,14 @@ try:
 except ModuleNotFoundError:
     import importlib_resources
 
+    from afkode import globals
+
     folder_parts = importlib_resources.files("afkode").parts
     if "site-packages" in folder_parts:
         mode = "Running on MacOS as installed software"
     else:
         mode = "Running on MacOS (poetry-python)"
 
-from afkode import globals, utils
+from afkode import globals  # noqa: F403, F401
 
-utils.setup_logging(log_level=globals.LOG_LEVEL)
-logging.info(mode)
+globals.system_message = mode
