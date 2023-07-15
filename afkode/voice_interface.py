@@ -22,8 +22,7 @@ except ModuleNotFoundError:
     from afkode.macos.listen import bluetooth
     from afkode.macos.speech import play_blip
 
-from afkode import api, utils
-from afkode.globals import stop_threads  # noqa: F403, F401
+from afkode import api, globals, utils
 
 
 class VoiceRecorder:
@@ -59,15 +58,14 @@ class VoiceRecorder:
         Args:
             q: Queue to hold completed audio paths.
         """
-        global stop_threads
         file_counter = 1
-        while not stop_threads:
+        while not globals.stop_threads:
             short_audio_path = Path(self.short_folder, "short" + str(file_counter).zfill(4) + self.file_ext)
             recorder = bluetooth(str(short_audio_path))
             recorder.record()
             for _ in range(int(self.short_time / self.tick)):
                 time.sleep(self.tick)
-                if stop_threads:
+                if globals.stop_threads:
                     break
             recorder.stop()
             recorder.release()
@@ -76,7 +74,7 @@ class VoiceRecorder:
             # Maximum record time
             if (file_counter * self.short_time) > self.max_record_seconds:
                 logging.info(f"Reached maximum record time {self.max_record_seconds}")
-                stop_threads = True
+                globals.stop_threads = True
 
             # Fallback in case for some reason the recorder is failing to produce proper files
             if short_audio_path.stat().st_size >= self.size_threshold_bytes:
@@ -90,8 +88,7 @@ class VoiceRecorder:
         Args:
             q: Queue to hold completed audio paths.
         """
-        global stop_threads
-        while not stop_threads:
+        while not globals.stop_threads:
             short_audio_path = q.get()
             transcribe_path = Path(self.transcript_folder, f"{short_audio_path.name}.txt")
 
@@ -112,7 +109,7 @@ class VoiceRecorder:
             stop_test = utils.split_transcription_on(transcription, words=self.stop_word, strategy="detect")
             if len(stop_test.strip()) < len(transcription.strip()):
                 # If stop word, set the break flag leading to stopping recording
-                stop_threads = True
+                globals.stop_threads = True
                 logging.debug("Transcribe stopped")
                 q.task_done()
                 break
@@ -150,8 +147,7 @@ class VoiceRecorder:
 
     def start_detection(self) -> None:
         """Start the voice detection process."""
-        global stop_threads
-        stop_threads = False
+        globals.stop_threads = False
         q = queue.Queue()  # type: ignore
         t1 = threading.Thread(target=self.short_recording, args=(q,))
         t2 = threading.Thread(target=self.transcribe_and_detect_stop, args=(q,))
