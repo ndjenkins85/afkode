@@ -213,6 +213,9 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
     Returns:
         Cleaned transcription text that focuses on info between keywords
     """
+    # If no word, bypass this whole thing
+    if words == "":
+        return transcription
     if isinstance(words, str):
         words = [words]
     pattern = r"[\W]*\b{}\b[\W]*".format("|".join(map(re.escape, words)))
