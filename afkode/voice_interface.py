@@ -40,12 +40,24 @@ class VoiceRecorder:
         self.start_folder = Path(self.folder_base, "start")
         self.transcript_folder = Path(self.folder_base, "transcript")
         self.file_ext = ".wav"
-        self.short_time = 3
         self.simple_wait = 3
-        self.tick = 0.1
-        self.start_word = "record"
-        self.stop_word = "stop"
-        self.size_threshold_bytes = 10 * 1024
+        self.short_time = None
+        self.tick = None
+        self.start_word = None
+        self.stop_word = None
+        self.size_threshold_bytes = None
+        self.max_record_seconds = None
+        self.load_config()
+
+    def load_config(self) -> None:
+        """Load relevant configuration options."""
+        config = utils.load_config()
+        self.short_time = config.get("short_time", 3)
+        self.tick = config.get("tick", 0.1)
+        self.start_word = config.get("start_word", "record")
+        self.stop_word = config.get("stop_word", "stop")
+        self.size_threshold_bytes = config.get("size_threshold_bytes", 10 * 1024)
+        self.max_record_seconds = config.get("max_record_seconds", 420)
 
     def short_recording(self, q) -> None:  # type: ignore # noqa: ANN001
         """We use shorter recordings for stop word detection every few seconds.
@@ -66,6 +78,12 @@ class VoiceRecorder:
             recorder.stop()
             recorder.release()
             file_counter += 1
+
+            # Maximum record time
+            if (file_counter * self.short_time) > self.max_record_seconds:
+                logging.info(f"Reached maximum record time {self.max_record_seconds}")
+                stop_threads = True
+
             # Fallback in case for some reason the recorder is failing to produce proper files
             if short_audio_path.stat().st_size >= self.size_threshold_bytes:
                 q.put(short_audio_path)
