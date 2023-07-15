@@ -1,0 +1,8 @@
+{
+  "max_record_seconds": 270,
+  "short_time": 3,
+  "size_threshold_bytes": 10240,
+  "start_word": "record",
+  "stop_word": "stop",
+  "tick": 0.1
+}

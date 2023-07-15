@@ -2,7 +2,6 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 
 """This script helps imports on Pythonista or MacOS."""
-import logging
 import os
 import sys
 
@@ -20,7 +19,6 @@ except ModuleNotFoundError:
     else:
         mode = "Running on MacOS (poetry-python)"
 
-from afkode import globals, utils
+from afkode import globals  # noqa: F403, F401
 
-utils.setup_logging(log_level=globals.LOG_LEVEL)
-logging.info(mode)
+globals.system_message = mode

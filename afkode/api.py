@@ -16,16 +16,6 @@ from google.oauth2 import service_account
 
 from afkode import utils
 
-# # Any script entry must have this to work on iOS
-# # and we can use it for alternative importing
-# try:
-#     import set_env  # noqa: F401
-
-#     from afkode.ios.speech import speak
-# except ModuleNotFoundError:
-#     from afkode import set_env  # noqa: F401
-#     from afkode.macos.speech import speak
-
 
 def get_credentials() -> Dict[str, str]:
     """Loads credentials for API calls.
@@ -72,7 +62,15 @@ def whisper(path: str) -> str:
     openai.api_key = get_credentials()["OPENAI_KEY"]
     try:
         transcript = openai.Audio.translate(
-            "whisper-1", open(path, "rb"), options={"language": "en", "temperature": "0"}
+            "whisper-1",
+            open(path, "rb"),
+            options={
+                "language": "en",
+                "temperature": "0",
+                "beam_size": 3,
+                "compression_ratio_threshold": 2.4,
+                "condition_on_previous_text": False,
+            },
         ).text
     except openai.error.InvalidRequestError:
         logging.error("Whisper API received <0.1s audio file")
@@ -81,6 +79,15 @@ def whisper(path: str) -> str:
         logging.error("Whisper API connection error")
         # speak("Connection error")
         transcript = "exit"
+
+    # Whisper is prone to hallucinations, so we suppress known hallucination outputs
+    # They aren't really a problem at least in the longer transcripts, but they mess up the logging
+    hallucinations_path = Path(utils.get_base_path(), "afkode", "prompts", "debug", "whisper_hallucinations.txt")
+    hallucinations = hallucinations_path.read_text().split("\n")
+    if transcript in hallucinations:
+        logging.debug("Hallucination detected")
+        transcript = ""
+
     return transcript
 
 

@@ -2,15 +2,18 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
+import json
 import logging
 import os
 import re
 from datetime import datetime as dt
 from pathlib import Path
-from typing import List, Union
+from typing import Any, Dict, List, Union
+
+from afkode import globals
 
 
-def setup_logging(log_level: int = logging.DEBUG) -> None:
+def setup_logging(log_level: int = globals.LOG_LEVEL) -> None:
     """Configures the logging settings for the application.
 
     Args:
@@ -34,6 +37,7 @@ def setup_logging(log_level: int = logging.DEBUG) -> None:
             handlers=[logging.StreamHandler()],
         )
         logging.warning(msg)
+    logging.info(globals.system_message)
 
 
 def get_base_path() -> Path:
@@ -211,6 +215,9 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
     Returns:
         Cleaned transcription text that focuses on info between keywords
     """
+    # If no word, bypass this whole thing
+    if words == "":
+        return transcription
     if isinstance(words, str):
         words = [words]
     pattern = r"[\W]*\b{}\b[\W]*".format("|".join(map(re.escape, words)))
@@ -224,6 +231,18 @@ def split_transcription_on(transcription: str, words: Union[str, List[str]], str
     else:
         raise ValueError("Invalid strategy")
     return clean_transcription
+
+
+def load_config() -> Dict[str, Any]:
+    """Load the config file for basic behaviour change.
+
+    Returns:
+        Basic dictionary with user facing options.
+    """
+    config_path = Path(get_base_path(), "afkode", "config.json")
+    with open(config_path, "r") as f:
+        config = json.load(f)
+    return config
 
 
 def get_spoken_command_list() -> List[str]:
