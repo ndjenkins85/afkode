@@ -79,6 +79,15 @@ def whisper(path: str) -> str:
         logging.error("Whisper API connection error")
         # speak("Connection error")
         transcript = "exit"
+
+    # Whisper is prone to hallucinations, so we suppress known hallucination outputs
+    # They aren't really a problem at least in the longer transcripts, but they mess up the logging
+    hallucinations_path = Path(utils.get_base_path(), "afkode", "prompts", "debug", "whisper_hallucinations.txt")
+    hallucinations = hallucinations_path.read_text().split("\n")
+    if transcript in hallucinations:
+        logging.debug("Hallucination detected")
+        transcript = ""
+
     return transcript
 
 
