@@ -2,7 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """AFKode module. Also includes version update history."""
 
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 # Test automatic release on tagged version
 # __version__ = "0.4.0"
 # Bugfixes and user facing improvements, particularly to help with recording audio at DnD games.
