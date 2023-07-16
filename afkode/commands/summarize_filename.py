@@ -18,7 +18,7 @@ def execute(transcript: str) -> str:
     Returns:
         Chatgpt response, limited to four words
     """
-    prompt = Path(utils.get_prompt_path(), "programflow", "proposed_filename.txt").read_text()
+    prompt = Path(utils.get_prompt_path(), "programflow", "proposed_filename.txt").read_text(encoding="utf-8")
     request = prompt + "\n\n--------- Here is the user input:\n" + transcript
 
     logging.debug(request)

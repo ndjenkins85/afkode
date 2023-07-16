@@ -16,7 +16,9 @@ def execute(not_used: str) -> str:
     Returns:
         Chatgpt reponse
     """
-    program_commands_prompt = Path(utils.get_prompt_path(), "debug", "program_improvements.txt").read_text()
+    program_commands_prompt = Path(utils.get_prompt_path(), "debug", "program_improvements.txt").read_text(
+        encoding="utf-8"
+    )
 
     readme = meta.get_formatted_readme()
 

@@ -83,7 +83,7 @@ def whisper(path: str) -> str:
     # Whisper is prone to hallucinations, so we suppress known hallucination outputs
     # They aren't really a problem at least in the longer transcripts, but they mess up the logging
     hallucinations_path = Path(utils.get_base_path(), "afkode", "prompts", "debug", "whisper_hallucinations.txt")
-    hallucinations = hallucinations_path.read_text().split("\n")
+    hallucinations = hallucinations_path.read_text(encoding="utf-8").split("\n")
     if transcript in hallucinations:
         logging.debug("Hallucination detected")
         transcript = ""

@@ -39,7 +39,7 @@ PyAudio = "^0.2.13"
 PyYAML = "^6.0"
 pydub = "^0.25.1"
 gTTS = "^2.3.2"
-
+google-auth = "2.22.0"
 requests = "^2.23.0"
 requests_toolbelt = "^1.0.0"
 urllib3 = "1.26.16"
@@ -66,13 +66,13 @@ m2r2 = { version = "^0.3", optional = true }
 sphinx = { version = "^6.2", optional = true }
 sphinx-autodoc-typehints = { version = "^1.23", optional = true }
 sphinx_rtd_theme = { version = "^1.2", optional = true }
-google-auth = "^2.21.0"
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.23.1"
 ipython = "7.23.1"
 traitlets = "^5.9.0"
 jupyter = "^1.0.0"
+lxml = "4.9.2"
 nox = "^2023.04.22"
 pre-commit = "^2.15"
 MarkupSafe = "^2.0.1"
