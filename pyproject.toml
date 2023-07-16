@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "afkode"
-version = "0.4.3"
+version = "0.4.4"
 description = "Personal voice command interface for iPhone on pythonista powered by Whisper and ChatGPT."
 license = "MIT"
 authors = ["Nick Jenkins"]
