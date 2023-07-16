@@ -42,8 +42,12 @@ Follow the [Instructions for developers](#instructions-for-developers) to set up
 MacOS requirements:
 
 - Python 3.8
+- pyaudio
 - ffmpeg for mp3 text-to-speech, `brew install ffmpeg`
 
+```
+brew install portaudio
+```
 
 Note: Instructions marked with %% are not functioning and are for demo purposes only.
 
