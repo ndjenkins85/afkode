@@ -1,0 +1,3 @@
+The expected output format is as a lullaby song.
+
+The total response must be limited to {response_allowance} words.

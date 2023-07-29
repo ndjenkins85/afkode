@@ -1,0 +1,6 @@
+The expected output format must be only a number to represent your summarization choice.
+Absolutely no explanation or justification should be included in the output text.
+
+1 - Map reduce
+2 - Rolling summary
+3 - Rank relevance
