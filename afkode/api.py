@@ -23,22 +23,34 @@ def get_credentials() -> Dict[str, str]:
     Returns:
         Credentials from several services used in API calls
     """
-    credentials = {"GOOGLE_SERVICE_ACCOUNT": "", "OPENAI_KEY": "", "GOOGLE_KEY": "", "GOOGLE_OATH2": ""}
+    credentials = {
+        "GOOGLE_SERVICE_ACCOUNT": "",
+        "OPENAI_KEY": "",
+        "GOOGLE_KEY": "",
+        "GOOGLE_OATH2": "",
+        "TWILIO_ACCOUNT_SID": "",
+        "TWILIO_AUTH_TOKEN": "",
+        "TWILIO_NUMBER_TO": "",
+        "TWILIO_NUMBER_FROM": "",
+    }
 
+    # Perform basic key loading from general file
+    api_keys_path = Path(utils.get_base_path(), "credentials", "api_keys.json")
+    if api_keys_path.exists():
+        api_keys = json.load(api_keys_path.open())
+        for key, value in credentials.items():
+            if key in api_keys:
+                credentials[key] = api_keys[key]
+            else:
+                credentials[key] = os.getenv(key, "")
+
+    # Get specific google service credentials
     google_service_credentials_path = Path(utils.get_base_path(), "credentials", "google.json")
     if google_service_credentials_path.exists():
         credentials["GOOGLE_SERVICE_ACCOUNT"] = json.loads(google_service_credentials_path.read_text())
     elif os.getenv("GOOGLE_SERVICE_ACCOUNT"):
         google_service_account = str(os.getenv("GOOGLE_SERVICE_ACCOUNT"))
         credentials["GOOGLE_SERVICE_ACCOUNT"] = json.loads(google_service_account)
-
-    api_keys_path = Path(utils.get_base_path(), "credentials", "api_keys.json")
-    if api_keys_path.exists():
-        credentials["OPENAI_KEY"] = json.loads(api_keys_path.read_text()).get("OPENAI_KEY")
-        credentials["GOOGLE_KEY"] = json.loads(api_keys_path.read_text()).get("GOOGLE_KEY")
-    else:
-        credentials["OPENAI_KEY"] = os.getenv("OPENAI_KEY", "")
-        credentials["GOOGLE_KEY"] = os.getenv("GOOGLE_KEY", "")
 
     if credentials.get("GOOGLE_SERVICE_ACCOUNT"):
         gsa_credentials = service_account.Credentials.from_service_account_file(google_service_credentials_path)
