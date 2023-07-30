@@ -1,0 +1,4 @@
+Your goal is to transform the following text into valid SSML Speech Synthesis Markup Language.
+The aim is to prepare the text to be spoken aloud using text to voice.
+Make the text as interesting as possible by using the prosody tag functions where it makes sense.
+----

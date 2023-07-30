@@ -14,11 +14,11 @@ from gtts import gTTS
 from pydub import AudioSegment
 from pydub.playback import play
 
-from afkode import utils
+from afkode import api, utils
 
 
 def text_to_speech(sentence: str, idx: int) -> str:
-    """Create a gTTS object.
+    """Create a Google text to speech object.
 
     Args:
         sentence: input text to be spoken
@@ -91,7 +91,7 @@ def split_text(text: str) -> List[str]:
     return splits
 
 
-def speak(text: str) -> None:
+def speak_old(text: str) -> None:
     """Run text-to-speech on non-ios platform.
 
     Args:
@@ -115,6 +115,29 @@ def speak(text: str) -> None:
 
     # Wait for all the audio files to be played
     q.join()
+
+
+def speak(text: str) -> None:
+    """Run text-to-speech on non-ios platform.
+
+    Args:
+        text: full text to be spoken.
+    """
+    tts_base_path = Path(utils.get_base_path(), "data", "text_to_speech")
+    if not tts_base_path.exists():
+        tts_base_path.mkdir(parents=True)
+    logging.info(f">>>{text}")
+
+    # Attempt to use cache if couple of words or is a command
+    if len(text.split(" ")) <= 2 or text in utils.get_spoken_command_list():
+        tts_path = Path(tts_base_path, f"{text}.wav")
+        if not tts_path.exists():
+            api.google_tts(tts_path, text_input=text)
+    else:
+        tts_path = Path(tts_base_path, "latest.wav")
+        api.google_tts(tts_path, text_input=text)
+
+    play(AudioSegment.from_file(tts_path))
 
 
 def play_blip() -> None:
