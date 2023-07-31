@@ -67,6 +67,8 @@ sphinx = { version = "^6.2", optional = true }
 sphinx-autodoc-typehints = { version = "^1.23", optional = true }
 sphinx_rtd_theme = { version = "^1.2", optional = true }
 twilio = "^8.5.0"
+Flask = "^2.3.2"
+Flask-Sockets = "^0.2.1"
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.23.1"
