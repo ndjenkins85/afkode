@@ -3,7 +3,7 @@
   "model_tokens": 4000,
   "prompt_context": "data/dnd/20230709/main_summary_4.txt",
   "prompt_goal": "Summarize the main storyline plot of the dungeons and dragons adventure",
-  "prompt_input": "data/user_response/2023-07-21*.txt",
+  "prompt_input": "data/user_response/2023-07-31*.txt",
   "prompt_output": "",
   "response_allowance_max": 400,
   "response_allowance_min": 200
