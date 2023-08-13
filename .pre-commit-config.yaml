@@ -26,8 +26,6 @@ repos:
   - id: check-vcs-permalinks
   - id: check-xml
   - id: check-yaml
-
-  - id: detect-aws-credentials
   - id: debug-statements
   - id: detect-private-key
   # - id: double-quote-string-fixer

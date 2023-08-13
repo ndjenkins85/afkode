@@ -262,11 +262,14 @@ def get_spoken_command_list() -> List[str]:
     return command_files
 
 
-def load_config(input_path_raw: Union[Path, str]) -> Dict[str, Any]:
+def load_km_config(input_path_raw: Union[Path, str]) -> Dict[str, Any]:
     """Loads and checks an input config file.
 
     Args:
-        input_path: Location of yaml file relative to working directory.
+        input_path_raw: Location of yaml file relative to working directory.
+
+    Raises:
+        ValueError: unresolvable paths
 
     Returns:
         Program configuration instructions in JSON compatable format
@@ -287,43 +290,44 @@ def load_config(input_path_raw: Union[Path, str]) -> Dict[str, Any]:
         logging.error(message)
         raise ValueError(message)
 
-    _check_config_format(config)
+    # _check_config_format(config)
     logging.debug(f"Config: {config}")
     return config
 
 
-def _check_config_format(config: Dict[str, Any]) -> bool:
-    """Ensure config conforms to format requirements."""
-    return True
+# def _check_config_format(config: Dict[str, Any]) -> bool:
+#     """Ensure config conforms to format requirements."""
+#     return True
 
 
 def resolve_paths(paths_list: List[str]) -> List[Path]:
     """Assesses which input folders and files are specified in config.
 
     Args:
-        config: Standard config used in project
+        paths_list: list of string paths to be resolved
+
+    Raises:
+        ValueError: unresolvable paths
 
     Returns:
         A flat list of all file paths specified in config
-    """    
+    """
     resolved_paths = []
-    for path in paths_list:
-        if Path(path).parts[0] == '/':
-            file_path = str(Path(*Path(path).parts[1:]))
-        else:
-            file_path = path
+    for path_str in paths_list:
+        if Path(path_str).parts[0] == "/":
+            path_str = str(Path(*Path(path_str).parts[1:]))
 
-        file_paths = list(Path('/').glob(str(file_path)))
+        paths: List[Path] = list(Path("/").glob(str(path_str)))
 
-        if len(file_paths) == 0:
-            message = f"Could not find any files at {path}"
+        if len(paths) == 0:
+            message = f"Could not find any files at {path_str}"
             logging.error(message)
             raise ValueError(message)
 
-        for file_path in file_paths:
-            if not file_path.exists():
+        for path in paths:
+            if not path.exists():
                 message = "Could not find file at specified location"
                 logging.error(message)
-                raise ValueError(message)        
-            resolved_paths.append(file_path)
+                raise ValueError(message)
+            resolved_paths.append(path)
     return resolved_paths
