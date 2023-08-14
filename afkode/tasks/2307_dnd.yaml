@@ -12,17 +12,8 @@ context: >
     - Terry is Ela
   The characters are guildmates of 'the hunters' from halfmoon town, and perform quests and adventures together.
 
-file_types:
-  - txt: plain text file
-
-content_types:
-  - transcripts: transcriptions of voice recordings of interactions between players and their characters
-  - writings: edited content from players
-
-paths:
-  - path: "/Users/nicholasjenkins/Documents/2307 DnD/transcripts/*/*.txt"
-    file_type: txt
-    content_type: transcripts
-  - path: "/Users/nicholasjenkins/Documents/2307 DnD/writings/*/*.txt"
-    file_type: txt
-    writings: transcripts
+resources:
+  - path: "/Users/bytedance/Documents/2307_dnd/transcripts/*/*.txt"
+    context: "This data is transcriptions of voice recordings of interactions between players and their characters"
+  - path: "/Users/bytedance/Documents/2307_dnd/writings/*/*.txt"
+    context: "This data is edited written content from players"

@@ -2,6 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
+import hashlib
 import json
 import logging
 import os
@@ -300,7 +301,7 @@ def load_km_config(input_path_raw: Union[Path, str]) -> Dict[str, Any]:
 #     return True
 
 
-def resolve_paths(paths_list: List[str]) -> List[Path]:
+def resolve_paths(paths_list: Union[str, List[str]]) -> List[Path]:
     """Assesses which input folders and files are specified in config.
 
     Args:
@@ -312,12 +313,15 @@ def resolve_paths(paths_list: List[str]) -> List[Path]:
     Returns:
         A flat list of all file paths specified in config
     """
+    if isinstance(paths_list, str):
+        paths_list = [paths_list]
+
     resolved_paths = []
     for path_str in paths_list:
         if Path(path_str).parts[0] == "/":
             path_str = str(Path(*Path(path_str).parts[1:]))
 
-        paths: List[Path] = list(Path("/").glob(str(path_str)))
+        paths: List[Path] = sorted(list(Path("/").glob(str(path_str))))
 
         if len(paths) == 0:
             message = f"Could not find any files at {path_str}"
@@ -331,3 +335,9 @@ def resolve_paths(paths_list: List[str]) -> List[Path]:
                 raise ValueError(message)
             resolved_paths.append(path)
     return resolved_paths
+
+
+def hash_string(input_string: str) -> str:
+    """Returns hash of string."""
+    sha_signature = hashlib.sha256(input_string.encode())
+    return sha_signature.hexdigest()
