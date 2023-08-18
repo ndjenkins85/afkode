@@ -2,6 +2,7 @@
 # Copyright © 2023 by Nick Jenkins. All rights reserved
 """Contains utility functions used throughout the AFKode project."""
 
+import hashlib
 import json
 import logging
 import os
@@ -9,6 +10,11 @@ import re
 from datetime import datetime as dt
 from pathlib import Path
 from typing import Any, Dict, List, Union
+
+try:
+    import yaml
+except ImportError:
+    pass
 
 from afkode import globals
 
@@ -255,3 +261,83 @@ def get_spoken_command_list() -> List[str]:
     ignore = ["__init__"]
     command_files = sorted([f.stem.replace("_", " ") for f in command_dir.glob("*.py") if f.stem not in ignore])
     return command_files
+
+
+def load_km_config(input_path_raw: Union[Path, str]) -> Dict[str, Any]:
+    """Loads and checks an input config file.
+
+    Args:
+        input_path_raw: Location of yaml file relative to working directory.
+
+    Raises:
+        ValueError: unresolvable paths
+
+    Returns:
+        Program configuration instructions in JSON compatable format
+    """
+    input_path: Path = Path(input_path_raw)
+    fully_resolved_path = Path(get_base_path(), input_path)
+    if not fully_resolved_path.exists():
+        message = f"Cannot locate input file at {fully_resolved_path}"
+        logging.error(message)
+        raise ValueError(message)
+
+    if ".yaml" in input_path.suffix or ".yml" in input_path.suffix:
+        logging.info(f"Loading YAML config from {input_path}")
+        with input_path.open() as fp:
+            config = yaml.safe_load(fp)
+    else:
+        message = f"Incompatable file type {input_path.suffix}, expected SQL, JSON, or YAML"
+        logging.error(message)
+        raise ValueError(message)
+
+    # _check_config_format(config)
+    logging.debug(f"Config: {config}")
+    return config
+
+
+# def _check_config_format(config: Dict[str, Any]) -> bool:
+#     """Ensure config conforms to format requirements."""
+#     return True
+
+
+def resolve_paths(paths_list: Union[str, List[str]]) -> List[Path]:
+    """Assesses which input folders and files are specified in config.
+
+    Args:
+        paths_list: list of string paths to be resolved
+
+    Raises:
+        ValueError: unresolvable paths
+
+    Returns:
+        A flat list of all file paths specified in config
+    """
+    if isinstance(paths_list, str):
+        paths_list = [paths_list]
+
+    resolved_paths = []
+    for path_str in paths_list:
+        if Path(path_str).parts[0] == "/":
+            path_str = str(Path(*Path(path_str).parts[1:]))
+
+        paths: List[Path] = sorted(list(Path("/").glob(str(path_str))))
+
+        if len(paths) == 0:
+            message = f"Could not find any files at {path_str}"
+            logging.error(message)
+            raise ValueError(message)
+
+        for path in paths:
+            if not path.exists():
+                message = "Could not find file at specified location"
+                logging.error(message)
+                raise ValueError(message)
+            resolved_paths.append(path)
+    return resolved_paths
+
+
+def hash_string(input_string: str) -> str:
+    """Returns hash of string."""
+    sha_signature = hashlib.sha256(input_string.encode())
+    return sha_signature.hexdigest()

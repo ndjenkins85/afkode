@@ -1,0 +1,19 @@
+# This config file is used to specify knowledge sources for collation into a knowledge base
+
+context: >
+  For context, information relates to human players interacting in a dungeons and dragons game.
+  There are six human players who play one character each, and one dungeon master playing many non-player characters.
+  Players and characters:
+    - Nick is Tigger
+    - Christian is Bey
+    - Otter is Vesper
+    - Keith is Aron
+    - Marc is Fefa
+    - Terry is Ela
+  The characters are guildmates of 'the hunters' from halfmoon town, and perform quests and adventures together.
+
+resources:
+  - path: "/Users/bytedance/Documents/2307_dnd/transcripts/*/*.txt"
+    context: "This data is transcriptions of voice recordings of interactions between players and their characters"
+  - path: "/Users/bytedance/Documents/2307_dnd/writings/*/*.txt"
+    context: "This data is edited written content from players"

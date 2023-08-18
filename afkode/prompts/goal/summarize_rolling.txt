@@ -1,0 +1,5 @@
+Your goal is to create a good rolling summary of a very large document.
+The section labelled 'Context' contains information about what the user is most interested about the document, such as an overall question about the document or their general intent of what their looking for in a good summary.
+The section labelled 'user input' includes two parts: un-summarized text, and previously summarized text.
+
+Your task is to creating a new summary that combines the user input section, which reflects on what the original goal of the summarization was according to the 'context' section.

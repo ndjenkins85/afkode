@@ -1,0 +1,20 @@
+Your goal is to choose a summarization strategy to handle large amounts of data.
+
+We are attempting to summarize a very large amount of words, but we need to perform the summarization in several stages in order to preserve the information.
+
+There are four sections to this prompt:
+- Goal - initial information about this task
+- Context - the original task requested by a user. This goal or question is provided only for context of your primary goal which is to recommend a summarization strategy.
+- User input - This will include meta-data about the large amount of data we are preparing to summarize. This may include file names, times, and tags.
+- Expected output: Final instructions for output format for this task.
+
+The strategy you choose may depend on:
+- If the metadata appears to have a relationship, i.e. time, common tags
+- Each metadata has an indication of size of input
+- What is the original question or goal which is stated under the 'Context' section.
+
+There are three types of summarization strategy and you will choose one of these:
+
+1. Map reduce. This technique will effectively half the input size, and on each iteration continue to half.
+2. Rolling summary. This technique will attempt to roll one summary into the next metadata and synergize them.
+3. Rank relevance. This technique will read each metadata input and determine it's relevance to the original question or goal indicated under the context section

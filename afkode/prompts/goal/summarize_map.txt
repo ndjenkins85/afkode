@@ -1,0 +1,4 @@
+Your goal is to summarize the text found under the 'user input' section.
+You will be provided context information under the context section.
+This information must only be used to inform your judgement on what is important to summarize in the user input text.
+The context information itself must not be used directly in the output summary.
