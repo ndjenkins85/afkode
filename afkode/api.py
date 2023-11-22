@@ -101,7 +101,7 @@ def chatgpt(prompt: str, model: str = "gpt-4-1106-preview") -> str:
     Returns:
         The generated text response.
     """
-    client = openai.OpenAI(api_key=api.get_credentials()["OPENAI_KEY"])
+    client = openai.OpenAI(api_key=get_credentials()["OPENAI_KEY"])
 
     try:
         completion = client.chat.completions.create(model=model, messages=[{"role": "user", "content": prompt}])
