@@ -91,7 +91,7 @@ def whisper(path: str) -> str:
     return transcript
 
 
-def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
+def chatgpt(prompt: str, model: str = "gpt-4-1106-preview") -> str:
     """Sends a prompt to the ChatGPT API for chat-based language generation.
 
     Args:
@@ -101,13 +101,13 @@ def chatgpt(prompt: str, model: str = "gpt-3.5-turbo") -> str:
     Returns:
         The generated text response.
     """
-    openai.api_key = get_credentials()["OPENAI_KEY"]
+    client = openai.OpenAI(api_key=api.get_credentials()["OPENAI_KEY"])
+
     try:
-        completion = openai.ChatCompletion.create(model=model, messages=[{"role": "user", "content": prompt}])
+        completion = client.chat.completions.create(model=model, messages=[{"role": "user", "content": prompt}])
         raw_commands = completion.choices[0].message.content
-    except openai.error.APIConnectionError:
-        logging.error("Whisper API connection error")
-        # speak("Connection error")
+    except:
+        logging.error("ChatGPT API connection error")
         raw_commands = "exit"
     return raw_commands
 
